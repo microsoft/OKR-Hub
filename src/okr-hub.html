@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <script src="libs/VSS.SDK.min.js"></script>
+    <script type="text/javascript">
+        let ORK = null;
+        VSS.init({
+            usePlatformStyles: true,
+            usePlatformScripts: true,
+            moduleLoaderConfig: {
+                paths: {
+                    "react": "dist/react",
+                    "react-dom": "dist/react-dom",
+                    "OKRHub": "dist/OKRHub"
+                }
+            }
+        });
+        VSS.ready(function() {
+            document.getElementById("name").innerText = VSS.getWebContext().user.name;
+            VSS.require(["OKRHub"], function (ork) {
+                    OKR = ork;
+                    OKR.initialize();
+                    // loading succeeded
+                    VSS.notifyLoadSucceeded();
+                });
+        });
+    </script>
+</head>
+<body>        
+    <h1>Hello, <span id="name"></span></h1>
+    <div id="root"></div>
+</body>
+</html>
