@@ -4,6 +4,7 @@
   "description": "",
   "main": "webpack.config.js",
   "scripts": {
+    "build": "webpack && npm run package:dev",
     "package:dev": "node ./commands/packageDev",
     "dev:webpack": "webpack --watch",
     "dev:http": "webpack-dev-server --progress --colors --content-base ./ --port 6666"
@@ -16,6 +17,8 @@
     "npm": "^6.3.0",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
+    "react-router": "^5.0.1",
+    "react-router-dom": "^5.0.1",
     "react-scripts": "3.0.1",
     "vss-web-extension-sdk": "^5.141.0"
   },
