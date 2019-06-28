@@ -4,7 +4,8 @@ import { ExtensionDataService } from "VSS/SDK/Services/ExtensionData";
 interface ISampleDataPageState {
     collection: string,
     content: any,
-    addDisabled: boolean
+    addDisabled: boolean,
+    existing: any[];
 }
 
 export class SampleDataPage extends React.Component<{}, ISampleDataPageState> {
@@ -15,8 +16,22 @@ export class SampleDataPage extends React.Component<{}, ISampleDataPageState> {
         this.state = {
             collection: "",
             content: "",
-            addDisabled: true
+            addDisabled: true,
+            existing: undefined
         };
+    }
+
+    public async componentDidMount() {
+        try {
+            const dataService: ExtensionDataService = await VSS.getService<ExtensionDataService>(VSS.ServiceIds.ExtensionData);
+            const documents = await dataService.getDocuments("objectives");
+
+            this.setState({
+                existing: documents
+            });
+        } catch (e) {
+            alert("Failed to get existing data: " + e.message);
+        }
     }
 
     public render() {
@@ -30,6 +45,9 @@ export class SampleDataPage extends React.Component<{}, ISampleDataPageState> {
                 <input onChange={this.contentChange} />
             </div>
             <button onClick={this.addClick} disabled={this.state.addDisabled}>Add</button>
+            <div>
+                {this.renderData()}
+            </div>
         </>);
     }
 
@@ -72,6 +90,15 @@ export class SampleDataPage extends React.Component<{}, ISampleDataPageState> {
             }
         } catch (e) {
             alert("Failed to get service: " + e.message);
+        }
+    };
+
+    private renderData = (): JSX.Element => {
+        if (this.state.existing) {
+            return <pre>{JSON.stringify(this.state.existing, null, 4)}</pre>;
+        }
+        else {
+            return <div>Loading...</div>;
         }
     };
 }
