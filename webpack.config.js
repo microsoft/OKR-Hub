@@ -55,7 +55,21 @@ module.exports = {
 			{
 				test: /\.css$/,
 				use: [{
-					loader: 'style-loader!css-loader?modules'
+					loader: 'style-loader',
+					options: {
+						sourcemap: sourcemap
+					}
+				}, {
+					loader: 'css-loader',
+					options: {
+						sourcemap: sourcemap
+					}
+				},
+				{
+					loader: 'sass-loader',
+					options: {
+						sourcemap: sourcemap
+					}
 				}]
 			},
 			{
@@ -79,8 +93,17 @@ module.exports = {
 						}
 					}
 				]
-			}
-
+			},
+			{
+                test: /\.(woff(2)?|ttf|eot|svg)(\?v=\d+\.\d+\.\d+)?$/,
+                use: [{
+                    loader: 'file-loader',
+                    options: {
+                        name: '[name].[ext]',
+                        outputPath: 'fonts/'
+                    }
+                }]
+            }
 		]
 	},
 	externals: [{
