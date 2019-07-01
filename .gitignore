@@ -14,3 +14,4 @@ typings/
 *.vsix
 *.docx
 dist
+commands/local.settings.js
