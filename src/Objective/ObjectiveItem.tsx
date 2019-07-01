@@ -1,5 +1,9 @@
 import * as React from "react";
 import { Objective } from "./Objective";
+import { TextField } from "azure-devops-ui/TextField";
+import { Observable } from "azure-devops-ui/Core/Observable";
+//import "./Obj.css";
+//import "./Objective.scss";
 
 export interface IObjectiveItemProps {
     objective: Objective;
@@ -10,8 +14,13 @@ export interface IObjectiveItemState {
 }
 
 export class ObjectiveItem extends React.Component<IObjectiveItemProps, IObjectiveItemState> {
-    public constructor() {
+    private editCopy: Observable<Objective> = new Observable<Objective>();
+
+    public constructor(props, state) {
         super();
+
+        this.editCopy.subscribe(this.editCopyUpdated);
+        this.editCopy.notify({...props.objective}, "");
 
         this.state = {
             editMode: false
@@ -32,16 +41,20 @@ export class ObjectiveItem extends React.Component<IObjectiveItemProps, IObjecti
 
     private renderField(field: string): JSX.Element {
         const { objective } = this.props;
-        const initialValue = objective[field];
 
         return (
             <div>
                 <label>{field}</label>
 
                 {this.state.editMode ?
-                    <input value={initialValue} onChange={(e) => objective[field] = e.target.value} /> : <span>{objective[field]}</span>
+                    <TextField value={this.editCopy[field]}/>
+                    //<input onChange={(e) => objective[field] = e.target.value} />
+                    : <span>{objective[field]}</span>
                 }
             </div>
         );
     }
+
+   private editCopyUpdated() {
+   };
 }
