@@ -5,16 +5,18 @@
   "main": "webpack.config.js",
   "scripts": {
     "build": "webpack && npm run package:dev",
+    "deploy": "webpack && npm run package:dev && npm run package:publish",
     "package:dev": "node ./commands/packageDev",
+    "package:publish": "node ./commands/packagePublish",
     "dev:webpack": "webpack --watch",
-    "dev:http": "webpack-dev-server --progress --colors --content-base ./ --port 6666"
+    "dev:http": "webpack-dev-server --progress --colors --content-base ./ --port 3001"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
     "es6-promise": "^4.2.4",
-    "npm": "^6.3.0",
+    "npm": "^6.9.2",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
     "react-router": "^5.0.1",
