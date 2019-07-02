@@ -4,6 +4,7 @@ import { ObjectiveItem } from "./ObjectiveItem";
 
 export interface IObjectiveListProps {
     objectives: Objective[];
+    objectiveUpdated: (Objective) => void;
 }
 
 export interface IObjectiveListState {
@@ -18,7 +19,7 @@ export class ObjectiveList extends React.Component<IObjectiveListProps, IObjecti
         return (
             <ul>
                 {this.props.objectives.map(objective => {
-                    return <li><ObjectiveItem objective={objective} /></li>
+                    return <li><ObjectiveItem objective={objective} objectiveUpdated={this.props.objectiveUpdated} /></li>
                 })}
             </ul>
         );
