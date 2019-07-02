@@ -2,7 +2,7 @@
     "compilerOptions": {
         "module": "amd",
         "sourceMap": true,
-        "noUnusedLocals": true,
+        "noUnusedLocals": false,
         "jsx": "react",
         "experimentalDecorators": true,
         "noFallthroughCasesInSwitch": true,
