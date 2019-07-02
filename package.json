@@ -22,7 +22,8 @@
     "react-router": "^5.0.1",
     "react-router-dom": "^5.0.1",
     "react-scripts": "3.0.1",
-    "vss-web-extension-sdk": "^5.141.0"
+    "vss-web-extension-sdk": "^5.141.0",
+    "azure-devops-ui": "1.154.0"
   },
   "devDependencies": {
     "@types/jquery": "^2.0.41",
@@ -31,6 +32,7 @@
     "@types/react-redux": "^5.0.15",
     "copy-webpack-plugin": "^4.5.2",
     "css-loader": "^0.28.0",
+    "file-loader": "^4.0.0",
     "node-sass": "^4.9.2",
     "sass-loader": "^6.0.7",
     "source-map-loader": "^0.2.3",

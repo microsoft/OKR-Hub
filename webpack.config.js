@@ -39,58 +39,71 @@ module.exports = {
 	},
 	module: {
 		rules: [{
-			test: /\.tsx?$/,
-			exclude: /node_modules/,
-			use: [{
-				loader: "ts-loader"
-			}]
-		},
-		{
-			enforce: "pre",
-			test: /\.js$/,
-			use: [{
-				loader: "source-map-loader"
-			}]
-		},
-		{
-			test: /\.css$/,
-			use: [
-				{
-					loader: 'style-loader',
-				},
-				{
-					loader: 'css-loader',
-				}
-			]
-		},
-		{
-			test: /\.(scss)$/,
-
-			use: [{
-				loader: 'style-loader',
-				options: {
-					sourcemap: sourcemap
-				}
-			}, {
-				loader: 'css-loader',
-				options: {
-					sourcemap: sourcemap
-				}
+				test: /\.tsx?$/,
+				exclude: /node_modules/,
+				use: [{
+					loader: "ts-loader"
+				}]
 			},
 			{
-				loader: 'sass-loader',
-				options: {
-					sourcemap: sourcemap
-				}
-			}
-			]
-		},
-		{
-			test: /\.(ttf|eot|woff|woff2)$/,
-			use: [{
-				loader: 'file-loader'
-			}]
-		}
+				enforce: "pre",
+				test: /\.js$/,
+				use: [{
+					loader: "source-map-loader"
+				}]
+			},
+			{
+				test: /\.css$/,
+				use: [{
+					loader: 'style-loader',
+					options: {
+						sourcemap: sourcemap
+					}
+				}, {
+					loader: 'css-loader',
+					options: {
+						sourcemap: sourcemap
+					}
+				},
+				{
+					loader: 'sass-loader',
+					options: {
+						sourcemap: sourcemap
+					}
+				}]
+			},
+			{
+				test: /\.(scss)$/,
+
+				use: [{
+						loader: 'style-loader',
+						options: {
+							sourcemap: sourcemap
+						}
+					}, {
+						loader: 'css-loader',
+						options: {
+							sourcemap: sourcemap
+						}
+					},
+					{
+						loader: 'sass-loader',
+						options: {
+							sourcemap: sourcemap
+						}
+					}
+				]
+			},
+			{
+                test: /\.(woff(2)?|ttf|eot|svg)(\?v=\d+\.\d+\.\d+)?$/,
+                use: [{
+                    loader: 'file-loader',
+                    options: {
+                        name: '[name].[ext]',
+                        outputPath: 'fonts/'
+                    }
+                }]
+            }
 		]
 	},
 	externals: [{
