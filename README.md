@@ -20,4 +20,4 @@
 - share is the name of the Azure DevOps account that you want to install (or have installed) the extension on.
 - token is a PAT with Marketplace Publish access.
 
-2. From a command line, run the command "npm run deploy".
+2. From a command line, run the command "npm run deploy". If you''ve already installed the extension, you can just refresh the page to see your changes.
