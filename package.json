@@ -15,15 +15,16 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "azure-devops-ui": "1.154.0",
     "es6-promise": "^4.2.4",
+    "file-loader": "^4.0.0",
     "npm": "^6.9.2",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
     "react-router": "^5.0.1",
     "react-router-dom": "^5.0.1",
     "react-scripts": "3.0.1",
-    "vss-web-extension-sdk": "^5.141.0",
-    "azure-devops-ui": "1.154.0"
+    "vss-web-extension-sdk": "^5.141.0"
   },
   "devDependencies": {
     "@types/jquery": "^2.0.41",

@@ -4,21 +4,21 @@ const mode = "development";
 const sourcemap = mode === "development";
 const plugins = [
 	new CopyWebpackPlugin([{
-			from: "./node_modules/vss-web-extension-sdk/lib/VSS.SDK.min.js",
-			to: "libs/VSS.SDK.min.js"
-		},
-		{
-			from: "./node_modules/react/umd/react.production.min.js",
-			to: "react.js"
-		},
-		{
-			from: "./node_modules/react-dom/umd/react-dom.production.min.js",
-			to: "react-dom.js"
-		},
-		{
-			from: "./src/okr-hub.html",
-			to: "./"
-		}
+		from: "./node_modules/vss-web-extension-sdk/lib/VSS.SDK.min.js",
+		to: "libs/VSS.SDK.min.js"
+	},
+	{
+		from: "./node_modules/react/umd/react.production.min.js",
+		to: "react.js"
+	},
+	{
+		from: "./node_modules/react-dom/umd/react-dom.production.min.js",
+		to: "react-dom.js"
+	},
+	{
+		from: "./src/okr-hub.html",
+		to: "./"
+	}
 	])
 ];
 
@@ -107,9 +107,9 @@ module.exports = {
 		]
 	},
 	externals: [{
-			"react": true,
-			"react-dom": true,
-		},
+		"react": true,
+		"react-dom": true,
+	},
 		/^VSS\//,
 		/^TFS\//
 	],
