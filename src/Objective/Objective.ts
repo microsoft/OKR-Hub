@@ -1,3 +1,4 @@
+import { StatusType } from "azure-devops-ui/Status";
 export class Objective {
     public Id: string;
     public Name: string;
@@ -6,8 +7,18 @@ export class Objective {
     public Area: string[];
     public Target: Date;
     public Progress: number;
-    public KRs: string[];
+    public KRs: KR[];
     public WIT: string[];
-    public Status: string;
+    public Status: StatusType;
     public Comments: string[];
+    public TimeFrame: string;
+}
+
+export class KR {
+    public Id: string;
+    public ObjectiveId: string;
+    public Content: string;
+    public Status: StatusType;
+    public Comment: string;
+    public Progress: number; 
 }
