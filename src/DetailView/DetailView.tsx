@@ -1,6 +1,5 @@
 import * as React from "react";
 import { DetailOKRList } from "./DetailOKRList";
-import { Summary } from "./Summary";
 import { ObservableValue } from "azure-devops-ui/Core/Observable";
 import { Observer } from "azure-devops-ui/Observer";
 import { Tab, TabBar, TabSize } from "azure-devops-ui/Tabs";
@@ -34,7 +33,6 @@ export class DetailView extends React.Component<IDetailViewProps, {}> {
                         return (<>
                               <div className="detail-view">
                                  <DetailOKRList area={this.props.area} selectedTabId={props.selectedTabId}/>
-                                 <Summary />
                                 </div>
                             </>);
                     }}

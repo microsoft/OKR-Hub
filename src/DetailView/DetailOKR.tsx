@@ -5,7 +5,6 @@ import { Status, Statuses, StatusSize } from "azure-devops-ui/Status";
 import { Objective, KR } from "../Objective/Objective";
 
 import "./DetailOKR.scss";
-import { ObjectiveService } from "../Objective/ObjectiveService";
 
 
 export interface IDetailOKRProps {
