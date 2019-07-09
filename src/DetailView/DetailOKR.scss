@@ -1,0 +1,23 @@
+.kr-list-container {
+    padding: 10px;
+
+    .kr-list {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+
+        .status-icon {
+            padding-right: 5px;
+        }
+        
+        .kr {
+            display: flex;
+            flex-direction: row;
+            padding: 10px;
+        }
+    }
+}
+
+
+
+

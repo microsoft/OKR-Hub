@@ -16,7 +16,6 @@
             }
         });
         VSS.ready(function() {
-            document.getElementById("name").innerText = VSS.getWebContext().user.name;
             VSS.require(["OKRHub"], function (ork) {
                     OKR = ork;
                     OKR.initialize();
@@ -27,7 +26,6 @@
     </script>
 </head>
 <body>        
-    <h1>Hello, <span id="name"></span></h1>
     <div id="root"></div>
 </body>
 </html>
