@@ -10,8 +10,8 @@ interface ISampleDataPageState {
 
 export class SampleDataPage extends React.Component<{}, ISampleDataPageState> {
 
-    public constructor() {
-        super();
+    public constructor({}, state: ISampleDataPageState) {
+        super({}, state);
 
         this.state = {
             collection: "",

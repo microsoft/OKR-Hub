@@ -15,8 +15,8 @@ export interface IObjectiveItemState {
 }
 
 export class ObjectiveItem extends React.Component<IObjectiveItemProps, IObjectiveItemState> {
-    public constructor(props, state) {
-        super();
+    public constructor(props: IObjectiveItemProps, state: IObjectiveItemState) {
+        super(props, state);
 
         this.state = {
             editMode: false,

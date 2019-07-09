@@ -17,7 +17,7 @@ export class DetailView extends React.Component<IDetailViewProps, {}> {
         this.selectedTabId = new ObservableValue("q2");
     }
 
-    public render() {
+    public render(): JSX.Element {
         return (
             <div className="flex-column">
                 <TabBar

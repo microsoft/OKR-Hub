@@ -11,8 +11,8 @@ export interface IObjectiveListState {
 }
 
 export class ObjectivePage extends React.Component<IObjectiveListProps, IObjectiveListState> {
-    public constructor() {
-        super();
+    public constructor(props: IObjectiveListProps, state: IObjectiveListState) {
+        super(props, state);
 
         this.state = { objectives: undefined };
     }

@@ -4,5 +4,4 @@ import { OKRMain } from "./OKRMain";
 
 export function initialize(): void {
     ReactDOM.render(<OKRMain />, document.getElementById("root"));
-
 }
