@@ -13,8 +13,8 @@ export interface IDetailOKRListState {
 }
 
 export class DetailOKRList extends React.Component<IDetailOKRListProps, IDetailOKRListState> {
-    constructor() {
-        super();
+    constructor(props: IDetailOKRListProps, state: IDetailOKRListState) {
+        super(props, state);
         this.state = {objectives: []};
     }
 
