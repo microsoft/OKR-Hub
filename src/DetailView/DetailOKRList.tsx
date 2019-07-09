@@ -15,7 +15,7 @@ export interface IDetailOKRListState {
 export class DetailOKRList extends React.Component<IDetailOKRListProps, IDetailOKRListState> {
     constructor() {
         super();
-        this.state = {objectives: []}
+        this.state = {objectives: []};
     }
 
     public async componentDidMount() {
@@ -25,7 +25,7 @@ export class DetailOKRList extends React.Component<IDetailOKRListProps, IDetailO
     
     public render(): JSX.Element {
         return (<>
-            {this.state.objectives.map(objective => <DetailOKR objective={objective} />)};
+            {this.state.objectives.map(objective => <DetailOKR objective={objective} />)}
         </>);
     }
 }
