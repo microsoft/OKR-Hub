@@ -27,7 +27,6 @@ export class ObjectiveService {
             "KRs": [
                 {
                     Id: "11",
-                    ObjectiveId: "111",
                     Content: "KR1 KR1 KR1 KR1 KR1 KR1 KR1 KR1 KR1 KR1 KR1 KR1 KR1 KR1 KR1 KR1 KR1 KR1 KR1",
                     Status: "Success" as StatusType,
                     Comment: "",
@@ -35,7 +34,6 @@ export class ObjectiveService {
                 },
                 {
                     Id: "12",
-                    ObjectiveId: "111",
                     Content: "KR2 KR2 KR2 KR2 KR2 KR2 KR2 KR2 KR2 KR2 KR2 KR2 KR2 KR2 KR2 ",
                     Status: "Warning" as StatusType,
                     Comment: "",
@@ -43,7 +41,6 @@ export class ObjectiveService {
                 },
                 {
                     Id: "13",
-                    ObjectiveId: "111",
                     Content: "KR3 KR3 KR3 KR3 KR3 KR3 KR3 KR3 KR3 KR3 KR3 KR3 KR3 KR3 KR3 KR3 KR3 KR3 KR3",
                     Status: "Failed" as StatusType,
                     Comment: "",
@@ -66,7 +63,6 @@ export class ObjectiveService {
             "KRs": [
                 {
                     Id: "21",
-                    ObjectiveId: "222",
                     Content: "Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test",
                     Status: "Success" as StatusType,
                     Comment: "",
@@ -89,7 +85,6 @@ export class ObjectiveService {
             "KRs": [
                 {
                     Id: "31",
-                    ObjectiveId: "333",
                     Content: "Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test",
                     Status: "Failed" as StatusType,
                     Comment: "",

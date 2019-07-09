@@ -16,7 +16,6 @@ export class Objective {
 
 export class KR {
     public Id: string;
-    public ObjectiveId: string;
     public Content: string;
     public Status: StatusType;
     public Comment: string;
