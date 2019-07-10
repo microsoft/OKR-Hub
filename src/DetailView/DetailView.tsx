@@ -3,6 +3,10 @@ import { DetailOKRList } from "./DetailOKRList";
 import { ObservableValue } from "azure-devops-ui/Core/Observable";
 import { Observer } from "azure-devops-ui/Observer";
 import { Tab, TabBar, TabSize } from "azure-devops-ui/Tabs";
+import AddOKRPanel from "../AddPanel/AddOKRPanel";
+import { DetailOKRHeader } from "./DetailOKRHeader";
+import { StateContext } from '../StateProvider';
+
 import "./DetailView.scss";
 
 export interface IDetailViewProps {
@@ -11,20 +15,19 @@ export interface IDetailViewProps {
 
 export class DetailView extends React.Component<IDetailViewProps, {}> {
     private selectedTabId: ObservableValue<string>;
-
+    static contextType = StateContext;
+    
     constructor(props: IDetailViewProps) {
         super(props);
         this.selectedTabId = new ObservableValue("q2");
     }
 
     public render() {
-        const {
-            area
-        } = this.props;
-
+        const [{ area }, dispatch ] = this.context;
         return (
-            <div className="flex-column">
-            <h2>{area}</h2>
+            <div className="detail-view-container">
+                <DetailOKRHeader />
+                <AddOKRPanel />
                 <TabBar
                     onSelectedTabChanged={this.onSelectedTabChanged}
                     selectedTabId={this.selectedTabId}
@@ -37,7 +40,7 @@ export class DetailView extends React.Component<IDetailViewProps, {}> {
                     {(props: { selectedTabId: string }) => {
                         return (<>
                               <div className="detail-view">
-                                 <DetailOKRList area={this.props.area} selectedTabId={props.selectedTabId}/>
+                                 <DetailOKRList area={area} selectedTabId={props.selectedTabId}/>
                                 </div>
                             </>);
                     }}
