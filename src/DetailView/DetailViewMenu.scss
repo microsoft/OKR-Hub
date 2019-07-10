@@ -1,0 +1,13 @@
+$semi-bold:600; 
+
+.master-row-content {
+    padding: 8px 8px 8px 20px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    
+    .title {
+        font-weight: $semi-bold;
+    }
+}
