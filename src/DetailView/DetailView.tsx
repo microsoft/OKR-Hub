@@ -18,8 +18,13 @@ export class DetailView extends React.Component<IDetailViewProps, {}> {
     }
 
     public render() {
+        const {
+            area
+        } = this.props;
+
         return (
             <div className="flex-column">
+            <h2>{area}</h2>
                 <TabBar
                     onSelectedTabChanged={this.onSelectedTabChanged}
                     selectedTabId={this.selectedTabId}
