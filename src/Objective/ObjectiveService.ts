@@ -18,7 +18,7 @@ export class ObjectiveService {
         // TODO: Create collection and keys based on area and timeframe. Use mock data for now.
         return await [{
             "Id": "111",
-            "Name": "Objective: Azure Boards is loved by engineering teams.",
+            "Name": "Azure Boards is loved by engineering teams.",
             "Version": new Date("2019-01-01 2pm"),
             "Owner": ["Wendy"],
             "Area": ["Boards"],
