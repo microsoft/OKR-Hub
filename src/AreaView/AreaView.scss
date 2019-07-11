@@ -1,0 +1,11 @@
+.okrhub {
+	&.area-card {
+		width: 266px;
+
+		.area-details {
+			display: flex;
+			flex-direction: column;
+			width: 100%;
+		}
+	}
+}
