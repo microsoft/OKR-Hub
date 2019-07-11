@@ -1,4 +1,5 @@
 import { StatusType } from "azure-devops-ui/Status";
+
 export class Objective {
     public Id: string;
     public Name: string;

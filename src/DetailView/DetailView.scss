@@ -1,4 +1,18 @@
-.detail-view {
+.detail-view-container {
     display: flex; 
     flex-direction: column;
+    padding-left: 10px;
+
+    .detail-okr-header {
+        padding-left: 10px;
+        
+        .bolt-header-title {
+            font-weight: 600;
+        }
+    }
+
+    .detail-view {
+        display: flex; 
+        flex-direction: column;
+    }
 }
