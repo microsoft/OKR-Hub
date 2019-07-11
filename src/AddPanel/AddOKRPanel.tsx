@@ -16,11 +16,17 @@ export default class AddOKRPanel extends React.Component<{}, IAddOKRPanelState> 
                 { addPanelExpanded && (
                     <Panel
                         showSeparator
-                        onDismiss={() => this.setState({ expanded: false })}
+                        onDismiss={() => dispatch({
+                            type: 'togglePanel',
+                            expanded: false
+                          })}
                         titleProps={{ text: "Add OKR" }}
                         footerButtonProps={[
                             { text: "Create", primary: true },
-                            { text: "Cancel", onClick: () => this.setState({ expanded: false }) }
+                            { text: "Cancel", onClick: () => dispatch({
+                                type: 'togglePanel',
+                                expanded: false
+                              }) }
                         ]}
                     >
                         <div style={{ height: "1200px" }}>Panel Content</div>
