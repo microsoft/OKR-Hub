@@ -3,25 +3,27 @@ import { ExtensionDataService } from "VSS/SDK/Services/ExtensionData";
 import { StatusType } from "azure-devops-ui/Status";
 
 export class ObjectiveService {
+    private static collectionKey = "objectives";
+
     public static async getObjectives(): Promise<Objective[]> {
         const dataService: ExtensionDataService = await VSS.getService<ExtensionDataService>(VSS.ServiceIds.ExtensionData);
-        const objectives = await dataService.getDocuments("objectives") as Objective[];
+        const objectives = await dataService.getDocuments(this.collectionKey) as Objective[];
         return objectives;
     }
 
     public static async saveObjective(objective: Objective): Promise<Objective> {
         const dataService: ExtensionDataService = await VSS.getService<ExtensionDataService>(VSS.ServiceIds.ExtensionData);
-        return await dataService.updateDocument("objectives", objective);
+        return await dataService.updateDocument(this.collectionKey, objective);
     }
 
     public static async getObjectivesByAreaAndTimeFrame(area: string, timeFrame: string): Promise<Objective[]> {
         // TODO: Create collection and keys based on area and timeframe. Use mock data for now.
         return await [{
             "Id": "111",
+            "AreaId": "1",
             "Name": "Obj1 Obj1 Obj1 Obj1 Obj1 Obj1 Obj1 Obj1 Obj1 Obj1",
             "Version": new Date("2019-01-01 2pm"),
             "Owner": ["Wendy"],
-            "Area": ["Boards"],
             "Target": new Date("2019-07-31"),
             "Progress": 0.6,
             "KRs": [
@@ -54,10 +56,10 @@ export class ObjectiveService {
         },
         {
             "Id": "222",
+            "AreaId": "1",
             "Name": "Obj2 Obj2 Obj2 Obj2 Obj2 Obj2 Obj2 Obj2 Obj2 Obj2",
             "Version": new Date("2019-01-01 2pm"),
             "Owner": ["Wendy"],
-            "Area": ["Boards"],
             "Target": new Date("2019-07-31"),
             "Progress": 0.2,
             "KRs": [
@@ -76,10 +78,10 @@ export class ObjectiveService {
         },
         {
             "Id": "333",
+            "AreaId": "2",
             "Name": "Obj3 Obj3 Obj3 Obj3 Obj3 Obj3 Obj3 Obj3 Obj3 Obj3 Obj3",
             "Version": new Date("2019-01-01 2pm"),
             "Owner": ["SBorg"],
-            "Area": ["Boards"],
             "Target": new Date("2019-07-31"),
             "Progress": 0.2,
             "KRs": [

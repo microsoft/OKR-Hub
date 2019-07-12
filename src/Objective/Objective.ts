@@ -5,7 +5,7 @@ export class Objective {
     public Name: string;
     public Version: Date;
     public Owner: string[];
-    public Area: string[];
+    public AreaId: string;
     public Target: Date;
     public Progress: number;
     public KRs: KR[];
