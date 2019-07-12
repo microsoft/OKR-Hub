@@ -1,6 +1,7 @@
 import * as React from "react";
 import { Area } from "../Area/Area";
 import { Card } from "azure-devops-ui/Card";
+import { Circle } from "react-circle";
 import { Splitter, SplitterElementPosition } from "azure-devops-ui/Splitter";
 import { IdentityPickerDropdown, IPeoplePickerProvider, IIdentity } from "azure-devops-ui/IdentityPicker";
 import { Objective } from "../Objective/Objective";
@@ -14,7 +15,7 @@ export interface IAreaCardProps {
 
 export class AreaCard extends React.Component<IAreaCardProps> {
     public render(): JSX.Element {
-        return <Card className="okrhub area-card">
+        return <Card className="area-card">
             <Splitter
                 fixedElement={SplitterElementPosition.Far}
                 fixedSize={64}
@@ -36,19 +37,29 @@ export class AreaCard extends React.Component<IAreaCardProps> {
     };
 
     private renderProgress = (): JSX.Element => {
-        return <div>
+        return <div className="area-progress">
             {this.props.objectives.map(objective => {
-                return <div>Objective</div>;
+                return <span className="area-circle">
+                    <Circle
+                        progress={objective.Progress * 100}
+                        showPercentage={false}
+                        size={"35"}
+                        lineWidth={"70"}
+                        progressColor={"rgb(0, 200, 100)"}
+                    />
+                </span>
             })}
         </div>;
     }
 
     private onRenderFarElement = (): JSX.Element => {
-        return <IdentityPickerDropdown className="area-identity"
-            onChange={this.onChange}
-            pickerProvider={this.props.identityProvider}
-            value={this.props.identityProvider.getEntityFromUniqueAttribute(this.props.area.OwnerId) as IIdentity}
-        />;
+        return <div className="area-identity">
+            <IdentityPickerDropdown
+                onChange={this.onChange}
+                pickerProvider={this.props.identityProvider}
+                value={this.props.identityProvider.getEntityFromUniqueAttribute(this.props.area.OwnerId) as IIdentity}
+            />
+        </div>;
     };
 
     private onChange = (identity?: IIdentity) => {

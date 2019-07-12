@@ -7,7 +7,7 @@ import { AreaView } from "./AreaView/AreaView";
 export class OKRMain extends React.Component<{}, {}> {
     public render(): JSX.Element {
         return (
-            <>
+            <div className="okrhub">
                 <Router>
                     <nav><ul>
                         <li><Link to="/AreaView">AreaView</Link></li>
@@ -21,7 +21,7 @@ export class OKRMain extends React.Component<{}, {}> {
                     {/* We can't use an empty route due to the nature of hub extensions, so we'll redirect. */}
                     <Redirect from="/" to="/DetailView" />
                 </Router>
-            </>
+            </div>
         );
     }
 }

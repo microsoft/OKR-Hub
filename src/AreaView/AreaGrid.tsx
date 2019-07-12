@@ -15,9 +15,9 @@ export class AreaGrid extends React.Component<IAreaGridProps> {
     private identityProvider: IPeoplePickerProvider = new IdentityProvider();
 
     public render(): JSX.Element {
-        return <>
+        return <div className="area-grid">
             {this.props.areas.map(area => <AreaCard area={area} objectives={this.getObjectives(area.Id)} identityProvider={this.identityProvider} />)}
-        </>;
+        </div>;
     }
 
     private getObjectives(areaId: string): Objective[] {
