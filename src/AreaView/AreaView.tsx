@@ -11,7 +11,6 @@ interface IAreaViewState {
 }
 
 export class AreaView extends React.Component<{}, IAreaViewState> {
-
     public constructor(props) {
         super(props);
 
