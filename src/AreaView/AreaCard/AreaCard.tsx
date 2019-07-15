@@ -11,7 +11,7 @@ import { AreaCardDetails } from "./AreaCardDetails";
 export interface IAreaCardProps {
     area: Area,
     objectives: Objective[],
-    identityProvider: IPeoplePickerProvider
+    identityProvider: IPeoplePickerProvider,
 }
 
 export class AreaCard extends React.Component<IAreaCardProps> {
