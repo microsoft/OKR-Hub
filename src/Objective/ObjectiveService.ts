@@ -1,25 +1,26 @@
 import { Objective } from "./Objective";
-import { ExtensionDataService } from "VSS/SDK/Services/ExtensionData";
 import { StatusType } from "azure-devops-ui/Status";
+import { OKRDataService } from "../Data/OKRDataService";
 
-export class ObjectiveService {
-    private static collectionKey = "objectives";
+export class ObjectiveService extends OKRDataService<Objective> {
+    private static singleton: ObjectiveService;
+    public static get instance(): ObjectiveService {
+        if (this.singleton === undefined) {
+            this.singleton = new ObjectiveService;
+        }
 
-    public static async getObjectives(): Promise<Objective[]> {
-        const dataService: ExtensionDataService = await VSS.getService<ExtensionDataService>(VSS.ServiceIds.ExtensionData);
-        const objectives = await dataService.getDocuments(this.collectionKey) as Objective[];
-        return objectives;
+        return this.singleton;
     }
 
-    public static async saveObjective(objective: Objective): Promise<Objective> {
-        const dataService: ExtensionDataService = await VSS.getService<ExtensionDataService>(VSS.ServiceIds.ExtensionData);
-        return await dataService.updateDocument(this.collectionKey, objective);
+    public getDataCollectionKey(): string {
+        return "objectives"
     }
 
     public static async getObjectivesByAreaAndTimeFrame(area: string, timeFrame: string): Promise<Objective[]> {
         // TODO: Create collection and keys based on area and timeframe. Use mock data for now.
         return await [{
-            "Id": "111",
+            "id": "hi",
+            "ObjectiveId": "111",
             "AreaId": "1",
             "Name": "Obj1 Obj1 Obj1 Obj1 Obj1 Obj1 Obj1 Obj1 Obj1 Obj1",
             "Version": new Date("2019-01-01 2pm"),
@@ -55,7 +56,8 @@ export class ObjectiveService {
             "TimeFrame": "Q2"
         },
         {
-            "Id": "222",
+            "id": "hi",
+            "ObjectiveId": "222",
             "AreaId": "1",
             "Name": "Obj2 Obj2 Obj2 Obj2 Obj2 Obj2 Obj2 Obj2 Obj2 Obj2",
             "Version": new Date("2019-01-01 2pm"),
@@ -77,7 +79,8 @@ export class ObjectiveService {
             "TimeFrame": "Q2"
         },
         {
-            "Id": "333",
+            "id": "hi",
+            "ObjectiveId": "333",
             "AreaId": "2",
             "Name": "Obj3 Obj3 Obj3 Obj3 Obj3 Obj3 Obj3 Obj3 Obj3 Obj3 Obj3",
             "Version": new Date("2019-01-01 2pm"),
