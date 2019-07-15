@@ -34,7 +34,7 @@ module.exports = {
     publisher: "REPLACE",
     share: "REPLACE",
     token: "REPLACE",
-    **autoDeploy: true**
+    autoDeploy: true
 }
 ```
 
