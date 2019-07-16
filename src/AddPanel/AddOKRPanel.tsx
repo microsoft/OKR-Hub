@@ -1,6 +1,8 @@
 import * as React from "react";
 import { Panel } from "azure-devops-ui/Panel";
 import { StateContext } from '../StateProvider';
+import OKRForm from "./OKRForm";
+import "./AddOKRPanel.scss";
 
 interface IAddOKRPanelState {
     expanded: boolean;
@@ -10,11 +12,12 @@ export default class AddOKRPanel extends React.Component<{}, IAddOKRPanelState> 
     static contextType = StateContext;
 
     public render(): JSX.Element {
-        const [{ addPanelExpanded }, dispatch] = this.context;
+        const [{ addPanelExpanded, pendingObjective }, dispatch] = this.context;
         return (
             <div>
                 { addPanelExpanded && (
                     <Panel
+                        calloutClassName={"add-objective-panel"}
                         showSeparator
                         onDismiss={() => dispatch({
                             type: 'togglePanel',
@@ -22,14 +25,21 @@ export default class AddOKRPanel extends React.Component<{}, IAddOKRPanelState> 
                           })}
                         titleProps={{ text: "Add OKR" }}
                         footerButtonProps={[
-                            { text: "Create", primary: true },
+                            { text: "Create", primary: true,  onClick: () => {
+                                // service call with pendingObjective. if succeed
+                                dispatch({
+                                    type: 'createOKRSucceed'
+                                });
+                            }},
                             { text: "Cancel", onClick: () => dispatch({
-                                type: 'togglePanel',
-                                expanded: false
-                              }) }
+                                type: 'cancelCreation',
+                              }) 
+                            }
                         ]}
                     >
-                        <div style={{ height: "1200px" }}>Panel Content</div>
+                        <div className="panel-content">
+                            <OKRForm />
+                        </div>
                     </Panel>
                 )}
             </div>

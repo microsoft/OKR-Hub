@@ -43,7 +43,7 @@ export class DetailOKR extends React.Component<IDetailOKRProps, IDetailOKRState>
     private _renderKRs = () => {
         return (
             <>
-                {this.props.objective.KRs.map(kr => {
+                {this.props.objective.KRs && this.props.objective.KRs.map(kr => {
                     return this._renderKR(kr)
                 })}
              </>

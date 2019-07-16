@@ -20,5 +20,4 @@ export class KR {
     public Content: string;
     public Status: StatusType;
     public Comment: string;
-    public Progress: number; 
 }

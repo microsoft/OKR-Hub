@@ -1,0 +1,10 @@
+.bolt-panel-callout-content {
+    width: 1000px;
+    .panel-content {
+       width: 100%;
+       .kr-editor {
+           display: flex;
+           flex-direction: row;
+       }
+    }
+}

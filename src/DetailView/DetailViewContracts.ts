@@ -5,4 +5,5 @@ export interface IDetailViewState {
     timeFrame: string;
     addPanelExpanded: boolean;
     objectives: Objective[];
+    pendingObjective: Objective;
 }

@@ -16,6 +16,10 @@ export class ObjectiveService {
         return await dataService.updateDocument(this.collectionKey, objective);
     }
 
+    public static async createObjectives(): Promise<Objective[]> {
+        
+    }
+
     public static async getObjectivesByAreaAndTimeFrame(area: string, timeFrame: string): Promise<Objective[]> {
         // TODO: Create collection and keys based on area and timeframe. Use mock data for now.
         return await [{
@@ -31,22 +35,19 @@ export class ObjectiveService {
                     Id: "11",
                     Content: "KR1 KR1 KR1 KR1 KR1 KR1 KR1 KR1 KR1 KR1 KR1 KR1 KR1 KR1 KR1 KR1 KR1 KR1 KR1",
                     Status: "Success" as StatusType,
-                    Comment: "",
-                    Progress: 0.9
+                    Comment: ""
                 },
                 {
                     Id: "12",
                     Content: "KR2 KR2 KR2 KR2 KR2 KR2 KR2 KR2 KR2 KR2 KR2 KR2 KR2 KR2 KR2 ",
                     Status: "Warning" as StatusType,
-                    Comment: "",
-                    Progress: 0.5
+                    Comment: ""
                 },
                 {
                     Id: "13",
                     Content: "KR3 KR3 KR3 KR3 KR3 KR3 KR3 KR3 KR3 KR3 KR3 KR3 KR3 KR3 KR3 KR3 KR3 KR3 KR3",
                     Status: "Failed" as StatusType,
-                    Comment: "",
-                    Progress: 0.1
+                    Comment: ""
                 }
             ],
             "WIT": [],
@@ -67,8 +68,7 @@ export class ObjectiveService {
                     Id: "21",
                     Content: "Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test",
                     Status: "Success" as StatusType,
-                    Comment: "",
-                    Progress: 0.9
+                    Comment: ""
                 },
             ],
             "WIT": [],
@@ -89,8 +89,7 @@ export class ObjectiveService {
                     Id: "31",
                     Content: "Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test",
                     Status: "Failed" as StatusType,
-                    Comment: "",
-                    Progress: 0.1
+                    Comment: ""
                 },
             ],
             "WIT": [],
