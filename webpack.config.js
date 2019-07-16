@@ -1,25 +1,32 @@
 const path = require('path');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const mode = "development";
 const sourcemap = mode === "development";
+const DeployPlugin = require('./commands/deployPlugin').module;
 const plugins = [
-	new CopyWebpackPlugin([{
-		from: "./node_modules/vss-web-extension-sdk/lib/VSS.SDK.min.js",
-		to: "libs/VSS.SDK.min.js"
-	},
-	{
-		from: "./node_modules/react/umd/react.production.min.js",
-		to: "react.js"
-	},
-	{
-		from: "./node_modules/react-dom/umd/react-dom.production.min.js",
-		to: "react-dom.js"
-	},
-	{
-		from: "./src/okr-hub.html",
-		to: "./"
-	}
-	])
+	new CleanWebpackPlugin({
+		cleanStaleWebpackAssets: false
+	}),
+	new CopyWebpackPlugin([
+		{
+			from: "./node_modules/vss-web-extension-sdk/lib/VSS.SDK.min.js",
+			to: "libs/VSS.SDK.min.js"
+		},
+		{
+			from: "./node_modules/react/umd/react.production.min.js",
+			to: "react.js"
+		},
+		{
+			from: "./node_modules/react-dom/umd/react-dom.production.min.js",
+			to: "react-dom.js"
+		},
+		{
+			from: "./src/okr-hub.html",
+			to: "./"
+		}
+	]),
+	new DeployPlugin()
 ];
 
 module.exports = {
@@ -34,6 +41,15 @@ module.exports = {
 	},
 	devtool: "source-map",
 	mode: mode,
+	stats: {
+		all: false,
+		builtAt: true,
+		cached: true,
+		errors: true,
+		performance: true,
+		timings: true,
+		warnings: true,
+	},
 	resolve: {
 		extensions: [".ts", ".tsx", ".js", ".json"]
 	},

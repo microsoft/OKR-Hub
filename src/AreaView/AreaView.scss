@@ -1,0 +1,28 @@
+.okrhub {
+	.area-grid {
+		display: flex;
+	}
+
+	.area-card {
+		margin: 8px;
+		width: 266px;
+
+		.area-details {
+			display: flex;
+			flex-direction: column;
+			width: 100%;
+		}
+
+		.area-progress {
+			margin-bottom: 6px;
+
+			.area-circle {
+				margin-right: 10px;
+			}
+		}
+
+		.area-identity {
+			margin-top: 20px;
+		}
+	}
+}

@@ -13,6 +13,8 @@ import * as React from 'react';
 import "./DetailViewMenu.scss";
 import { DetailView } from "./DetailView";
 import { Circle } from 'react-circle';
+import { StateProvider } from '../StateProvider';
+import { detailViewReducer } from "./DetailViewReducer";
 
 const areas = ["Boards", "Repos", "Pipelines"];
 
@@ -90,12 +92,21 @@ const masterDetailsContext: IMasterDetailsContext = new BaseMasterDetailsContext
 );
 
 export const DetailViewMenu: React.SFC<{}> = props => {
+    const initialState = {
+        area: "Boards",
+        timeFrame: "q2",
+        addPanelExpanded: false,
+        objectives: []
+    };
+
     return (
-        <MasterDetailsContext.Provider value={masterDetailsContext}>
-            <div className="flex-row">
-                <MasterPanel />
-                <DetailsPanel />
-            </div>
-        </MasterDetailsContext.Provider>
+        <StateProvider initialState={initialState} reducer={detailViewReducer}>
+            <MasterDetailsContext.Provider value={masterDetailsContext}>
+                <div className="flex-row">
+                    <MasterPanel />
+                    <DetailsPanel />
+                </div>
+            </MasterDetailsContext.Provider>
+        </StateProvider>
     );
 };

@@ -6,6 +6,7 @@
   "scripts": {
     "build": "webpack && npm run package:dev",
     "deploy": "webpack && npm run package:dev && npm run package:publish",
+    "watch": "webpack --watch",
     "package:dev": "node ./commands/packageDev",
     "package:publish": "node ./commands/packagePublish",
     "dev:webpack": "webpack --watch",
@@ -32,6 +33,7 @@
     "@types/react": "^16.8.6",
     "@types/react-dom": "^16.8.4",
     "@types/react-redux": "^5.0.15",
+    "clean-webpack-plugin": "^3.0.0",
     "copy-webpack-plugin": "^4.5.2",
     "css-loader": "^0.28.0",
     "file-loader": "^4.0.0",

@@ -1,4 +1,5 @@
-{
+[
+    {
     "Id": 444,
     "Name": "Obj1",
     "Version": "2019-01-01 2pm",
@@ -14,4 +15,12 @@
     "WIT": [1, 4, 5],
     "Status": "",
     "Comments": [ ]
-}
+    },
+    {
+        "AreaId": "1",
+        "Name": "Area1",
+        "Version": "1234",
+        "Description": "This is an area",
+        "OwnerId": "Alice"
+    }
+]

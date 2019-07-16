@@ -1,27 +1,30 @@
 import { Objective } from "./Objective";
-import { ExtensionDataService } from "VSS/SDK/Services/ExtensionData";
 import { StatusType } from "azure-devops-ui/Status";
+import { OKRDataService } from "../Data/OKRDataService";
 
-export class ObjectiveService {
-    public static async getObjectives(): Promise<Objective[]> {
-        const dataService: ExtensionDataService = await VSS.getService<ExtensionDataService>(VSS.ServiceIds.ExtensionData);
-        const objectives = await dataService.getDocuments("objectives") as Objective[];
-        return objectives;
+export class ObjectiveService extends OKRDataService<Objective> {
+    private static singleton: ObjectiveService;
+    public static get instance(): ObjectiveService {
+        if (this.singleton === undefined) {
+            this.singleton = new ObjectiveService;
+        }
+
+        return this.singleton;
     }
 
-    public static async saveObjective(objective: Objective): Promise<Objective> {
-        const dataService: ExtensionDataService = await VSS.getService<ExtensionDataService>(VSS.ServiceIds.ExtensionData);
-        return await dataService.updateDocument("objectives", objective);
+    public getDataCollectionKey(): string {
+        return "objectives"
     }
 
     public static async getObjectivesByAreaAndTimeFrame(area: string, timeFrame: string): Promise<Objective[]> {
         // TODO: Create collection and keys based on area and timeframe. Use mock data for now.
         return await [{
-            "Id": "111",
+            "id": "hi",
+            "ObjectiveId": "111",
+            "AreaId": "1",
             "Name": "Azure Boards is loved by engineering teams.",
             "Version": new Date("2019-01-01 2pm"),
             "Owner": ["Wendy"],
-            "Area": ["Boards"],
             "Target": new Date("2019-07-31"),
             "Progress": 0.6,
             "KRs": [
@@ -53,11 +56,12 @@ export class ObjectiveService {
             "TimeFrame": "Q2"
         },
         {
-            "Id": "222",
+            "id": "hi",
+            "ObjectiveId": "222",
+            "AreaId": "1",
             "Name": "Azure Boards becomes the leading choice for teams using GitHub.",
             "Version": new Date("2019-01-01 2pm"),
             "Owner": ["Wendy"],
-            "Area": ["Boards"],
             "Target": new Date("2019-07-31"),
             "Progress": 0.2,
             "KRs": [
@@ -82,11 +86,12 @@ export class ObjectiveService {
             "TimeFrame": "Q2"
         },
         {
-            "Id": "333",
+            "id": "hi",
+            "ObjectiveId": "333",
+            "AreaId": "2",
             "Name": "The Azure Boards service is optimized for engineering agility and service reliability.",
             "Version": new Date("2019-01-01 2pm"),
             "Owner": ["SBorg"],
-            "Area": ["Boards"],
             "Target": new Date("2019-07-31"),
             "Progress": 0.2,
             "KRs": [
