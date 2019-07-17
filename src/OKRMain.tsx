@@ -1,9 +1,13 @@
 import * as React from "react";
-import { BrowserRouter as Router, Route, Link, Redirect } from "react-router-dom";
 import { SampleDataPage } from "./SampleDataPage";
 import { DetailViewMenu } from "./DetailView/DetailViewMenu";
 import { AreaView } from "./AreaView/AreaView";
 import * as SDK from "azure-devops-extension-sdk";
+import { StateProvider, useStateValue } from './StateProvider';
+import { detailViewReducer } from "./DetailView/DetailViewReducer";
+import { Button } from "azure-devops-ui/Button";
+import * as Actions from "./DetailView/DetailViewActions";
+import { NavigationConstants } from "./OKRConstants";
 
 export class OKRMain extends React.Component<{}, {}> {
     public componentDidMount() {
@@ -11,22 +15,63 @@ export class OKRMain extends React.Component<{}, {}> {
     }
 
     public render(): JSX.Element {
-        return (
-            <div className="okrhub">
-                <Router>
-                    <nav><ul>
-                        <li><Link to="/AreaView">AreaView</Link></li>
-                        <li><Link to="/Data">Data</Link></li>
-                        <li><Link to="/DetailView">DetailView</Link></li>
-                    </ul></nav>
+        const initialState = {
+            pageLocation: "AreaView",
+            area: "",
+            timeFrame: "q2",
+            addPanelExpanded: false,
+            objectives: []
+        };
 
-                    <Route path="/Data" component={SampleDataPage} />
-                    <Route path="/AreaView" component={AreaView} />
-                    <Route path="/DetailView" component={DetailViewMenu} />
-                    {/* We can't use an empty route due to the nature of hub extensions, so we'll redirect. */}
-                    <Redirect from="/" to="/DetailView" />
-                </Router>
-            </div>
+        return (
+            <StateProvider initialState={initialState} reducer={detailViewReducer}>
+                <div className="okrhub">
+                    <OKRPage />
+                </div>
+            </StateProvider>
         );
     }
 }
+
+const OKRPage: React.SFC<{}> = props => {
+    const [{ pageLocation }, dispatch] = useStateValue();
+
+    let okrPage;
+
+    switch (pageLocation) {
+        case NavigationConstants.AreaView:
+            okrPage = <AreaView />;
+            break;
+        case NavigationConstants.DetailView:
+            okrPage = <DetailViewMenu />;
+            break;
+        case NavigationConstants.Data:
+            okrPage = <SampleDataPage />;
+            break;
+    }
+
+    return (
+        <div>
+            <Button text={"Home"} onClick={() => {
+                dispatch({
+                    type: Actions.navigatePage,
+                    pageLocation: NavigationConstants.AreaView
+                })
+            }} />
+
+            <Button text={"Objectives View"} onClick={() => {
+                dispatch({
+                    type: Actions.navigatePage,
+                    pageLocation: NavigationConstants.DetailView
+                })
+            }} />
+
+            <Button text={"Data"} onClick={() => {
+                dispatch({
+                    type: Actions.navigatePage,
+                    pageLocation: NavigationConstants.Data
+                })
+            }} />            
+            {okrPage}
+        </div>);
+};
