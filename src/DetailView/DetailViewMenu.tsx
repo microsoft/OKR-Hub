@@ -16,13 +16,14 @@ import { Circle } from 'react-circle';
 import { useStateValue } from '../StateProvider';
 import * as Actions from "./DetailViewActions";
 import { useAreas } from "../Area/AreaService";
+import { Area } from "../Area/Area";
 
 const renderInitialRow = (
     index: number,
-    item: string,
-    details: IListItemDetails<string>,
+    item: Area,
+    details: IListItemDetails<Area>,
 ): JSX.Element => {
-    return (
+    return (        
         <ListItem
             key={"list-item" + index}
             index={index}
@@ -30,7 +31,7 @@ const renderInitialRow = (
         >
             <div className="master-row-content">
                 <div className="area-description">
-                    <div className="area-name title">{item}</div>
+                    <div className="area-name title">{item.Name}</div>
                     <div className="area-objectives-count">5 objectives</div>
                 </div>
                 <Circle
@@ -44,7 +45,7 @@ const renderInitialRow = (
     );
 };
 
-function createDetailsViewPayload(): IMasterDetailsContextLayer<string, undefined> {
+function createDetailsViewPayload(): IMasterDetailsContextLayer<Area, undefined> {
     const [{selectedArea}, dispatch] = useStateValue();
     const [{pageLocation}, setPageLocation] = useStateValue();
     return {
@@ -63,20 +64,19 @@ function createDetailsViewPayload(): IMasterDetailsContextLayer<string, undefine
             }
         },
         detailsContent: {
-            renderContent: item => <DetailView area={item} />
+            renderContent: item => <DetailView selectedArea={item} />
         },
-        selectedMasterItem: new ObservableValue<string>(selectedArea),
+        selectedMasterItem: new ObservableValue<Area>(selectedArea),
     };
 }
 
 const MasterPanelContent: React.FunctionComponent<{
-    initialSelectedMasterItem: IObservableValue<string>;
+    initialSelectedMasterItem: IObservableValue<Area>;
 }> = props => {
 
-    const areas = useAreas();
-    const areaNames = areas.map((area) => {return area.Name}); 
+    const areas = useAreas();    
 
-    const initialItemProvider = new ArrayItemProvider(areaNames);
+    const initialItemProvider = new ArrayItemProvider(areas);
     const initialSelection = new ListSelection({ selectOnFocus: false });
 
     // This is how the observable interacts with our selected item     
@@ -89,7 +89,7 @@ const MasterPanelContent: React.FunctionComponent<{
     });
 
     const [{selectedArea}, setArea] = useStateValue();
-    const onListClick = (event: React.SyntheticEvent, listRow: IListRow<string>) => {
+    const onListClick = (event: React.SyntheticEvent, listRow: IListRow<Area>) => {
         setArea({
             type: Actions.updateArea,
             selectedArea: listRow.data

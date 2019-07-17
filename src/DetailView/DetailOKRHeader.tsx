@@ -33,7 +33,7 @@ export const DetailOKRHeader: React.SFC<{}> = props => {
             <div>
                 <Header
                     className={"detail-okr-header"}
-                    title={selectedArea}
+                    title={selectedArea.Name}
                     commandBarItems={[...commandBarItems]}
                     titleSize={TitleSize.Medium}
                 />

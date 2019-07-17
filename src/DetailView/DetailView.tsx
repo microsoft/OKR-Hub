@@ -6,11 +6,12 @@ import { Tab, TabBar, TabSize } from "azure-devops-ui/Tabs";
 import AddOKRPanel from "../AddPanel/AddOKRPanel";
 import { DetailOKRHeader } from "./DetailOKRHeader";
 import { StateContext } from '../StateProvider';
+import { Area } from "../Area/Area";
 
 import "./DetailView.scss";
 
 export interface IDetailViewProps {
-    area: string;
+    selectedArea: Area;
 }
 
 export class DetailView extends React.Component<IDetailViewProps, {}> {
@@ -23,7 +24,7 @@ export class DetailView extends React.Component<IDetailViewProps, {}> {
     }
 
     public render() {
-        const [{ selectedArea }, dispatch ] = this.context;
+        const {selectedArea}= this.props;
         return (
             <div className="detail-view-container">
                 <DetailOKRHeader />
