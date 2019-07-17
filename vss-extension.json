@@ -3,7 +3,6 @@
     "id": "okr-hub",
     "publisher": "nianwensong",
     "version": "1.0.74",
-    "version": "1.0.318",
     "name": "OKR Hub",
     "description": "",
     "public": false,
@@ -14,12 +13,17 @@
         }
     ],
     "scopes": [
-        "vso.work"
+        "vso.work",
+        "vso.identity"
     ],
     "contributions": [
         {
             "id": "okr-hub",
             "type": "ms.vss-web.hub",
+            "includes": [
+                "ms.vss-tfs-web.tfs-page-data-service",
+                "ms.vss-features.extension-data-service"
+            ],
             "targets": [
                 "ms.vss-work-web.work-hub-group"
             ],
@@ -33,11 +37,6 @@
         {
             "path": "dist",
             "addressable": true
-        },
-        {
-            "path": "node_modules/vss-web-extension-sdk/lib",
-            "addressable": true,
-            "packagePath": "lib"
         }
     ]
 }
