@@ -21,27 +21,11 @@ export class AreaView extends React.Component<{}, IAreaViewState> {
     }
     
     public async componentDidMount() {
-        const areas = await AreaService.getAreas();
-        const objectives = await ObjectiveService.getObjectives();
-
-        const area1: Area = {
-            Id: "1",
-            Name: "Alpha",
-            Description: "The first area",
-            OwnerId: "1",
-            Version: Date.now()
-        };
-
-        const area2: Area = {
-            Id: "2",
-            Name: "Beta",
-            Description: "The second area",
-            OwnerId: "2",
-            Version: Date.now()
-        };
+        const areas = await AreaService.instance.getAll();
+        const objectives = await ObjectiveService.instance.getAll();
 
         this.setState({
-            areas: [area1, area2],
+            areas,
             objectives
         });
     }
