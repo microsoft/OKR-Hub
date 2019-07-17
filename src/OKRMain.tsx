@@ -11,11 +11,12 @@ import { NavigationConstants } from "./OKRConstants";
 export class OKRMain extends React.Component<{}, {}> {
     public render(): JSX.Element {
         const initialState = {
-            pageLocation: "AreaView",
-            area: "",
+            pageLocation: NavigationConstants.DetailView,         
+            selectedArea: "",
             timeFrame: "q2",
             addPanelExpanded: false,
-            objectives: []
+            objectives: [],
+            areas: [],
         };
 
         return (

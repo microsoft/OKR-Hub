@@ -23,7 +23,7 @@ export class DetailView extends React.Component<IDetailViewProps, {}> {
     }
 
     public render() {
-        const [{ area }, dispatch ] = this.context;
+        const [{ selectedArea }, dispatch ] = this.context;
         return (
             <div className="detail-view-container">
                 <DetailOKRHeader />
@@ -40,7 +40,7 @@ export class DetailView extends React.Component<IDetailViewProps, {}> {
                     {(props: { selectedTabId: string }) => {
                         return (<>
                               <div className="detail-view">
-                                 <DetailOKRList area={area} selectedTabId={props.selectedTabId}/>
+                                 <DetailOKRList area={selectedArea} selectedTabId={props.selectedTabId}/>
                                 </div>
                             </>);
                     }}

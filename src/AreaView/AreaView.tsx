@@ -1,42 +1,17 @@
 import * as React from "react";
-import { Area } from "../Area/Area";
 import { AreaGrid } from "./AreaGrid";
-import { AreaService } from "../Area/AreaService";
-import { ObjectiveService } from "../Objective/ObjectiveService";
-import { Objective } from "../Objective/Objective";
+import { useAreas } from "../Area/AreaService";
+import { useObjectives } from "../Objective/ObjectiveService";
 
-interface IAreaViewState {
-    areas: Area[];
-    objectives: Objective[];
-}
+export const AreaView: React.FunctionComponent<{}> = props => {
 
-export class AreaView extends React.Component<{}, IAreaViewState> {
-    public constructor(props) {
-        super(props);
+    const areas = useAreas();
+    const objectives = useObjectives(); 
 
-        this.state = {
-            areas: undefined,
-            objectives: undefined
-        };
-    }
-    
-    public async componentDidMount() {
-        const areas = await AreaService.instance.getAll();
-        const objectives = await ObjectiveService.instance.getAll();
-
-        this.setState({
-            areas,
-            objectives
-        });
+    let content = <div>Loading...</div>;
+    if (areas) {
+        content = <AreaGrid areas={areas} objectives={objectives} />;
     }
 
-    public render(): JSX.Element {
-        let content = <div>Loading...</div>;
-
-        if (this.state.areas) {
-            content = <AreaGrid areas={this.state.areas} objectives={this.state.objectives} />;
-        }
-
-        return content;
-    }
+    return content;
 }

@@ -15,8 +15,7 @@ import { DetailView } from "./DetailView";
 import { Circle } from 'react-circle';
 import { useStateValue } from '../StateProvider';
 import * as Actions from "./DetailViewActions";
-
-const areas = ["Boards", "Repos", "Pipelines"];
+import { useAreas } from "../Area/AreaService";
 
 const renderInitialRow = (
     index: number,
@@ -46,7 +45,7 @@ const renderInitialRow = (
 };
 
 function createDetailsViewPayload(): IMasterDetailsContextLayer<string, undefined> {
-    const [{area}, dispatch] = useStateValue();
+    const [{selectedArea}, dispatch] = useStateValue();
     const [{pageLocation}, setPageLocation] = useStateValue();
     return {
         key: "detail-view",
@@ -66,14 +65,18 @@ function createDetailsViewPayload(): IMasterDetailsContextLayer<string, undefine
         detailsContent: {
             renderContent: item => <DetailView area={item} />
         },
-        selectedMasterItem: new ObservableValue<string>(area),
+        selectedMasterItem: new ObservableValue<string>(selectedArea),
     };
 }
 
 const MasterPanelContent: React.FunctionComponent<{
     initialSelectedMasterItem: IObservableValue<string>;
 }> = props => {
-    const initialItemProvider = new ArrayItemProvider(areas);
+
+    const areas = useAreas();
+    const areaNames = areas.map((area) => {return area.Name}); 
+
+    const initialItemProvider = new ArrayItemProvider(areaNames);
     const initialSelection = new ListSelection({ selectOnFocus: false });
 
     // This is how the observable interacts with our selected item     
@@ -85,11 +88,11 @@ const MasterPanelContent: React.FunctionComponent<{
         );
     });
 
-    const [{area}, setArea] = useStateValue();
+    const [{selectedArea}, setArea] = useStateValue();
     const onListClick = (event: React.SyntheticEvent, listRow: IListRow<string>) => {
         setArea({
             type: Actions.updateArea,
-            area: listRow.data
+            selectedArea: listRow.data
         });
     };
 
@@ -104,7 +107,7 @@ const MasterPanelContent: React.FunctionComponent<{
 };
 
 
-export const DetailViewMenu: React.SFC<{}> = props => {    
+export const DetailViewMenu: React.FunctionComponent<{}> = props => {    
     const detailViewMenuPayload = createDetailsViewPayload();
 
     const masterDetailsContext: IMasterDetailsContext = new BaseMasterDetailsContext(
