@@ -3,8 +3,13 @@ import { BrowserRouter as Router, Route, Link, Redirect } from "react-router-dom
 import { SampleDataPage } from "./SampleDataPage";
 import { DetailViewMenu } from "./DetailView/DetailViewMenu";
 import { AreaView } from "./AreaView/AreaView";
+import * as SDK from "azure-devops-extension-sdk";
 
 export class OKRMain extends React.Component<{}, {}> {
+    public componentDidMount() {
+        SDK.init();
+    }
+
     public render(): JSX.Element {
         return (
             <div className="okrhub">
@@ -14,7 +19,7 @@ export class OKRMain extends React.Component<{}, {}> {
                         <li><Link to="/Data">Data</Link></li>
                         <li><Link to="/DetailView">DetailView</Link></li>
                     </ul></nav>
-                    
+
                     <Route path="/Data" component={SampleDataPage} />
                     <Route path="/AreaView" component={AreaView} />
                     <Route path="/DetailView" component={DetailViewMenu} />

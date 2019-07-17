@@ -4,7 +4,7 @@
     "Name": "Obj1",
     "Version": "2019-01-01 2pm",
     "Owner": ["SBorg"],
-    "Area": ["Wit X"],
+    "AreaId": "1",
     "Target": "2019-07-31",
     "Progress": 0.2,
     "KRs": [

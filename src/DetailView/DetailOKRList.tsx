@@ -25,7 +25,7 @@ export class DetailOKRList extends React.Component<IDetailOKRListProps, IDetailO
     
     public render(): JSX.Element {
         return (<>
-            {this.state.objectives.map(objective => <DetailOKR objective={objective} />)}
+            {this.state.objectives.map((objective, index) => <DetailOKR objective={objective} key={index} />)}
         </>);
     }
 }

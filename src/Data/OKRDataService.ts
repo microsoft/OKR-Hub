@@ -1,35 +1,41 @@
-import { ExtensionDataService } from "VSS/SDK/Services/ExtensionData";
 import { OKRDocument } from "./OKRDocument";
+import * as SDK from "azure-devops-extension-sdk";
+import { CommonServiceIds, IExtensionDataService, IExtensionDataManager, IProjectPageService } from "azure-devops-extension-api"
 
 export abstract class OKRDataService<T extends OKRDocument> {
     protected abstract getDataCollectionKey(): string;
-    private extensionDataService: ExtensionDataService;
+    private dataManager: IExtensionDataManager;
 
-    private async getExtensionDataService(): Promise<ExtensionDataService> {
-        if (this.extensionDataService === undefined) {
-            this.extensionDataService = await VSS.getService<ExtensionDataService>(VSS.ServiceIds.ExtensionData);
+    private async getDataManager(): Promise<IExtensionDataManager> {
+        if (this.dataManager === undefined) {
+            await SDK.ready();
+            const accessToken = await SDK.getAccessToken();
+            const dataService = await SDK.getService<IExtensionDataService>(CommonServiceIds.ExtensionDataService);
+            this.dataManager = await dataService.getExtensionDataManager(SDK.getExtensionContext().id, accessToken);
         }
 
-        return this.extensionDataService;
+        return this.dataManager;
     }
 
-    private getProjectKey(): string {
-        const projectKey =  OKRDataService.getProjectKey(this.getDataCollectionKey());
+    private async getProjectKey(): Promise<string> {
+        const projectKey = await OKRDataService.getProjectKey(this.getDataCollectionKey());
         return projectKey;
     }
 
-    public static getProjectKey(collection: string) {
-        const projectKey = `${VSS.getWebContext().project.id}-${collection}`;
+    public static async getProjectKey(collection: string) {
+        const projectService = await SDK.getService<IProjectPageService>(CommonServiceIds.ProjectPageService);
+        const project = await projectService.getProject();
+        const projectKey = `${project.id}-${collection}`;
         return projectKey;
     }
 
     public async getAll(): Promise<T[]> {
-        const dataService: ExtensionDataService = await this.getExtensionDataService();
+        const dataManager: IExtensionDataManager = await this.getDataManager();
         let documents = [];
-
         try {
-            const projectKey = this.getProjectKey();
-            documents = await dataService.getDocuments(projectKey) as T[];
+
+            const projectKey = await this.getProjectKey();
+            documents = await dataManager.getDocuments(projectKey) as T[];
         } catch (_) {
         }
 
@@ -37,25 +43,28 @@ export abstract class OKRDataService<T extends OKRDocument> {
     }
 
     public async save(object: T): Promise<T> {
-        const dataService: ExtensionDataService = await this.getExtensionDataService();
-        const projectKey = this.getProjectKey();
-        return await dataService.updateDocument(projectKey, object);
+        const dataManager: IExtensionDataManager = await this.getDataManager();
+
+        const projectKey = await this.getProjectKey();
+        return await dataManager.updateDocument(projectKey, object);
     }
 
     public async delete(filter: (document: T) => boolean): Promise<void> {
-        const dataService: ExtensionDataService = await this.getExtensionDataService();
+        const dataManager: IExtensionDataManager = await this.getDataManager();
         const documents: T[] = await this.getAll();
         const filteredDocuments: T[] = documents.filter(filter);
-        filteredDocuments.forEach(document => {
-            dataService.deleteDocument(this.getProjectKey(), document.id);
+        filteredDocuments.forEach(async document => {
+            const projectKey = await this.getProjectKey();
+            dataManager.deleteDocument(projectKey, document.id);
         });
     }
 
     public async deleteAll(): Promise<void> {
-        const dataService: ExtensionDataService = await this.getExtensionDataService();
+        const dataManager: IExtensionDataManager = await this.getDataManager();
         const documents = await this.getAll();
-        documents.forEach(document => {
-            dataService.deleteDocument(this.getProjectKey(), document.id);
+        documents.forEach(async document => {
+            const projectKey = await this.getProjectKey();
+            dataManager.deleteDocument(projectKey, document.id);
         });
     }
 }
