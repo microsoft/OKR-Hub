@@ -97,7 +97,7 @@ export const DetailViewMenu: React.SFC<{}> = props => {
         timeFrame: "q2",
         addPanelExpanded: false,
         objectives: [],
-        pendingObjective: {}
+        pendingObjective: {area: "Boards"}
     };
 
     return (

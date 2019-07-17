@@ -36,6 +36,12 @@ export abstract class OKRDataService<T extends OKRDocument> {
         return documents;
     }
 
+    public async create(object: T): Promise<T> {
+        const dataService: ExtensionDataService = await this.getExtensionDataService();
+        const projectKey = this.getProjectKey();
+        return await dataService.createDocument(projectKey, object);
+    }
+
     public async save(object: T): Promise<T> {
         const dataService: ExtensionDataService = await this.getExtensionDataService();
         const projectKey = this.getProjectKey();

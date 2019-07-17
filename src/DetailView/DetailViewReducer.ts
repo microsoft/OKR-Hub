@@ -45,6 +45,7 @@ export const detailViewReducer = (state, action) => {
         kr.Status = action.status;
       break;
       case 'createOKRSucceed':
+        draft.pendingObjective.id = action.id;
         draft.objectives.push(draft.pendingObjective);
         draft.pendingObjective = {};
         draft.addPanelExpanded = false;

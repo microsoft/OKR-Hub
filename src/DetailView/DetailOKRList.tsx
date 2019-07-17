@@ -12,15 +12,20 @@ export interface IDetailOKRListProps {
 export class DetailOKRList extends React.Component<IDetailOKRListProps, {}> {
     static contextType = StateContext;
     
-    public async componentDidMount() {
-        // todo: HOOK WITH SERVICE
-        
-        //const [{}, dispatch] = this.context;
-        //const objectives = await ObjectiveService.getObjectivesByAreaAndTimeFrame(this.props.area, this.props.selectedTabId);
-        //dispatch({
-        //    type: 'loadObjectives',
-        //    objectives: objectives
-        //  })
+    public componentDidMount() {
+        const [{area}, dispatch] = this.context;
+        ObjectiveService.instance.getObjectivesByArea(area).then((objectives)=> {
+            dispatch({
+                type: 'loadObjectives',
+                objectives: objectives
+            });
+        }, (error)=> {
+            // TODO: Some error or zero day experience.
+            dispatch({
+                type: 'loadObjectives',
+                objectives: []
+            });
+        });
     }
     
     public render(): JSX.Element {

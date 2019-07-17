@@ -3,6 +3,7 @@ import { Panel } from "azure-devops-ui/Panel";
 import { StateContext } from '../StateProvider';
 import OKRForm from "./OKRForm";
 import "./AddOKRPanel.scss";
+import { ObjectiveService } from "../Objective/ObjectiveService";
 
 interface IAddOKRPanelState {
     expanded: boolean;
@@ -26,9 +27,13 @@ export default class AddOKRPanel extends React.Component<{}, IAddOKRPanelState> 
                         titleProps={{ text: "Add OKR" }}
                         footerButtonProps={[
                             { text: "Create", primary: true,  onClick: () => {
-                                // service call with pendingObjective. if succeed
-                                dispatch({
-                                    type: 'createOKRSucceed'
+                                ObjectiveService.instance.create(pendingObjective).then((created) => {
+                                    dispatch({
+                                        type: 'createOKRSucceed',
+                                        id: created.id
+                                    });
+                                }, (error) => {
+                                    // TODO: error experience
                                 });
                             }},
                             { text: "Cancel", onClick: () => dispatch({

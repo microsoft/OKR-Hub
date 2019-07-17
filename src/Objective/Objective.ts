@@ -2,7 +2,6 @@ import { StatusType } from "azure-devops-ui/Status";
 import { OKRDocument } from "../Data/OKRDocument";
 
 export class Objective extends OKRDocument {
-    public ObjectiveId: string;
     public Name: string;
     public Version: Date;
     public Owner: string[];
