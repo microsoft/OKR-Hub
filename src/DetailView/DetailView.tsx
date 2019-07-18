@@ -27,7 +27,7 @@ export class DetailView extends React.Component<IDetailViewProps, {}> {
         return (
             <div className="detail-view-container">
                 <DetailOKRHeader />
-                <AddOKRPanel />
+                <AddOKRPanel/>
                 <TabBar
                     onSelectedTabChanged={this.onSelectedTabChanged}
                     selectedTabId={this.selectedTabId}
@@ -40,7 +40,7 @@ export class DetailView extends React.Component<IDetailViewProps, {}> {
                     {(props: { selectedTabId: string }) => {
                         return (<>
                               <div className="detail-view">
-                                 <DetailOKRList area={area} selectedTabId={props.selectedTabId}/>
+                                 <DetailOKRList area={area || "Boards"} selectedTabId={props.selectedTabId}/>
                                 </div>
                             </>);
                     }}

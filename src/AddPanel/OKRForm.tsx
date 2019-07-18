@@ -1,112 +1,102 @@
 import * as React from "react";
 import { StateContext } from "../StateProvider";
-import { StatusType } from "azure-devops-ui/Status";
 import { Button } from "azure-devops-ui/Button";
 import { TextField } from "azure-devops-ui/TextField";
-import { Dropdown } from "azure-devops-ui/Dropdown";
-import { IListBoxItem } from "azure-devops-ui/ListBox";
-import { ObservableValue } from "azure-devops-ui/Core/Observable";
+import { KR, Objective } from "../Objective/Objective";
+import { ObjectiveService } from "../Objective/ObjectiveService";
+import { generateUID } from "VSS/Utils/String";
+import produce from "immer";
 
-export default class OKRForm extends React.Component<{}, {}> {
+export interface IOKRFormProps {
+    objectiveName: string;
+    krs: KR[];
+}
+
+export interface IOKRFormState {
+    name: string;
+    owner: [];
+    krs: KR[];
+    comments: [];
+}
+
+export default class OKRForm extends React.Component<IOKRFormProps, IOKRFormState> {
     static contextType = StateContext;
-    ob = new ObservableValue<string>("");
+    constructor(props: IOKRFormProps) {
+        super(props)
+        this.state = {
+            name: props.objectiveName,
+            owner: [],
+            krs: props.krs,
+            comments:[]
+        }
+    }
     
     public render(): JSX.Element {
-        const [{ pendingObjective }, dispatch] = this.context;
+        const [{ area, timeFrame }, dispatch] = this.context;
+        const { name, krs } = this.state
         return (
             <>
             <TextField
-                value={pendingObjective.Name}
+                className="okr-form-objective-name"
+                key={"objectiveName"}
+                value={name}
                 onChange={(e, newValue) => {
-                    this.ob.value = newValue;
-                    dispatch({
-                        type: 'updateObjectiveName',
-                        name: newValue
-                      });
-                    }}
+                    this.setState({name: newValue});
+                }}
             />
-             { pendingObjective.KRs && pendingObjective.KRs.map((kr) => <KREditor id={kr.Id} content={kr.Content} status={kr.Status} comment={kr.Comment}/>)}
-             <Button text="Add KR" iconProps={{ iconName: "Add" }} onClick={() => {
-                 dispatch({
-                    type: 'addKR',
-                    content: "",
-                    status:  "Queued",
-                    comment: ""
-                  });
+            <fieldset className="okr-form-krs">
+                { krs && krs.map((kr) => (
+                <div className="kr-editor">
+                    <TextField
+                        key={kr.Id}
+                        value={kr.Content}
+                        multiline={true}
+                        onChange={(e, newValue) => {
+                            this.setState(produce(this.state, draft => {
+                                var found = draft.krs.filter((x) => x.Id === kr.Id)[0];
+                                found.Content = newValue;
+                            }));
+                        }}
+                    />
+                    <Button iconProps={{ iconName: "Delete" }} onClick={() => {
+                        this.setState({krs: krs.filter((x) => x.Id !== kr.Id)});
+                    }}/>
+                </div>))}
+            </fieldset>
+             <Button className="okr-form-add-kr" text="Add KR" iconProps={{ iconName: "Add" }} onClick={() => {
+                 this.setState({krs: [...krs, {
+                    Id: generateUID(),
+                    Content: "",
+                    Status:  "Queued",
+                    Comment: ""
+                  }]});
              }}/>
-            </>
-        );
-    }
-}
-
-export interface IKREditorProps {
-    id: string;
-    content: string;
-    status: StatusType;
-    comment: string;
-}
-
-export class KREditor extends React.Component<IKREditorProps, {}> {
-    static contextType = StateContext;
-    ob = new ObservableValue<string>("");
-
-    public render(): JSX.Element {
-        const { id, content, status } = this.props;
-        const [{ pendingObjective }, dispatch] = this.context;
-        return (<div className="kr-editor">
-            <StatusDropDown id={id} status={status} />
-            <TextField
-                value={content}
-                multiline={true}
-                onChange={(e, newValue) => {
-                    this.ob.value = newValue;
+            <fieldset className="okr-form-submit">
+            <Button text="Create" primary={true} onClick={() => {
+                  var toBeCreated: Objective = {
+                        Owner: this.state.owner,
+                        Name: this.state.name,
+                        Comments: this.state.comments,
+                        KRs: this.state.krs,
+                        AreaId: area || "Boards",
+                        TimeFrame: timeFrame,
+                        Progress: 0
+                  }
+                  ObjectiveService.instance.create(toBeCreated).then((created) => {
                     dispatch({
-                        type: 'updateKRContent',
-                        id: id,
-                        content: newValue
-                      });
-                    }}
-            />
-            <Button iconProps={{ iconName: "Delete" }} onClick={() => {
-                dispatch({
-                    type: 'removeKR',
-                    id: id
-                  });
-                }}/>
-        </div>);
-    }
-}
-
-export interface IStatusDropDownProps {
-    id: string;
-    status: StatusType;
-}
-
-export class StatusDropDown extends React.Component<IStatusDropDownProps, {}> {
-    private selectedItem = new ObservableValue<string>("");
-    static contextType = StateContext;
-
-    public render() {
-        const { id, status } = this.props;
-        const [{ pendingObjective }, dispatch] = this.context;
-        return (
-            <>
-                <Dropdown
-                    items={[
-                        { id: "Queued", text: "Queued" },
-                        { id: "Success", text: "Success" },
-                        { id: "Warning", text: "Warning" },
-                        { id: "Failed", text: "Failed" }
-                    ]}
-                    onSelect={(event: React.SyntheticEvent<HTMLElement>, newValue: IListBoxItem<{}>) => {
-                        this.selectedItem.value = newValue.text || "";
-                        dispatch({
-                            type: 'updateKRStatus',
-                            id: id,
-                            status: newValue.id
-                          });
-                    }}
-                />
+                        type: 'createOKRSucceed',
+                        payload: created
+                    });
+                }, (error) => {
+                    // TODO: error experience
+                });
+             }}/>
+             <Button text="Cancel" onClick={() => {
+                  dispatch({
+                    type: 'cancelCreation'
+                    });
+             }}/>
+             </fieldset>
             </>
         );
     }

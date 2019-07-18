@@ -1,5 +1,5 @@
 import { IObservableValue, ObservableValue } from "azure-devops-ui/Core/Observable";
-import { List, ListItem, ListSelection, IListItemDetails } from "azure-devops-ui/List";
+import { List, ListItem, ListSelection, IListItemDetails, IListRow } from "azure-devops-ui/List";
 import { DetailsPanel, MasterPanel, MasterPanelHeader } from "azure-devops-ui/MasterDetails";
 import {
     BaseMasterDetailsContext,
@@ -13,8 +13,8 @@ import * as React from 'react';
 import "./DetailViewMenu.scss";
 import { DetailView } from "./DetailView";
 import { Circle } from 'react-circle';
-import { StateProvider } from '../StateProvider';
-import { detailViewReducer } from "./DetailViewReducer";
+import { useStateValue } from '../StateProvider';
+import * as Actions from "./DetailViewActions";
 
 const areas = ["Boards", "Repos", "Pipelines"];
 
@@ -37,31 +37,38 @@ const renderInitialRow = (
                 <Circle
                     progress={(index + 10) * 15} /*"Random" numbers for now */
                     showPercentage={false}
-                    size={"35"}
-                    lineWidth={"70"}
+                    size={"40"}
+                    lineWidth={"60"}
                     progressColor={"rgb(0, 200, 100)"} />
             </div>
         </ListItem>
     );
 };
 
-const detailViewMenuPayload: IMasterDetailsContextLayer<string, undefined> = {
-    key: "detail-view",
-    masterPanelContent: {
-        renderContent: (parentItem, initialSelectedMasterItem) => (
-            <MasterPanelContent initialSelectedMasterItem={initialSelectedMasterItem} />
-        ),
-        renderHeader: () => <MasterPanelHeader title={"Azure Devops"} />,
-        onBackButtonClick: () => {
-            alert("Return to previous page");
-            return false;
-        }
-    },
-    detailsContent: {
-        renderContent: item => <DetailView area={item} />
-    },
-    selectedMasterItem: new ObservableValue<string>(areas[0]),
-};
+function createDetailsViewPayload(): IMasterDetailsContextLayer<string, undefined> {
+    const [{area}, dispatch] = useStateValue();
+    const [{pageLocation}, setPageLocation] = useStateValue();
+    return {
+        key: "detail-view",
+        masterPanelContent: {
+            renderContent: (parentItem, initialSelectedMasterItem) => (
+                <MasterPanelContent initialSelectedMasterItem={initialSelectedMasterItem} />
+            ),
+            renderHeader: () => <MasterPanelHeader title={"Azure Devops"} />,
+            onBackButtonClick: () => {
+                setPageLocation({
+                    type: Actions.navigatePage,
+                    pageLocation: "AreaView"
+                });
+                return false;
+            }
+        },
+        detailsContent: {
+            renderContent: item => <DetailView area={item} />
+        },
+        selectedMasterItem: new ObservableValue<string>(area),
+    };
+}
 
 const MasterPanelContent: React.FunctionComponent<{
     initialSelectedMasterItem: IObservableValue<string>;
@@ -69,6 +76,7 @@ const MasterPanelContent: React.FunctionComponent<{
     const initialItemProvider = new ArrayItemProvider(areas);
     const initialSelection = new ListSelection({ selectOnFocus: false });
 
+    // This is how the observable interacts with our selected item     
     React.useEffect(() => {
         bindSelectionToObservable(
             initialSelection,
@@ -77,37 +85,40 @@ const MasterPanelContent: React.FunctionComponent<{
         );
     });
 
+    const [{area}, setArea] = useStateValue();
+    const onListClick = (event: React.SyntheticEvent, listRow: IListRow<string>) => {
+        setArea({
+            type: Actions.updateArea,
+            area: listRow.data
+        });
+    };
+
     return (
         <List
             itemProvider={initialItemProvider}
             selection={initialSelection}
             renderRow={renderInitialRow}
+            onSelect={onListClick}
         />
     );
 };
 
-const masterDetailsContext: IMasterDetailsContext = new BaseMasterDetailsContext(
-    detailViewMenuPayload,
-    () => { }
-);
 
-export const DetailViewMenu: React.SFC<{}> = props => {
-    const initialState = {
-        area: "Boards",
-        timeFrame: "q2",
-        addPanelExpanded: false,
-        objectives: [],
-        pendingObjective: {area: "Boards"}
-    };
+
+export const DetailViewMenu: React.SFC<{}> = props => {    
+    const detailViewMenuPayload = createDetailsViewPayload();
+
+    const masterDetailsContext: IMasterDetailsContext = new BaseMasterDetailsContext(
+        detailViewMenuPayload,
+        () => { }
+    );
 
     return (
-        <StateProvider initialState={initialState} reducer={detailViewReducer}>
-            <MasterDetailsContext.Provider value={masterDetailsContext}>
-                <div className="flex-row">
-                    <MasterPanel />
-                    <DetailsPanel />
-                </div>
-            </MasterDetailsContext.Provider>
-        </StateProvider>
+        <MasterDetailsContext.Provider value={masterDetailsContext}>
+            <div className="flex-row">
+                <MasterPanel />
+                <DetailsPanel />
+            </div>
+        </MasterDetailsContext.Provider>
     );
 };

@@ -11,9 +11,28 @@ export interface IDetailOKRListProps {
 
 export class DetailOKRList extends React.Component<IDetailOKRListProps, {}> {
     static contextType = StateContext;
-    
+
     public componentDidMount() {
-        const [{area}, dispatch] = this.context;
+        if (this.props.area !== "") {
+            this.loadData(this.props.area);
+        }
+    }
+    
+    public componentDidUpdate(prevProps: IDetailOKRListProps) {
+        if (this.props.area !== prevProps.area) {
+            this.loadData(this.props.area);
+        }
+    }
+    
+    public render(): JSX.Element {
+        const [{ objectives }] = this.context;
+        return (<>
+            {objectives.map(objective => <DetailOKR objective={objective} />)}
+        </>);
+    }
+
+    private loadData = (area: string) => {
+        const [{}, dispatch] = this.context;
         ObjectiveService.instance.getObjectivesByArea(area).then((objectives)=> {
             dispatch({
                 type: 'loadObjectives',
@@ -26,12 +45,5 @@ export class DetailOKRList extends React.Component<IDetailOKRListProps, {}> {
                 objectives: []
             });
         });
-    }
-    
-    public render(): JSX.Element {
-        const [{ objectives }] = this.context;
-        return (<>
-            {objectives.map(objective => <DetailOKR objective={objective} />)}
-        </>);
     }
 }
