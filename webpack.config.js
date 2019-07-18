@@ -61,18 +61,18 @@ module.exports = {
 				use: [{
 					loader: 'style-loader',
 					options: {
-						sourcemap: sourcemap
+						sourceMap: true
 					}
 				}, {
 					loader: 'css-loader',
 					options: {
-						sourcemap: sourcemap
+						sourceMap: true
 					}
 				},
 				{
 					loader: 'sass-loader',
 					options: {
-						sourcemap: sourcemap
+						sourceMap: true
 					}
 				}]
 			},
@@ -82,18 +82,18 @@ module.exports = {
 				use: [{
 						loader: 'style-loader',
 						options: {
-							sourcemap: sourcemap
+							sourceMap: true
 						}
 					}, {
 						loader: 'css-loader',
 						options: {
-							sourcemap: sourcemap
+							sourceMap: true
 						}
 					},
 					{
 						loader: 'sass-loader',
 						options: {
-							sourcemap: sourcemap
+							sourceMap: true
 						}
 					}
 				]

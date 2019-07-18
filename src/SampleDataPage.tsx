@@ -50,7 +50,7 @@ export class SampleDataPage extends React.Component<{}, ISampleDataPageState> {
     }
 
     public render() {
-        return (<>
+        return (<div>
             {this.renderDelete()}
             <div>
                 <label>Collection</label>
@@ -64,7 +64,7 @@ export class SampleDataPage extends React.Component<{}, ISampleDataPageState> {
             <div>
                 {this.renderData()}
             </div>
-        </>);
+        </div>);
     }
 
     private collectionChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
