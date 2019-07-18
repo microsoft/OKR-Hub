@@ -16,7 +16,14 @@ export class AreaGrid extends React.Component<IAreaGridProps> {
 
     public render(): JSX.Element {
         return <div className="area-grid">
-            {this.props.areas.map(area => <AreaCard area={area} objectives={this.getObjectives(area.AreaId)} identityProvider={this.identityProvider} />)}
+            {this.props.areas.map((area, index) => 
+                <AreaCard
+                    area={area}
+                    objectives={this.getObjectives(area.AreaId)}
+                    identityProvider={this.identityProvider}
+                    key={index}
+                />
+            )}
         </div>;
     }
 

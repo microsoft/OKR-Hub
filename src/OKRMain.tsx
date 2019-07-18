@@ -2,6 +2,7 @@ import * as React from "react";
 import { SampleDataPage } from "./SampleDataPage";
 import { DetailViewMenu } from "./DetailView/DetailViewMenu";
 import { AreaView } from "./AreaView/AreaView";
+import * as SDK from "azure-devops-extension-sdk";
 import { StateProvider, useStateValue } from './StateProvider';
 import { detailViewReducer } from "./DetailView/DetailViewReducer";
 import { Button } from "azure-devops-ui/Button";
@@ -9,6 +10,10 @@ import * as Actions from "./DetailView/DetailViewActions";
 import { NavigationConstants } from "./OKRConstants";
 
 export class OKRMain extends React.Component<{}, {}> {
+    public componentDidMount() {
+        SDK.init();
+    }
+
     public render(): JSX.Element {
         const initialState = {
             pageLocation: "AreaView",

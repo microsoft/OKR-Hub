@@ -9,8 +9,8 @@ export interface IAreaCardProgressProps {
 export class AreaCardProgress extends React.Component<IAreaCardProgressProps> {
 	public render(): JSX.Element {
 		return <div className="area-progress">
-			{this.props.objectives.map(objective => {
-				return <span className="area-circle">
+			{this.props.objectives.map((objective, index) => {
+				return <span className="area-circle" key={index}>
 					<Circle
 						progress={objective.Progress * 100}
 						showPercentage={false}
