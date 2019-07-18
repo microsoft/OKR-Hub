@@ -1,6 +1,9 @@
 import { Objective } from "./Objective";
 import { StatusType } from "azure-devops-ui/Status";
 import { OKRDataService } from "../Data/OKRDataService";
+import { useEffect } from "react";
+import { useStateValue } from "../StateProvider";
+import * as Actions from "../DetailView//DetailViewActions";
 
 export class ObjectiveService extends OKRDataService<Objective> {
     private static singleton: ObjectiveService;
@@ -52,7 +55,7 @@ export class ObjectiveService extends OKRDataService<Objective> {
             ],
             "WIT": [],
             "Status": "Warning" as StatusType,
-            "Comments": [ ],
+            "Comments": [],
             "TimeFrame": "Q2"
         },
         {
@@ -82,7 +85,7 @@ export class ObjectiveService extends OKRDataService<Objective> {
             ],
             "WIT": [],
             "Status": "Success" as StatusType,
-            "Comments": [ ],
+            "Comments": [],
             "TimeFrame": "Q2"
         },
         {
@@ -105,8 +108,26 @@ export class ObjectiveService extends OKRDataService<Objective> {
             ],
             "WIT": [],
             "Status": "Failed" as StatusType,
-            "Comments": [ ],
+            "Comments": [],
             "TimeFrame": "Q2"
         }];
     }
 }
+
+export function useObjectives(): Objective[] {
+    const [{ objectives }, setObjectives] = useStateValue();
+
+    useEffect(() => {
+        if (objectives.length === 0) {
+            ObjectiveService.instance.getAll().then((allObjectives: Objective[]) => {
+                setObjectives({
+                    type: Actions.getObjectives,
+                    objectives: allObjectives
+                })
+            })
+        }
+    });
+
+    return objectives;
+}
+

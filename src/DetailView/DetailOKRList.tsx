@@ -2,9 +2,10 @@ import React = require("react");
 import { Objective } from "../Objective/Objective";
 import { DetailOKR } from "./DetailOKR";
 import { ObjectiveService } from "../Objective/ObjectiveService";
+import {Area} from "../Area/Area"; 
 
 export interface IDetailOKRListProps {
-    area: string;
+    area: Area;
     selectedTabId: string;
 }
 
@@ -19,7 +20,7 @@ export class DetailOKRList extends React.Component<IDetailOKRListProps, IDetailO
     }
 
     public async componentDidMount() {
-        const objectives = await ObjectiveService.getObjectivesByAreaAndTimeFrame(this.props.area, this.props.selectedTabId);
+        const objectives = await ObjectiveService.getObjectivesByAreaAndTimeFrame(this.props.area.Name, this.props.selectedTabId);
         this.setState({ objectives: objectives });
     }
     

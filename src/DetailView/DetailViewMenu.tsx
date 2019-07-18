@@ -15,15 +15,15 @@ import { DetailView } from "./DetailView";
 import { Circle } from 'react-circle';
 import { useStateValue } from '../StateProvider';
 import * as Actions from "./DetailViewActions";
-
-const areas = ["Boards", "Repos", "Pipelines"];
+import { useAreas } from "../Area/AreaService";
+import { Area } from "../Area/Area";
 
 const renderInitialRow = (
     index: number,
-    item: string,
-    details: IListItemDetails<string>,
+    item: Area,
+    details: IListItemDetails<Area>,
 ): JSX.Element => {
-    return (
+    return (        
         <ListItem
             key={"list-item" + index}
             index={index}
@@ -31,7 +31,7 @@ const renderInitialRow = (
         >
             <div className="master-row-content">
                 <div className="area-description">
-                    <div className="area-name title">{item}</div>
+                    <div className="area-name title">{item.Name}</div>
                     <div className="area-objectives-count">5 objectives</div>
                 </div>
                 <Circle
@@ -45,8 +45,8 @@ const renderInitialRow = (
     );
 };
 
-function createDetailsViewPayload(): IMasterDetailsContextLayer<string, undefined> {
-    const [{area}, dispatch] = useStateValue();
+function createDetailsViewPayload(): IMasterDetailsContextLayer<Area, undefined> {
+    const [{selectedArea}, dispatch] = useStateValue();
     const [{pageLocation}, setPageLocation] = useStateValue();
     return {
         key: "detail-view",
@@ -64,15 +64,18 @@ function createDetailsViewPayload(): IMasterDetailsContextLayer<string, undefine
             }
         },
         detailsContent: {
-            renderContent: item => <DetailView area={item} />
+            renderContent: item => <DetailView selectedArea={item} />
         },
-        selectedMasterItem: new ObservableValue<string>(area),
+        selectedMasterItem: new ObservableValue<Area>(selectedArea),
     };
 }
 
 const MasterPanelContent: React.FunctionComponent<{
-    initialSelectedMasterItem: IObservableValue<string>;
+    initialSelectedMasterItem: IObservableValue<Area>;
 }> = props => {
+
+    const areas = useAreas();    
+
     const initialItemProvider = new ArrayItemProvider(areas);
     const initialSelection = new ListSelection({ selectOnFocus: false });
 
@@ -85,11 +88,11 @@ const MasterPanelContent: React.FunctionComponent<{
         );
     });
 
-    const [{area}, setArea] = useStateValue();
-    const onListClick = (event: React.SyntheticEvent, listRow: IListRow<string>) => {
+    const [{selectedArea}, setArea] = useStateValue();
+    const onListClick = (event: React.SyntheticEvent, listRow: IListRow<Area>) => {
         setArea({
             type: Actions.updateArea,
-            area: listRow.data
+            selectedArea: listRow.data
         });
     };
 
@@ -104,7 +107,7 @@ const MasterPanelContent: React.FunctionComponent<{
 };
 
 
-export const DetailViewMenu: React.SFC<{}> = props => {    
+export const DetailViewMenu: React.FunctionComponent<{}> = props => {    
     const detailViewMenuPayload = createDetailsViewPayload();
 
     const masterDetailsContext: IMasterDetailsContext = new BaseMasterDetailsContext(

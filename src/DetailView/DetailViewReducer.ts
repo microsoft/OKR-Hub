@@ -15,7 +15,17 @@ export const detailViewReducer = (state, action) => {
     case Actions.updateArea:
       return {
         ...state,
-        area: action.area
+        selectedArea: action.selectedArea
+      };
+    case Actions.getAreas:
+      return {
+        ...state,
+        areas: action.areas
+      };
+    case Actions.getObjectives:
+      return {
+        ...state,
+        objectives: action.objectives
       };
     default:
       return state;
