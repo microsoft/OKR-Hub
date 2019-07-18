@@ -3,21 +3,30 @@ import { IdentityPickerDropdown, IPeoplePickerProvider, IIdentity } from "azure-
 
 export interface IAreaCardIdentityProps {
     ownerId: string;
-	identityProvider: IPeoplePickerProvider;
+    identityProvider: IPeoplePickerProvider;
+    editMode: boolean;
 }
 
 export class AreaCardIdentity extends React.Component<IAreaCardIdentityProps> {
-	public render = (): JSX.Element => {
+    public render = (): JSX.Element => {
         return <div className="area-identity">
-            <IdentityPickerDropdown
-                onChange={this.onChange}
-                pickerProvider={this.props.identityProvider}
-                value={this.props.identityProvider.getEntityFromUniqueAttribute(this.props.ownerId) as IIdentity}
-            />
+            {this.props.editMode ? this.renderPicker() : this.renderStatic()}
         </div>;
     };
 
-	private onChange = (identity?: IIdentity) => {
+    private renderStatic = (): JSX.Element => {
+        return <div>{this.props.ownerId}</div>;
+    };
+
+    private renderPicker = (): JSX.Element => {
+        return <IdentityPickerDropdown
+            onChange={this.onChange}
+            pickerProvider={this.props.identityProvider}
+            value={this.props.identityProvider.getEntityFromUniqueAttribute(this.props.ownerId) as IIdentity}
+        />;
+    };
+
+    private onChange = (identity?: IIdentity) => {
 
     };
 }

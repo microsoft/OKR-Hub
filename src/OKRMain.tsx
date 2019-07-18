@@ -16,7 +16,7 @@ export class OKRMain extends React.Component<{}, {}> {
 
     public render(): JSX.Element {
         const initialState = {
-            pageLocation: NavigationConstants.DetailView,         
+            pageLocation: NavigationConstants.AreaView,         
             selectedArea: "",
             timeFrame: "q2",
             addPanelExpanded: false,

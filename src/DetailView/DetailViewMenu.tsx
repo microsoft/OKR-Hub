@@ -17,6 +17,7 @@ import { useStateValue } from '../StateProvider';
 import * as Actions from "./DetailViewActions";
 import { useAreas } from "../Area/AreaService";
 import { Area } from "../Area/Area";
+import { NavigationConstants } from "../OKRConstants";
 
 const renderInitialRow = (
     index: number,
@@ -58,7 +59,7 @@ function createDetailsViewPayload(): IMasterDetailsContextLayer<Area, undefined>
             onBackButtonClick: () => {
                 setPageLocation({
                     type: Actions.navigatePage,
-                    pageLocation: "AreaView"
+                    pageLocation: NavigationConstants.AreaView
                 });
                 return false;
             }

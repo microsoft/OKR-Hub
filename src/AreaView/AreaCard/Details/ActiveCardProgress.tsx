@@ -1,6 +1,6 @@
 import * as React from "react";
 import Circle from "react-circle";
-import { Objective } from "../../Objective/Objective";
+import { Objective } from "../../../Objective/Objective";
 
 export interface IAreaCardProgressProps {
 	objectives: Objective[];
