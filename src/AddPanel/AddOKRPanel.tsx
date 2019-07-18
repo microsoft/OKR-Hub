@@ -1,13 +1,11 @@
 import * as React from "react";
 import { Panel } from "azure-devops-ui/Panel";
-import { StateContext } from '../StateProvider';
 
 interface IAddOKRPanelState {
     expanded: boolean;
 }
 
-export default class AddOKRPanel extends React.Component<{}, IAddOKRPanelState> {
-    static contextType = StateContext;
+export default class AddOKRPanel extends React.Component<{}, IAddOKRPanelState> {   
 
     public render(): JSX.Element {
         const [{ addPanelExpanded }, dispatch] = this.context;

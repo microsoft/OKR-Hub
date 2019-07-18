@@ -5,7 +5,6 @@ import { Observer } from "azure-devops-ui/Observer";
 import { Tab, TabBar, TabSize } from "azure-devops-ui/Tabs";
 import AddOKRPanel from "../AddPanel/AddOKRPanel";
 import { DetailOKRHeader } from "./DetailOKRHeader";
-import { StateContext } from '../StateProvider';
 import { Area } from "../Area/Area";
 
 import "./DetailView.scss";
@@ -15,8 +14,7 @@ export interface IDetailViewProps {
 }
 
 export class DetailView extends React.Component<IDetailViewProps, {}> {
-    private selectedTabId: ObservableValue<string>;
-    static contextType = StateContext;
+    private selectedTabId: ObservableValue<string>;    
     
     constructor(props: IDetailViewProps) {
         super(props);
