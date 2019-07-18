@@ -1,5 +1,6 @@
 import { StatusType } from "azure-devops-ui/Status";
 import { OKRDocument } from "../Data/OKRDocument";
+import { Guid } from "guid-typescript";
 
 export class Objective extends OKRDocument {
     public Name: string;
@@ -12,7 +13,7 @@ export class Objective extends OKRDocument {
 }
 
 export class KR {
-    public Id: string;
+    public Id: Guid;
     public Content: string;
     public Status: StatusType;
     public Comment: string;

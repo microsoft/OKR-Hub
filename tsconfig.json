@@ -14,10 +14,8 @@
         "target": "es5",
         "moduleResolution": "node",
         "types": [
-            "requirejs",
             "react",
             "react-dom",
-            "vss-web-extension-sdk"
         ],
         "typeRoots": [
             "../node_modules/@types"

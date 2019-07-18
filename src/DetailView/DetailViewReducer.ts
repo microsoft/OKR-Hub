@@ -8,9 +8,12 @@ export const detailViewReducer = (state, action) => {
         draft.pageLocation = action.pageLocation;
         break;
       case Actions.updateArea:
-        draft.area = action.area;
+        draft.selectedArea = action.selectedArea;
         break;
-      case 'loadObjectives':
+      case Actions.getAreas:
+        draft.areas = action.areas;
+        break;
+      case Actions.getObjectives:
         draft.objectives = action.objectives;
         break;
       case 'togglePanel':

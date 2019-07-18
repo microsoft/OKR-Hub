@@ -1,10 +1,26 @@
 .bolt-panel-callout-content {
-    width: 500px;
+    width: 600px;
     .panel-content {
        width: 100%;
-       .kr-editor {
-           display: flex;
-           flex-direction: row;
+       display: flex;
+       flex-direction: column;
+
+       .okr-form-add {
+           flex: 1;
+
+           .kr-editor {
+            display: flex;
+            flex-direction: row;
+            margin-top: 20px;
+            }
+ 
+            .okr-form-add-kr {
+                margin-top: 10px;
+            }
+       }
+
+       .okr-form-submit {
+            align-self: flex-end;
        }
     }
 }

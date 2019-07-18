@@ -1,8 +1,9 @@
 import * as React from "react";
-import { ExtensionDataService } from "VSS/SDK/Services/ExtensionData";
 import { OKRDataService } from "./Data/OKRDataService";
 import { AreaService } from "./Area/AreaService";
 import { ObjectiveService } from "./Objective/ObjectiveService";
+import * as SDK from "azure-devops-extension-sdk";
+import { CommonServiceIds, IExtensionDataService } from "azure-devops-extension-api";
 
 interface ISampleDataPageState {
     collection: string;
@@ -28,12 +29,15 @@ export class SampleDataPage extends React.Component<{}, ISampleDataPageState> {
 
     public async componentDidMount() {
         try {
-            const dataService: ExtensionDataService = await VSS.getService<ExtensionDataService>(VSS.ServiceIds.ExtensionData);
-            const projectKey = OKRDataService.getProjectKey("areas");
+            const projectKey = await OKRDataService.getProjectKey("areas");
             let documents = [];
             
             try {
-                documents = await dataService.getDocuments(projectKey);
+                await SDK.ready();
+                const accessToken = await SDK.getAccessToken();
+                const dataService = await SDK.getService<IExtensionDataService>(CommonServiceIds.ExtensionDataService);
+                const dataManager = await dataService.getExtensionDataManager(SDK.getExtensionContext().id, accessToken);
+                documents = await dataManager.getDocuments(projectKey);
             } catch (_) {
             }
 
@@ -46,7 +50,7 @@ export class SampleDataPage extends React.Component<{}, ISampleDataPageState> {
     }
 
     public render() {
-        return (<>
+        return (<div>
             {this.renderDelete()}
             <div>
                 <label>Collection</label>
@@ -60,7 +64,7 @@ export class SampleDataPage extends React.Component<{}, ISampleDataPageState> {
             <div>
                 {this.renderData()}
             </div>
-        </>);
+        </div>);
     }
 
     private collectionChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
@@ -92,9 +96,12 @@ export class SampleDataPage extends React.Component<{}, ISampleDataPageState> {
 
     private addClick = async (): Promise<void> => {
         try {
-            const dataService: ExtensionDataService = await VSS.getService<ExtensionDataService>(VSS.ServiceIds.ExtensionData);
-            const projectKey = OKRDataService.getProjectKey(this.state.collection);
-            const document = await dataService.createDocument(projectKey, this.state.content);
+            await SDK.ready();
+            const accessToken = await SDK.getAccessToken();
+            const dataService = await SDK.getService<IExtensionDataService>(CommonServiceIds.ExtensionDataService);
+            const dataManager = await dataService.getExtensionDataManager(SDK.getExtensionContext().id, accessToken);
+            const projectKey = await OKRDataService.getProjectKey(this.state.collection);
+            const document = await dataManager.createDocument(projectKey, this.state.content);
 
             if (document && document.id) {
                 alert("Yay");

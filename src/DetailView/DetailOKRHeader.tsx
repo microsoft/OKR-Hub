@@ -9,7 +9,7 @@ export interface IDetailOKRHeaderProps {
 
 export const DetailOKRHeader: React.SFC<{}> = props => {
 
-    const [{ area }, dispatch ] = useStateValue();
+    const [{ selectedArea }, dispatch ] = useStateValue();
 
         
     const commandBarItems: IHeaderCommandBarItem[] = [
@@ -33,7 +33,7 @@ export const DetailOKRHeader: React.SFC<{}> = props => {
             <div>
                 <Header
                     className={"detail-okr-header"}
-                    title={area}
+                    title={selectedArea.Name}
                     commandBarItems={[...commandBarItems]}
                     titleSize={TitleSize.Medium}
                 />
