@@ -38,54 +38,50 @@ export default class OKRForm extends React.Component<IOKRFormProps, IOKRFormStat
             <div className="okr-form-fields">
                 <TextField
                     className="okr-form-objective-name"
-                    key={"objectiveName"}
                     value={name}
                     onChange={(e, newValue) => {
                         this.setState({name: newValue});
                     }}
                 />
-                <div className="okr-form-add">
-                    <fieldset className="okr-form-krs">
-                        { krs && krs.map((kr) => (
-                        <div className="kr-editor">
-                            <TextField
-                                key={kr.Id.toString()}
-                                value={kr.Content}
-                                multiline={true}
-                                onChange={(e, newValue) => {
-                                    this.setState(produce(this.state, draft => {
-                                        var found = draft.krs.filter((x) => x.Id === kr.Id)[0];
-                                        found.Content = newValue;
-                                    }));
-                                }}
-                            />
-                            <Button iconProps={{ iconName: "Delete" }} onClick={() => {
-                                this.setState({krs: krs.filter((x) => x.Id !== kr.Id)});
-                            }}/>
-                        </div>))}
-                    </fieldset>
-                    <Button className="okr-form-add-kr" text="Add KR" iconProps={{ iconName: "Add" }} onClick={() => {
-                        this.setState({krs: [...krs, {
-                            Id: Guid.create(),
-                            Content: "",
-                            Status:  "Queued",
-                            Comment: ""
-                        }]});
-                    }}/>
+                <div className="okr-form-krs">
+                    { krs && krs.map((kr) => (
+                    <div className="kr-editor">
+                        <TextField
+                            value={kr.Content}
+                            multiline={true}
+                            onChange={(e, newValue) => {
+                                this.setState(produce(this.state, draft => {
+                                    var found = draft.krs.filter((x) => x.Id === kr.Id)[0];
+                                    found.Content = newValue;
+                                }));
+                            }}
+                        />
+                        <Button iconProps={{ iconName: "Delete" }} onClick={() => {
+                            this.setState({krs: krs.filter((x) => x.Id !== kr.Id)});
+                        }}/>
+                    </div>))}
                 </div>
-             </div>
-            <fieldset className="okr-form-submit">
+                <Button className="okr-form-add-kr" text="Add KR" iconProps={{ iconName: "Add" }} onClick={() => {
+                    this.setState({krs: [...krs, {
+                        Id: Guid.create(),
+                        Content: "",
+                        Status:  "Queued",
+                        Comment: ""
+                    }]});
+                }}/>
+                </div>
+            <div className="okr-form-submit">
             <Button text="Create" primary={true} onClick={() => {
-                  var toBeCreated: Objective = {
+                  var toBeCreated = {
                         Owner: this.state.owner,
                         Name: this.state.name,
                         Comments: this.state.comments,
                         KRs: this.state.krs,
-                        AreaId: selectedArea || (areas && areas[0].Name) || "test",
+                        AreaId: selectedArea.AreaId || (areas && areas[0].AreaId) || "test",
                         TimeFrame: timeFrame,
                         Progress: 0
                   }
-                  ObjectiveService.instance.save(toBeCreated).then((created) => {
+                  ObjectiveService.instance.create(toBeCreated).then((created) => {
                     dispatch({
                         type: 'createOKRSucceed',
                         payload: created
@@ -99,7 +95,7 @@ export default class OKRForm extends React.Component<IOKRFormProps, IOKRFormStat
                     type: 'cancelCreation'
                     });
              }}/>
-             </fieldset>
+             </div>
             </>
         );
     }

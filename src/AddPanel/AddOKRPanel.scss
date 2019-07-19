@@ -5,13 +5,17 @@
        display: flex;
        flex-direction: column;
 
-       .okr-form-add {
+       .okr-form-fields {
            flex: 1;
 
            .kr-editor {
-            display: flex;
-            flex-direction: row;
-            margin-top: 20px;
+                display: flex;
+                flex-direction: row;
+                margin-top: 20px;
+
+               .flex-column {
+                   flex: 1;
+               }
             }
  
             .okr-form-add-kr {
@@ -20,7 +24,11 @@
        }
 
        .okr-form-submit {
+            margin-bottom: 12px;
             align-self: flex-end;
+            .bolt-button {
+                padding-right: 10px;
+            }
        }
     }
 }
