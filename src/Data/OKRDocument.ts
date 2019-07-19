@@ -1,3 +1,3 @@
 export class OKRDocument {
-	public id: string;
+	public id?: string;
 }

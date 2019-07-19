@@ -1,6 +1,6 @@
 import { OKRDocument } from "./OKRDocument";
 import * as SDK from "azure-devops-extension-sdk";
-import { CommonServiceIds, IExtensionDataService, IExtensionDataManager, IProjectPageService } from "azure-devops-extension-api"
+import { CommonServiceIds, IExtensionDataService, IExtensionDataManager, IProjectPageService } from "azure-devops-extension-api";
 
 export abstract class OKRDataService<T extends OKRDocument> {
     protected abstract getDataCollectionKey(): string;
@@ -40,6 +40,13 @@ export abstract class OKRDataService<T extends OKRDocument> {
         }
 
         return documents;
+    }
+
+    public async create(object: T): Promise<T> {
+        const dataManager: IExtensionDataManager = await this.getDataManager();
+
+        const projectKey = await this.getProjectKey();
+        return await dataManager.createDocument(projectKey, object);
     }
 
     public async save(object: T): Promise<T> {

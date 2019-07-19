@@ -19,9 +19,8 @@ export class OKRMain extends React.Component<{}, {}> {
             pageLocation: NavigationConstants.DetailView,         
             selectedArea: "",
             timeFrame: "q2",
-            addPanelExpanded: false,
             objectives: [],
-            areas: [],
+            areas: []
         };
 
         return (

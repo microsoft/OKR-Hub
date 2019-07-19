@@ -24,11 +24,12 @@ export class DetailView extends React.Component<IDetailViewProps, {}> {
     }
 
     public render() {
-        const {selectedArea}= this.props;
+        const { selectedArea } = this.props;
+        const [{ areas }, dispatch] = this.context;
         return (
             <div className="detail-view-container">
                 <DetailOKRHeader />
-                <AddOKRPanel />
+                <AddOKRPanel/>
                 <TabBar
                     onSelectedTabChanged={this.onSelectedTabChanged}
                     selectedTabId={this.selectedTabId}
@@ -41,7 +42,7 @@ export class DetailView extends React.Component<IDetailViewProps, {}> {
                     {(props: { selectedTabId: string }) => {
                         return (<>
                               <div className="detail-view">
-                                 <DetailOKRList area={selectedArea} selectedTabId={props.selectedTabId}/>
+                                 <DetailOKRList area={selectedArea || (areas && areas[0]) ||{AreaId: "test"} as Area} selectedTabId={props.selectedTabId}/>
                                 </div>
                             </>);
                     }}

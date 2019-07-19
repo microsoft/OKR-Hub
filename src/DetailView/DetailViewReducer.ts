@@ -1,33 +1,34 @@
+import produce from "immer";
 import * as Actions from "./DetailViewActions";
 
 export const detailViewReducer = (state, action) => {
-  switch (action.type) {
-    case Actions.navigatePage:
-      return {
-        ...state,
-        pageLocation: action.pageLocation
-      };
-    case 'togglePanel':
-      return {
-        ...state,
-        addPanelExpanded: action.expanded
-      };
-    case Actions.updateArea:
-      return {
-        ...state,
-        selectedArea: action.selectedArea
-      };
-    case Actions.getAreas:
-      return {
-        ...state,
-        areas: action.areas
-      };
-    case Actions.getObjectives:
-      return {
-        ...state,
-        objectives: action.objectives
-      };
-    default:
-      return state;
-  }
-};
+  return produce(state, draft => {
+    switch (action.type) {
+      case Actions.navigatePage:
+        draft.pageLocation = action.pageLocation;
+        break;
+      case Actions.updateArea:
+        draft.selectedArea = action.selectedArea;
+        break;
+      case Actions.getAreas:
+        draft.areas = action.areas;
+        break;
+      case Actions.getObjectives:
+        draft.objectives = action.objectives;
+        break;
+      case 'togglePanel':
+        draft.addPanelExpanded = action.expanded;
+        break;
+      case 'createOKRSucceed':
+        draft.objectives.push(action.payload);
+        draft.addPanelExpanded = false;
+        break;
+      case 'cancelCreation':
+        draft.addPanelExpanded = false;
+        break;
+      case 'createOKRFailed':
+        // Error message
+        return state;
+    }
+  });
+}
