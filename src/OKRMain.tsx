@@ -16,7 +16,7 @@ export class OKRMain extends React.Component<{}, {}> {
 
     public render(): JSX.Element {
         const initialState = {
-            pageLocation: NavigationConstants.AreaView,         
+            pageLocation: NavigationConstants.AreaView,
             selectedArea: "",
             timeFrame: "q2",
             addPanelExpanded: false,
@@ -72,7 +72,7 @@ const OKRPage: React.SFC<{}> = props => {
                     type: Actions.navigatePage,
                     pageLocation: NavigationConstants.Data
                 })
-            }} />            
+            }} />
             {okrPage}
         </div>);
 };

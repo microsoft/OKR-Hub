@@ -7,7 +7,9 @@ import { Objective } from "../../Objective/Objective";
 import "../AreaView.scss";
 import { AreaCardIdentity } from "./AreaCardIdentity";
 import { AreaCardDetails } from "./Details/AreaCardDetails";
-import { Button } from "azure-devops-ui/Button";
+import { AreaCardProvider } from "./Provider/AreaCardProvider";
+import { areaCardReducer } from "./Provider/AreaCardReducer";
+import { IdentityProvider } from "../../Identity/IdentityProvider";
 
 export interface IAreaCardProps {
     area: Area,
@@ -15,72 +17,33 @@ export interface IAreaCardProps {
     identityProvider: IPeoplePickerProvider,
 }
 
-export interface IAreaCardState {
-    editMode: boolean;
-}
+export const AreaCard: React.FunctionComponent<IAreaCardProps> = props => {
+    const { area} = props;
 
-export class AreaCard extends React.Component<IAreaCardProps, IAreaCardState> {
-    public constructor(props) {
-        super(props);
+    const initialState = {
+        area,
+        objectives: props.objectives,
+        editMode: false,
+    };
 
-        this.state = {} as IAreaCardState;
-    }
-
-    public render(): JSX.Element {
-        return <Card className="area-card">
+    return <AreaCardProvider initialState={initialState} reducer={areaCardReducer}>
+        <Card className="area-card">
             <Splitter
                 fixedElement={SplitterElementPosition.Far}
                 fixedSize={64}
                 splitterDirection={1}
-                onRenderNearElement={this.onRenderNearElement}
-                onRenderFarElement={this.onRenderFarElement}
+                onRenderNearElement={onRenderNearElement}
+                onRenderFarElement={() => onRenderFarElement(props.identityProvider, area.OwnerId)}
                 nearElementClassName="area-details"
             />
-        </Card>;
-    }
-
-    private onRenderNearElement = (): JSX.Element => {
-        return <>
-            {this.renderEditButtons()}
-            <AreaCardDetails area={this.props.area} objectives={this.props.objectives} editMode={this.state.editMode} />
-        </>
-    };
-
-    private editModeToggle = (): void => {
-        this.setState({ editMode: !this.state.editMode });
-    };
-
-    private onRenderFarElement = (): JSX.Element => {
-        return <AreaCardIdentity identityProvider={this.props.identityProvider} ownerId={this.props.area.OwnerId} editMode={this.state.editMode} />;
-    };
-
-    private renderEditButtons = (): JSX.Element => {
-        let content = <Button
-            onClick={this.editModeToggle}
-            ariaLabel="Edit button"
-            iconProps={{ iconName: "Edit" }}
-        />;
-
-        if (this.state.editMode) {
-            content = <>
-                <Button
-                    onClick={this.save}
-                    ariaLabel="Save button"
-                    iconProps={{ iconName: "Save" }}
-                />
-                <Button
-                    onClick={this.editModeToggle}
-                    ariaLabel="Cancel button"
-                    iconProps={{ iconName: "Cancel" }}
-                />
-            </>;
-        }
-
-        return content;
-    }
-
-    private save = (): void => {
-
-        this.editModeToggle();
-    }
+        </Card>
+    </AreaCardProvider>;
 }
+
+function onRenderNearElement(): JSX.Element {
+    return <AreaCardDetails />;
+};
+
+function onRenderFarElement(identityProvider: IPeoplePickerProvider, ownerId: string): JSX.Element {
+    return <AreaCardIdentity identityProvider={identityProvider} ownerId={ownerId} />;
+};
