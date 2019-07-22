@@ -10,7 +10,7 @@ const initialState = {
   areas: [],
 };
 
-export const StateContext = createContext<okrState[]>([initialState]);
+export const StateContext = createContext<[okrState, any]>([initialState, {}]);
 
 export const StateProvider = ({reducer, initialState, children}) => (
   <StateContext.Provider value={useReducer(reducer, initialState)}>
@@ -18,7 +18,7 @@ export const StateProvider = ({reducer, initialState, children}) => (
   </StateContext.Provider>
 );
 
-export const useStateValue = () => useContext<okrState[]>(StateContext);
+export const useStateValue = () => useContext(StateContext);
 
 interface okrState {
   pageLocation: string         
