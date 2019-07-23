@@ -29,6 +29,13 @@ export const detailViewReducer = (state, action) => {
       case 'createOKRFailed':
         // Error message
         return state;
+      case Actions.toggleAddArea:
+        draft.addAreaPanelExpanded = action.expanded;
+        break;
+      case 'createAreaSucceed':
+          draft.areas.push(action.payload);
+        draft.addAreaPanelExpanded = false;
+        break;
     }
   });
 }

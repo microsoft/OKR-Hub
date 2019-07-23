@@ -17,13 +17,22 @@ import { useStateValue } from '../StateProvider';
 import * as Actions from "./DetailViewActions";
 import { useAreas } from "../Area/AreaService";
 import { Area } from "../Area/Area";
+import { useObjectives } from "../Objective/ObjectiveService";
 
 const renderInitialRow = (
     index: number,
     item: Area,
     details: IListItemDetails<Area>,
 ): JSX.Element => {
-    return (        
+    //const objectives = useObjectives();
+    const objectives = []; 
+    const currentObjectives= objectives.filter(objective => objective.AreaId === item.AreaId);
+    
+    let totalProgress = 0; 
+    currentObjectives.forEach(objective => totalProgress += objective.Progress); 
+    const progress = totalProgress / currentObjectives.length;
+
+    return (
         <ListItem
             key={"list-item" + index}
             index={index}
@@ -32,10 +41,10 @@ const renderInitialRow = (
             <div className="master-row-content">
                 <div className="area-description">
                     <div className="area-name title">{item.Name}</div>
-                    <div className="area-objectives-count">5 objectives</div>
+                    <div className="area-objectives-count">{currentObjectives.length.toString() + " objectives"}</div>
                 </div>
                 <Circle
-                    progress={(index + 10) * 15} /*"Random" numbers for now */
+                    progress={progress} 
                     showPercentage={false}
                     size={"40"}
                     lineWidth={"60"}
@@ -46,8 +55,8 @@ const renderInitialRow = (
 };
 
 function createDetailsViewPayload(): IMasterDetailsContextLayer<Area, undefined> {
-    const [{selectedArea}, dispatch] = useStateValue();
-    const [{pageLocation}, setPageLocation] = useStateValue();
+    const [{ selectedArea }, dispatch] = useStateValue();
+    const [{ pageLocation }, setPageLocation] = useStateValue();
     return {
         key: "detail-view",
         masterPanelContent: {
@@ -74,7 +83,7 @@ const MasterPanelContent: React.FunctionComponent<{
     initialSelectedMasterItem: IObservableValue<Area>;
 }> = props => {
 
-    const areas = useAreas();    
+    const areas = useAreas();
 
     const initialItemProvider = new ArrayItemProvider(areas);
     const initialSelection = new ListSelection({ selectOnFocus: false });
@@ -88,7 +97,7 @@ const MasterPanelContent: React.FunctionComponent<{
         );
     });
 
-    const [{selectedArea}, setArea] = useStateValue();
+    const [{ selectedArea }, setArea] = useStateValue();
     const onListClick = (event: React.SyntheticEvent, listRow: IListRow<Area>) => {
         setArea({
             type: Actions.updateArea,
@@ -107,7 +116,7 @@ const MasterPanelContent: React.FunctionComponent<{
 };
 
 
-export const DetailViewMenu: React.FunctionComponent<{}> = props => {    
+export const DetailViewMenu: React.FunctionComponent<{}> = props => {
     const detailViewMenuPayload = createDetailsViewPayload();
 
     const masterDetailsContext: IMasterDetailsContext = new BaseMasterDetailsContext(
