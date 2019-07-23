@@ -1,6 +1,7 @@
 import * as React from "react";
 import { StateContext } from "../StateProvider";
 import { Button } from "azure-devops-ui/Button";
+import { ButtonGroup } from "azure-devops-ui/ButtonGroup";
 import { TextField } from "azure-devops-ui/TextField";
 import { KR, Objective } from "../Objective/Objective";
 import { ObjectiveService } from "../Objective/ObjectiveService";
@@ -38,6 +39,7 @@ export default class OKRForm extends React.Component<IOKRFormProps, IOKRFormStat
             <div className="okr-form-fields">
                 <TextField
                     className="okr-form-objective-name"
+                    placeholder="Objective"
                     value={name}
                     onChange={(e, newValue) => {
                         this.setState({name: newValue});
@@ -48,6 +50,7 @@ export default class OKRForm extends React.Component<IOKRFormProps, IOKRFormStat
                     <div className="kr-editor">
                         <TextField
                             value={kr.Content}
+                            placeholder="Key Result"
                             multiline={true}
                             onChange={(e, newValue) => {
                                 this.setState(produce(this.state, draft => {
@@ -71,30 +74,32 @@ export default class OKRForm extends React.Component<IOKRFormProps, IOKRFormStat
                 }}/>
                 </div>
             <div className="okr-form-submit">
-            <Button text="Create" primary={true} onClick={() => {
-                  var toBeCreated = {
-                        Owner: this.state.owner,
-                        Name: this.state.name,
-                        Comments: this.state.comments,
-                        KRs: this.state.krs,
-                        AreaId: selectedArea.AreaId || (areas && areas[0].AreaId) || "test",
-                        TimeFrame: timeFrame,
-                        Progress: 0
-                  }
-                  ObjectiveService.instance.create(toBeCreated).then((created) => {
+            <ButtonGroup>
+                <Button text="Cancel" onClick={() => {
                     dispatch({
-                        type: 'createOKRSucceed',
-                        payload: created
+                        type: 'cancelCreation'
+                        });
+                }}/>
+                <Button text="Create" primary={true} onClick={() => {
+                    var toBeCreated = {
+                            Owner: this.state.owner,
+                            Name: this.state.name,
+                            Comments: this.state.comments,
+                            KRs: this.state.krs,
+                            AreaId: selectedArea.AreaId || (areas && areas[0].AreaId) || "test",
+                            TimeFrame: timeFrame,
+                            Progress: 0
+                    }
+                    ObjectiveService.instance.create(toBeCreated).then((created) => {
+                        dispatch({
+                            type: 'createOKRSucceed',
+                            payload: created
+                        });
+                    }, (error) => {
+                        // TODO: error experience
                     });
-                }, (error) => {
-                    // TODO: error experience
-                });
-             }}/>
-             <Button text="Cancel" onClick={() => {
-                  dispatch({
-                    type: 'cancelCreation'
-                    });
-             }}/>
+                }}/>
+             </ButtonGroup>
              </div>
             </>
         );
