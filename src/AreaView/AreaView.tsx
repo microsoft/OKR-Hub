@@ -1,12 +1,19 @@
 import * as React from "react";
 import { AreaGrid } from "./AreaGrid";
-import { useAreas } from "../Area/AreaService";
-import { useObjectives } from "../Objective/ObjectiveService";
+import { useStateValue } from "../StateMangement/StateProvider";
+import { useEffect } from "react";
 
 export const AreaView: React.FunctionComponent<{}> = props => {
-
-    const areas = useAreas();
-    const objectives = useObjectives(); 
+    const [{objectives, areas }, actions] = useStateValue();
+    
+    useEffect(() => {
+        if (objectives.length === 0) {
+            actions.getObjectives();
+        }
+        if (areas.length === 0) {
+            actions.getAreas();
+        }
+    });
 
     let content = <div>Loading...</div>;
     if (areas) {

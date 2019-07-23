@@ -3,9 +3,9 @@ import { DetailOKRList } from "./DetailOKRList";
 import { ObservableValue } from "azure-devops-ui/Core/Observable";
 import { Observer } from "azure-devops-ui/Observer";
 import { Tab, TabBar, TabSize } from "azure-devops-ui/Tabs";
-import AddOKRPanel from "../AddPanel/AddOKRPanel";
+import AddOrEditOKRPanel from "../OKRPanel/AddOrEditOKRPanel";
 import { DetailOKRHeader } from "./DetailOKRHeader";
-import { StateContext } from '../StateProvider';
+import { StateContext } from '../StateMangement/StateProvider';
 import { Area } from "../Area/Area";
 
 import "./DetailView.scss";
@@ -25,11 +25,12 @@ export class DetailView extends React.Component<IDetailViewProps, {}> {
 
     public render() {
         const { selectedArea } = this.props;
-        const [{ areas }, dispatch] = this.context;
+        const [{ areas, addPanelExpanded }] = this.context;
+        var area = selectedArea || (areas && areas[0]) ||{AreaId: "test"} as Area; // TODO: remove this fallback logic once we fix the routing.
         return (
             <div className="detail-view-container">
-                <DetailOKRHeader />
-                <AddOKRPanel/>
+                <DetailOKRHeader selectedArea={area}/>
+                {addPanelExpanded && <AddOrEditOKRPanel title={"Add OKR"}/>}
                 <TabBar
                     onSelectedTabChanged={this.onSelectedTabChanged}
                     selectedTabId={this.selectedTabId}
@@ -42,7 +43,7 @@ export class DetailView extends React.Component<IDetailViewProps, {}> {
                     {(props: { selectedTabId: string }) => {
                         return (<>
                               <div className="detail-view">
-                                 <DetailOKRList area={selectedArea || (areas && areas[0]) ||{AreaId: "test"} as Area} selectedTabId={props.selectedTabId}/>
+                                 <DetailOKRList area={area} selectedTabId={props.selectedTabId}/>
                                 </div>
                             </>);
                     }}

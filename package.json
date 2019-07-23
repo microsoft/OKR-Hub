@@ -17,6 +17,7 @@
   "license": "ISC",
   "dependencies": {
     "azure-devops-ui": "^1.154.1",
+    "conditional-expression": "^1.1.2",
     "es6-promise": "^4.2.4",
     "file-loader": "^4.0.0",
     "guid-typescript": "^1.0.9",
