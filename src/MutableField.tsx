@@ -40,6 +40,9 @@ export class MutableField extends React.Component<IMutableFieldProps> {
 		if (event.keyCode === KeyCode.escape) {
 			this.currentValue.value = undefined;
 		}
+		else if (event.keyCode === KeyCode.enter) {
+			this.onBlur();
+		}
 	};
 
 	private onChange = (_, newValue: string): void => {

@@ -3,10 +3,8 @@ import { SampleDataPage } from "./SampleDataPage";
 import { DetailViewMenu } from "./DetailView/DetailViewMenu";
 import { AreaView } from "./AreaView/AreaView";
 import * as SDK from "azure-devops-extension-sdk";
-import { StateProvider, useStateValue } from './StateProvider';
-import { detailViewReducer } from "./DetailView/DetailViewReducer";
+import { StateProvider, useStateValue } from './StateMangement/StateProvider';
 import { Button } from "azure-devops-ui/Button";
-import * as Actions from "./DetailView/DetailViewActions";
 import { NavigationConstants } from "./OKRConstants";
 
 export class OKRMain extends React.Component<{}, {}> {
@@ -15,16 +13,8 @@ export class OKRMain extends React.Component<{}, {}> {
     }
 
     public render(): JSX.Element {
-        const initialState = {
-            pageLocation: NavigationConstants.AreaView,         
-            selectedArea: "",
-            timeFrame: "q2",
-            objectives: [],
-            areas: []
-        };
-
         return (
-            <StateProvider initialState={initialState} reducer={detailViewReducer}>
+            <StateProvider>
                 <div className="okrhub">
                     <OKRPage />
                 </div>
@@ -34,7 +24,7 @@ export class OKRMain extends React.Component<{}, {}> {
 }
 
 const OKRPage: React.SFC<{}> = props => {
-    const [{ pageLocation }, dispatch] = useStateValue();
+    const [{ pageLocation }, actions] = useStateValue();
 
     let okrPage;
 
@@ -53,22 +43,19 @@ const OKRPage: React.SFC<{}> = props => {
     return (
         <div>
             <Button text={"Home"} onClick={() => {
-                dispatch({
-                    type: Actions.navigatePage,
+                actions.navigatePage({
                     pageLocation: NavigationConstants.AreaView
                 })
             }} />
 
             <Button text={"Objectives View"} onClick={() => {
-                dispatch({
-                    type: Actions.navigatePage,
+                actions.navigatePage({
                     pageLocation: NavigationConstants.DetailView
                 })
             }} />
 
             <Button text={"Data"} onClick={() => {
-                dispatch({
-                    type: Actions.navigatePage,
+                actions.navigatePage({
                     pageLocation: NavigationConstants.Data
                 })
             }} />            

@@ -5,7 +5,9 @@ import { Status, Statuses, StatusSize } from "azure-devops-ui/Status";
 import { Objective, KR } from "../Objective/Objective";
 
 import "./DetailOKR.scss";
-
+import { Button } from "azure-devops-ui/Button";
+import { StateContext } from "../StateMangement/StateProvider";
+import AddOrEditOKRPanel from "../OKRPanel/AddOrEditOKRPanel";
 
 export interface IDetailOKRProps {
     objective: Objective;
@@ -16,9 +18,12 @@ export interface IDetailOKRState {
 }
 
 export class DetailOKR extends React.Component<IDetailOKRProps, IDetailOKRState> {
+    static contextType = StateContext; 
+
     public render(): JSX.Element {
+        const [{editPanelExpandedKey}] = this.context;
         return (
-            <div className="kr-list-container">
+            <div className="okr-list-container">
               <Card>
                 <Splitter
                     fixedElement={SplitterElementPosition.Near}
@@ -30,13 +35,20 @@ export class DetailOKR extends React.Component<IDetailOKRProps, IDetailOKRState>
                     disabled={true}
                 />
               </Card>
+              {editPanelExpandedKey === this.props.objective.id && <AddOrEditOKRPanel title={"Edit OKR"} objective={this.props.objective}/>}
             </div>
         );
     }
 
     private _renderObjective = () => {
+        const [{}, actions] = this.context;
         return (
-           <h3>{this.props.objective.Name}</h3>
+            <div className="objective-title">
+                <h3 className="objective-name">{this.props.objective.Name}</h3>
+                <Button iconProps={{ iconName: "Edit" }} onClick={() => {
+                    actions.toggleEditPanel({ expandedKey: this.props.objective.id });
+                }} />
+            </div>
         );
     }
 

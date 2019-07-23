@@ -13,11 +13,8 @@ import * as React from 'react';
 import "./DetailViewMenu.scss";
 import { DetailView } from "./DetailView";
 import { Circle } from 'react-circle';
-import { useStateValue } from '../StateProvider';
-import * as Actions from "./DetailViewActions";
-import { useAreas } from "../Area/AreaService";
+import { useStateValue } from '../StateMangement/StateProvider';
 import { Area } from "../Area/Area";
-import { useObjectives } from "../Objective/ObjectiveService";
 
 const renderInitialRow = (
     index: number,
@@ -55,8 +52,7 @@ const renderInitialRow = (
 };
 
 function createDetailsViewPayload(): IMasterDetailsContextLayer<Area, undefined> {
-    const [{ selectedArea }, dispatch] = useStateValue();
-    const [{ pageLocation }, setPageLocation] = useStateValue();
+    const [{selectedArea}, actions] = useStateValue();
     return {
         key: "detail-view",
         masterPanelContent: {
@@ -65,8 +61,7 @@ function createDetailsViewPayload(): IMasterDetailsContextLayer<Area, undefined>
             ),
             renderHeader: () => <MasterPanelHeader title={"Azure Devops"} />,
             onBackButtonClick: () => {
-                setPageLocation({
-                    type: Actions.navigatePage,
+                actions.navigatePage({
                     pageLocation: "AreaView"
                 });
                 return false;
@@ -82,14 +77,16 @@ function createDetailsViewPayload(): IMasterDetailsContextLayer<Area, undefined>
 const MasterPanelContent: React.FunctionComponent<{
     initialSelectedMasterItem: IObservableValue<Area>;
 }> = props => {
+    const [{ areas }, actions] = useStateValue();
 
-    const areas = useAreas();
-
-    const initialItemProvider = new ArrayItemProvider(areas);
+    const initialItemProvider = new ArrayItemProvider(areas as Area[]);
     const initialSelection = new ListSelection({ selectOnFocus: false });
 
     // This is how the observable interacts with our selected item     
     React.useEffect(() => {
+        if (areas.length === 0) { // this condition should be changed to deal with zero data experience.
+            actions.getAreas();
+        }
         bindSelectionToObservable(
             initialSelection,
             initialItemProvider,
@@ -97,10 +94,9 @@ const MasterPanelContent: React.FunctionComponent<{
         );
     });
 
-    const [{ selectedArea }, setArea] = useStateValue();
+    
     const onListClick = (event: React.SyntheticEvent, listRow: IListRow<Area>) => {
-        setArea({
-            type: Actions.updateArea,
+        actions.updateArea({
             selectedArea: listRow.data
         });
     };

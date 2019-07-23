@@ -1,18 +1,22 @@
 import * as React from "react";
 import { AreaGrid } from "./AreaGrid";
-import { useAreas } from "../Area/AreaService";
-import { useObjectives } from "../Objective/ObjectiveService";
 import { Header } from "azure-devops-ui/Header";
 import { IHeaderCommandBarItem } from "azure-devops-ui/HeaderCommandBar";
-import { useStateValue } from '../StateProvider';
 import { AddAreaPanel} from '../AreaPanel/AddAreaPanel';
+import { useStateValue } from "../StateMangement/StateProvider";
+import { useEffect } from "react";
 
 export const AreaView: React.FunctionComponent<{}> = props => {
+    const [{objectives, areas }, actions] = useStateValue();    
 
-    const areas = useAreas();
-    const objectives = useObjectives();
-
-    const [{ selectedArea }, dispatch] = useStateValue();
+    useEffect(() => {
+        if (objectives.length === 0) {
+            actions.getObjectives();
+        }
+        if (areas.length === 0) {
+            actions.getAreas();
+        }
+    });
 
     const commandBarItems: IHeaderCommandBarItem[] = [
         {
@@ -20,7 +24,7 @@ export const AreaView: React.FunctionComponent<{}> = props => {
             id: "create-area",
             text: "New Area", // TODO: Resource file for localization
             onActivate: () => {
-                dispatch({
+                actions({
                     type: 'toggleAddArea',
                     expanded: true
                 });
@@ -32,6 +36,7 @@ export const AreaView: React.FunctionComponent<{}> = props => {
     ];
 
     let content = <div>Loading...</div>;
+
     if (areas) {
         content =
             <div>
