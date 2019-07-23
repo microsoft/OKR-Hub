@@ -1,15 +1,16 @@
 import * as React from "react";
 import { Header, TitleSize } from "azure-devops-ui/Header";
 import { IHeaderCommandBarItem } from "azure-devops-ui/HeaderCommandBar";
-import { useStateValue } from '../StateProvider';
+import { useStateValue } from '../StateMangement/StateProvider';
+import { Area } from "../Area/Area";
 
 export interface IDetailOKRHeaderProps {
-    title: String;
+    selectedArea: Area;
 }
 
-export const DetailOKRHeader: React.SFC<{}> = props => {
+export const DetailOKRHeader: React.SFC<IDetailOKRHeaderProps> = (props: IDetailOKRHeaderProps) => {
 
-    const [{ selectedArea }, dispatch ] = useStateValue();
+    const [{ }, actions ] = useStateValue();
 
         
     const commandBarItems: IHeaderCommandBarItem[] = [
@@ -18,10 +19,7 @@ export const DetailOKRHeader: React.SFC<{}> = props => {
             id: "create-okr",
             text: "New OKR", // TODO: Resource file for localization
             onActivate: () => {
-                dispatch({
-                    type: 'togglePanel',
-                    expanded: true
-                  });
+                actions.toggleAddPanel({ expanded: true });
             },
             iconProps: {
                 iconName: "Add"
@@ -33,7 +31,7 @@ export const DetailOKRHeader: React.SFC<{}> = props => {
             <div>
                 <Header
                     className={"detail-okr-header"}
-                    title={selectedArea.Name}
+                    title={props.selectedArea.Name}
                     commandBarItems={[...commandBarItems]}
                     titleSize={TitleSize.Medium}
                 />

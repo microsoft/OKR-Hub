@@ -1,5 +1,12 @@
-.kr-list-container {
+.okr-list-container {
     padding: 10px;
+
+    .objective-title {
+        display: flex;
+        .objective-name {
+            flex-grow: 1;
+        }
+    }
 
     .kr-list {
         display: flex;

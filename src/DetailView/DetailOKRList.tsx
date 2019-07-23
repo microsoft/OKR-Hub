@@ -1,9 +1,7 @@
 import React = require("react");
 import { DetailOKR } from "./DetailOKR";
-import { ObjectiveService } from "../Objective/ObjectiveService";
-import { StateContext } from "../StateProvider";
+import { StateContext } from "../StateMangement/StateProvider";
 import { Area } from "../Area/Area"; 
-import * as Actions from "./DetailViewActions";
 
 export interface IDetailOKRListProps {
     area: Area;
@@ -20,7 +18,7 @@ export class DetailOKRList extends React.Component<IDetailOKRListProps, {}> {
     }
     
     public componentDidUpdate(prevProps: IDetailOKRListProps) {
-        if (this.props.area !== prevProps.area) {
+        if (this.props.area.AreaId !== prevProps.area.AreaId) {
             this.loadData(this.props.area.AreaId);
         }
     }
@@ -33,18 +31,7 @@ export class DetailOKRList extends React.Component<IDetailOKRListProps, {}> {
     }
 
     private loadData = (area: string) => {
-        const [{}, dispatch] = this.context;
-        ObjectiveService.instance.getObjectivesByArea(area).then((objectives)=> {
-            dispatch({
-                type: Actions.getObjectives,
-                objectives: objectives
-            });
-        }, (error)=> {
-            // TODO: Some error or zero day experience.
-            dispatch({
-                type: Actions.getObjectives,
-                objectives: []
-            });
-        });
+        const [{}, actions] = this.context;
+        actions.getObjectives({area: area})
     }
 }
