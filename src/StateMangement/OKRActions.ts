@@ -13,4 +13,5 @@ export const useActions = (state: OKRMainState, dispatch) => ({
     createOKR: data => dispatch({ type: Actions.createOKR, payload: data}),
     toggleAddPanel: data => dispatch({ type: Actions.toggleAddPanel, payload: data}),
     toggleEditPanel: data => dispatch({ type: Actions.toggleEditPanel, payload: data}),
+    editKRStatus: data => dispatch({type: Actions.editKRStatus, payload: data})
 });

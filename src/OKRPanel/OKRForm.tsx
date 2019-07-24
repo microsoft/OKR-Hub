@@ -6,7 +6,6 @@ import { TextField } from "azure-devops-ui/TextField";
 import { KR, Objective } from "../Objective/Objective";
 import produce from "immer";
 import { Guid } from "guid-typescript";
-import { cancelCreationOrEdit } from "../StateMangement/OKRActionTypes";
 
 export interface IOKRFormProps {
     objective?: Objective;
@@ -46,28 +45,28 @@ export default class OKRForm extends React.Component<IOKRFormProps, IOKRFormStat
                     }}
                 />
                 <div className="okr-form-krs">
-                        { krs && krs.map((kr) => (
+                        { krs && krs.map((kr, index) => (
                         <div className="kr-editor">
                             <TextField
-                                key = {"content" + kr.Id.toString()}
+                                key = {"content" + index}
                                 value={kr.Content}
                                 placeholder="Key Result"
                                 multiline={true}
                                 onChange={(e, newValue) => {
                                     this.setState(produce(this.state, draft => {
-                                        var found = draft.krs.filter((x) => x.Id.toString() === kr.Id.toString())[0];
+                                        var found = draft.krs.filter((x) => x.Id === kr.Id)[0];
                                         found.Content = newValue;
                                     }));
                                 }}
                             />
-                            <Button key = {"delete" + kr.Id.toString()} iconProps={{ iconName: "Delete" }} onClick={() => {
+                            <Button key = {"delete" + index} iconProps={{ iconName: "Delete" }} onClick={() => {
                                 this.setState({krs: krs.filter((x) => x.Id !== kr.Id)});
                             }}/>
                             </div>))}
                 </div>
                 <Button className="okr-form-add-kr" text="Add KR" iconProps={{ iconName: "Add" }} onClick={() => {
                     this.setState({krs: [...krs, {
-                        Id: Guid.create(),
+                        Id: Guid.create().toString(),
                         Content: "",
                         Status:  "Queued",
                         Comment: ""
