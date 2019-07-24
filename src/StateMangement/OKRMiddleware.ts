@@ -63,6 +63,19 @@ export const applyMiddleware = dispatch => action =>
             });
         });
     })
+    .equals(Actions.editKRStatus).then(() => {
+        ObjectiveService.instance.save(action.payload).then((updated) => {
+            dispatch({
+                type: Actions.editOKRSucceed,
+                payload: updated
+            });
+            }, (error) => {
+            dispatch({
+                type: Actions.editOKRFailed,
+                error: error
+            });
+        });
+    })
     .equals(Actions.createOKR).then(() => {
         ObjectiveService.instance.create(action.payload).then((created) => {
             dispatch({

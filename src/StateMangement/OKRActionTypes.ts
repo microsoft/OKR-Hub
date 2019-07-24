@@ -20,3 +20,5 @@ export const createOKRFailed = "createOKRFailed";
 export const editOKR = "editOKR";
 export const editOKRSucceed = "editOKRSucceed";
 export const editOKRFailed = "editOKRFailed";
+
+export const editKRStatus = "editKRStatus";

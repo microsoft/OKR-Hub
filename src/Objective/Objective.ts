@@ -13,7 +13,7 @@ export class Objective extends OKRDocument {
 }
 
 export class KR {
-    public Id: Guid;
+    public Id: string;
     public Content: string;
     public Status: StatusType;
     public Comment: string;
