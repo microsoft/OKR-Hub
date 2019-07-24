@@ -9,7 +9,7 @@ export const applyMiddleware = dispatch => action =>
   dispatch(action) ||
   match(action.type)
     .equals(Actions.getObjectives).then(()=> {
-        if (!action.payload.area) {
+        if (!action.payload || !action.payload.area) {
             ObjectiveService.instance.getAll().then((allObjectives: Objective[]) => {
                 dispatch({
                     type: Actions.getObjectivesSucceed,
