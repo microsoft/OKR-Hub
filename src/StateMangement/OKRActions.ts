@@ -14,6 +14,7 @@ export const useActions = (state: OKRMainState, dispatch) => ({
     toggleAddPanel: data => dispatch({ type: Actions.toggleAddPanel, payload: data }),
     toggleEditPanel: data => dispatch({ type: Actions.toggleEditPanel, payload: data }),
     editArea: data => dispatch({ type: Actions.editArea, payload: data }),
+    editAreaSucceeded: data => dispatch({ type: Actions.editAreaSucceed, payload: data }),
     editKRStatus: data => dispatch({type: Actions.editKRStatus, payload: data}),
     
     // Create Area

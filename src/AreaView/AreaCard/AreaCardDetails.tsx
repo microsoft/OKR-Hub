@@ -81,8 +81,13 @@ export class AreaCardDetails extends React.Component<IAreaCardDetailsProps, IAre
 
 	private save = (area: Area): void => {
 		this.setState({ isEditing: false });
-		area.Description = this.state.editedDescription;
-		area.Name = this.state.editedName;
-		this.props.updateAreaCallback(area);
+
+		const a = {
+			...area,
+			Description : this.state.editedDescription,
+			Name: this.state.editedName
+		}
+		
+		this.props.updateAreaCallback(a);
 	};
 }

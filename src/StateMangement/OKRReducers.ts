@@ -39,6 +39,12 @@ export const reducer = (state: OKRMainState = initialState, action) => {
         draft.areas.push(action.payload)
         draft.areaPanelExpanded = false;
         break;
+      case Types.editAreaSucceed:
+        draft.areas = draft.areas.map(a => {
+          return a.id === action.payload.id ? action.payload : a;
+        });
+        draft.areaPanelExpanded = false;
+        break;
 
       // Objectives
       case Types.getObjectivesSucceed:
