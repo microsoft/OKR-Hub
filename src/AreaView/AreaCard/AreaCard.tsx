@@ -9,13 +9,17 @@ import { AreaCardIdentity } from "./AreaCardIdentity";
 import { AreaCardDetails } from "./AreaCardDetails";
 
 export interface IAreaCardProps {
-    area: Area,
-    objectives: Objective[],
-    identityProvider: IPeoplePickerProvider,
+    area: Area;
+    objectives: Objective[];
+    identityProvider: IPeoplePickerProvider;
+    navigateCallback: (area: Area) => void;
+    updateAreaCallback: (area: Area) => void;
 }
 
 export class AreaCard extends React.Component<IAreaCardProps> {
+
     public render(): JSX.Element {
+
         return <Card className="area-card">
             <Splitter
                 fixedElement={SplitterElementPosition.Far}
@@ -24,12 +28,13 @@ export class AreaCard extends React.Component<IAreaCardProps> {
                 onRenderNearElement={this.onRenderNearElement}
                 onRenderFarElement={this.onRenderFarElement}
                 nearElementClassName="area-details"
+                disabled={true}
             />
         </Card>;
     }
 
     private onRenderNearElement = (): JSX.Element => {
-        return <AreaCardDetails name={this.props.area.Name} description={this.props.area.Description} objectives={this.props.objectives} />;
+        return <AreaCardDetails area={this.props.area} objectives={this.props.objectives} navigateCallback={this.props.navigateCallback} updateAreaCallback={this.props.updateAreaCallback} />;
     };
 
     private onRenderFarElement = (): JSX.Element => {

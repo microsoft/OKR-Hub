@@ -21,7 +21,15 @@ const renderInitialRow = (
     item: Area,
     details: IListItemDetails<Area>,
 ): JSX.Element => {
-    return (        
+    //const objectives = useObjectives();
+    const objectives = []; 
+    const currentObjectives= objectives.filter(objective => objective.AreaId === item.AreaId);
+    
+    let totalProgress = 0; 
+    currentObjectives.forEach(objective => totalProgress += objective.Progress); 
+    const progress = totalProgress / currentObjectives.length;
+
+    return (
         <ListItem
             key={"list-item" + index}
             index={index}
@@ -30,10 +38,10 @@ const renderInitialRow = (
             <div className="master-row-content">
                 <div className="area-description">
                     <div className="area-name title">{item.Name}</div>
-                    <div className="area-objectives-count">5 objectives</div>
+                    <div className="area-objectives-count">{currentObjectives.length.toString() + " objectives"}</div>
                 </div>
                 <Circle
-                    progress={(index + 10) * 15} /*"Random" numbers for now */
+                    progress={progress} 
                     showPercentage={false}
                     size={"40"}
                     lineWidth={"60"}
@@ -74,11 +82,12 @@ const MasterPanelContent: React.FunctionComponent<{
     const initialItemProvider = new ArrayItemProvider(areas as Area[]);
     const initialSelection = new ListSelection({ selectOnFocus: false });
 
-    // This is how the observable interacts with our selected item     
     React.useEffect(() => {
         if (areas.length === 0) { // this condition should be changed to deal with zero data experience.
             actions.getAreas();
         }
+        
+        // This is how the observable interacts with our selected item     
         bindSelectionToObservable(
             initialSelection,
             initialItemProvider,
@@ -88,7 +97,7 @@ const MasterPanelContent: React.FunctionComponent<{
 
     
     const onListClick = (event: React.SyntheticEvent, listRow: IListRow<Area>) => {
-        actions.updateArea({
+        actions.updateSelectedArea({
             selectedArea: listRow.data
         });
     };
@@ -104,7 +113,7 @@ const MasterPanelContent: React.FunctionComponent<{
 };
 
 
-export const DetailViewMenu: React.FunctionComponent<{}> = props => {    
+export const DetailViewMenu: React.FunctionComponent<{}> = props => {
     const detailViewMenuPayload = createDetailsViewPayload();
 
     const masterDetailsContext: IMasterDetailsContext = new BaseMasterDetailsContext(

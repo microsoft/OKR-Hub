@@ -10,4 +10,5 @@ export interface OKRMainState {
     error: string;
     addPanelExpanded: boolean;
     editPanelExpandedKey: string;
+    areaPanelExpanded: boolean; 
 }

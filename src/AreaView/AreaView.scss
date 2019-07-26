@@ -1,6 +1,7 @@
 .okrhub {
 	.area-grid {
 		display: flex;
+		flex-wrap: wrap; 
 	}
 
 	.area-card {
@@ -10,7 +11,21 @@
 		.area-details {
 			display: flex;
 			flex-direction: column;
-			width: 100%;
+			width: 90%;
+
+			.area-card-details{
+				display: flex;
+				flex-direction: column;
+
+				.card-header{
+					display: flex; 
+					justify-content: space-between; 
+				}
+
+				.bolt-expandable-button, .bolt-button {
+					align-items: center; 
+				}
+			}
 		}
 
 		.area-progress {

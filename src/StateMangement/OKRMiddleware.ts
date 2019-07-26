@@ -89,4 +89,30 @@ export const applyMiddleware = dispatch => action =>
             });
         });
     })
+    .equals(Actions.createArea).then(() => {
+        AreaService.instance.create(action.payload).then((created) => {
+            dispatch({
+                type: Actions.createAreaSucceed,
+                payload: created
+            });
+            }, (error) => {
+            dispatch({
+                type: Actions.createAreaFailed,
+                error: error
+            });
+        });
+    })
+    .equals(Actions.editArea).then(() => {
+        AreaService.instance.save(action.payload).then((updated) => {
+            dispatch({
+                type: Actions.editAreaSucceed,
+                payload: updated
+            });
+            }, (error) => {
+            dispatch({
+                type: Actions.editAreaFailed,
+                error: error
+            });
+        });
+    })
     .else(null);

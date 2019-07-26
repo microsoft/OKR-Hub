@@ -9,6 +9,8 @@ import { Objective } from "../Objective/Objective";
 export interface IAreaGridProps {
     areas: Area[];
     objectives: Objective[];
+    navigateCallback: (area: Area) => void;
+    updateAreaCallback: (area: Area) => void;
 }
 
 export class AreaGrid extends React.Component<IAreaGridProps> {
@@ -16,12 +18,14 @@ export class AreaGrid extends React.Component<IAreaGridProps> {
 
     public render(): JSX.Element {
         return <div className="area-grid">
-            {this.props.areas.map((area, index) => 
+            {this.props.areas.map((area, index) =>
                 <AreaCard
                     area={area}
                     objectives={this.getObjectives(area.AreaId)}
                     identityProvider={this.identityProvider}
                     key={index}
+                    navigateCallback={this.props.navigateCallback}
+                    updateAreaCallback={this.props.updateAreaCallback}
                 />
             )}
         </div>;
