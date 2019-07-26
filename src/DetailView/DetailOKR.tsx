@@ -8,18 +8,16 @@ import { Button } from "azure-devops-ui/Button";
 import { StateContext } from "../StateMangement/StateProvider";
 import AddOrEditOKRPanel from "../OKRPanel/AddOrEditOKRPanel";
 import { MutableStatusDropDown } from "../MutableStatusDropDown";
+import { Icon } from "azure-devops-ui/Icon";
 import produce from "immer";
+import { KRComment } from "./KRComment";
 
 export interface IDetailOKRProps {
     objective: Objective;
 }
 
-export interface IDetailOKRState {
-    
-}
-
-export class DetailOKR extends React.Component<IDetailOKRProps, IDetailOKRState> {
-    static contextType = StateContext; 
+export class DetailOKR extends React.Component<IDetailOKRProps> {
+    static contextType = StateContext;
 
     public render(): JSX.Element {
         const [{editPanelExpandedKey}] = this.context;
@@ -64,15 +62,31 @@ export class DetailOKR extends React.Component<IDetailOKRProps, IDetailOKRState>
     }
 
     private _renderKR = (kr: KR, i: number) => {
-        const [{}, actions] = this.context;
+        const [{editCommentKey}, actions] = this.context;
         return (<div className="kr" key={"kr" + i}>
-                    <MutableStatusDropDown value={kr.Status} onSelect={(newValue)=> {
-                        actions.editKRStatus(produce(this.props.objective, draft => {
+                    <div className="kr-render">
+                        <MutableStatusDropDown value={kr.Status} onSelect={(newValue)=> {
+                            actions.editKRStatus(produce(this.props.objective, draft => {
+                                var found = draft.KRs.filter((x) => x.Id === kr.Id)[0];
+                                found.Status = newValue;
+                            }));
+                        }}/>
+                        <div className="kr-content-container">
+                            <span className={"kr-content"}>{kr.Content}</span>
+                            <Icon iconName="Comment" onClick={()=> {
+                                actions.editKRComment({id: kr.Id});
+                            }} tooltipProps={{text: "Add or Edit Comment"}}/>
+                        </div>
+                    </div>
+                    <KRComment kr={kr} isEditMode={editCommentKey === kr.Id} onCancel={()=> {
+                            actions.editKRComment({id: undefined});
+                        }}
+                        onSave={(newValue: string)=> {
+                        actions.editOKR(produce(this.props.objective, draft => {
                             var found = draft.KRs.filter((x) => x.Id === kr.Id)[0];
-                            found.Status = newValue;
+                            found.Comment = newValue;
                         }));
                     }}/>
-                    <span className="kr-content">{kr.Content}</span>
                 </div>);
     }
 }

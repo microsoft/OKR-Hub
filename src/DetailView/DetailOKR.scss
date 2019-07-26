@@ -14,16 +14,34 @@
         width: 100%;
 
         .kr {
-            display: flex;
-            flex-direction: row;
             padding: 10px;
 
-            .kr-status {
-                &:hover {
-                    border: 1px solid #333333;
+            .kr-render {
+                display: flex;
+                flex-direction: row;
+                .kr-status {
+                    padding-right: 5px;
+
+                    &:hover {
+                        border: 1px solid #666666;
+                    }
                 }
 
-                .status-icon {
+                .kr-content-container {
+                    flex-grow: 1;
+                    display: flex;
+                    flex-direction: row;
+                    .kr-content {
+                        flex-grow: 1;
+                    }
+                }
+            }
+
+            .kr-comment {
+                padding-left: 15px;
+                padding-top: 10px;
+                font-style: italic;
+                span {
                     padding-right: 5px;
                 }
             }
