@@ -11,15 +11,6 @@ import { Area } from "../Area/Area";
 export const AreaView: React.FunctionComponent<{}> = props => {
     const [{ objectives, areas }, actions] = useStateValue();
 
-    useEffect(() => {
-        if (objectives.length === 0) {
-            actions.getObjectives();
-        }
-        if (areas.length === 0) {
-            actions.getAreas();
-        }
-    });
-
     const areaNavigateCallBack = (area: Area): void => {
         actions.navigatePage({
             selectedArea: area,
@@ -35,7 +26,7 @@ export const AreaView: React.FunctionComponent<{}> = props => {
         {
             important: true,
             id: "create-area",
-            text: "New Area", // TODO: Resource file for localization
+            text: "New Product Area", // TODO: Resource file for localization
             onActivate: () => {
                 actions.toggleAreaPanel({
                     expanded: true
@@ -49,7 +40,8 @@ export const AreaView: React.FunctionComponent<{}> = props => {
 
     let content = <div>Loading...</div>;
 
-    if (areas) {
+    // Don't show anything until we have fetched the areas and objectives
+    if (areas && objectives) {
         content =
             <div>
                 <Header

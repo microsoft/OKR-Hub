@@ -45,7 +45,7 @@ export class AreaCardDetails extends React.Component<IAreaCardDetailsProps, IAre
 		}
 		else {
 			button = <MenuButton hideDropdownIcon={true} contextualMenuProps={{ menuProps: { id: "test", items: this.getButtons() } }} iconProps={{ iconName: "MoreVertical" }} />;
-			nameField = <h3><div onClick={() => { navigateCallback(area) }}>{area.Name}</div></h3>;
+			nameField = <h3><div className="area-name-title" onClick={() => { navigateCallback(area) }}>{area.Name}</div></h3>;
 			descriptionField = <p> {area.Description}</p>;
 		}
 

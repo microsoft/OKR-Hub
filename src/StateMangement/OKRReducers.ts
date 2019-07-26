@@ -4,10 +4,10 @@ import { OKRMainState } from "../StateMangement/OKRState";
 import { NavigationConstants } from "../OKRConstants";
 
 export const initialState: OKRMainState = {
-  pageLocation: NavigationConstants.DetailView,
+  pageLocation: NavigationConstants.AreaView,
   selectedArea: undefined,
-  objectives: [],
-  areas: [],
+  objectives: undefined,
+  areas: undefined,
   error: "",
   addPanelExpanded: false,
   editPanelExpandedKey: undefined,
@@ -28,6 +28,8 @@ export const reducer = (state: OKRMainState = initialState, action) => {
       // Areas
       case Types.getAreasSucceed:
         draft.areas = action.payload;
+        // If an area isn't already selected, set the first areas as the selected area
+        draft.selectedArea = draft.selectedArea ? draft.selectedArea : draft.areas[0]; 
         break;
       case Types.getAreasFailed:
         draft.error = action.error;

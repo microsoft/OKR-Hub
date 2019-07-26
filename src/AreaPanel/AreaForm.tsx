@@ -53,7 +53,7 @@ export default class AreaForm extends React.Component<{}, IAreaFormState> {
                             OwnerId: "",
                         }
 
-                        actions.createArea({ toBeCreated })
+                        actions.createArea(toBeCreated)
 
                     }} />
                     <Button text="Cancel" onClick={() => {

@@ -1,8 +1,8 @@
 {
     "manifestVersion": 1,
-    "id": "okr-hub2",
-    "publisher": "nianwens",
-    "version": "1.0.229",
+    "id": "okr-hub",
+    "publisher": "nianwensong",
+    "version": "1.0.249",
     "name": "OKR Hub",
     "description": "",
     "public": false,

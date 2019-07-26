@@ -42,7 +42,7 @@ export class AreaGrid extends React.Component<IAreaGridProps> {
 
     }
 
-    private getObjectives(areaId: string): Objective[] {
+    private getObjectives(areaId: string): Objective[] {        
         return this.props.objectives.filter(objective => objective.AreaId === areaId);
     }
 }
