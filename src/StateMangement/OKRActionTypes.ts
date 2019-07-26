@@ -31,3 +31,5 @@ export const editArea = "editArea";
 export const editAreaSucceed = "editAreaSucceed";
 export const editAreaFailed = "editAreaFailed"; 
 export const editKRStatus = "editKRStatus";
+
+export const editKRComment = "editKRComment";
