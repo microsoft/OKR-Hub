@@ -62,7 +62,7 @@ export const reducer = (state: OKRMainState = initialState, action) => {
         draft.editPanelExpandedKey = action.payload.expandedKey;
         break;
       case Types.editOKRSucceed:
-        draft.objectives.map(o => {
+        draft.objectives = draft.objectives.map(o => {
           return o.id === action.payload.id ? action.payload : o;
         });
         draft.editPanelExpandedKey = undefined;

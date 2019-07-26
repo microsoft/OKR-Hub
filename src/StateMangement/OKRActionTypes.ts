@@ -23,6 +23,7 @@ export const editOKR = "editOKR";
 export const editOKRSucceed = "editOKRSucceed";
 export const editOKRFailed = "editOKRFailed";
 
+<<<<<<< HEAD
 export const createArea = "createArea";
 export const createAreaSucceed = "createAreaSucceed";
 export const createAreaFailed = "createAreaFailed"; 
@@ -30,3 +31,6 @@ export const createAreaFailed = "createAreaFailed";
 export const editArea = "editArea";
 export const editAreaSucceed = "editAreaSucceed";
 export const editAreaFailed = "editAreaFailed"; 
+=======
+export const editKRStatus = "editKRStatus";
+>>>>>>> origin/master

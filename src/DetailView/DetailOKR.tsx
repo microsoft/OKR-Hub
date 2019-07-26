@@ -1,13 +1,14 @@
 import * as React from "react";
 import { Card } from "azure-devops-ui/Card";
 import { SplitterElementPosition, Splitter } from "azure-devops-ui/Splitter";
-import { Status, Statuses, StatusSize } from "azure-devops-ui/Status";
 import { Objective, KR } from "../Objective/Objective";
 
 import "./DetailOKR.scss";
 import { Button } from "azure-devops-ui/Button";
 import { StateContext } from "../StateMangement/StateProvider";
 import AddOrEditOKRPanel from "../OKRPanel/AddOrEditOKRPanel";
+import { MutableStatusDropDown } from "../MutableStatusDropDown";
+import produce from "immer";
 
 export interface IDetailOKRProps {
     objective: Objective;
@@ -63,14 +64,15 @@ export class DetailOKR extends React.Component<IDetailOKRProps, IDetailOKRState>
     }
 
     private _renderKR = (kr: KR, i: number) => {
-        return (<div className="kr" key={i}>
-        <Status
-            {...Statuses[kr.Status]}
-            size={StatusSize.m}
-            className="status-icon"
-            />
-        <span className="kr-content">{kr.Content}</span>
-        {kr.Comment?<span className="kr-comment">{kr.Comment}</span>: null}
-        </div>);
+        const [{}, actions] = this.context;
+        return (<div className="kr" key={"kr" + i}>
+                    <MutableStatusDropDown value={kr.Status} onSelect={(newValue)=> {
+                        actions.editKRStatus(produce(this.props.objective, draft => {
+                            var found = draft.KRs.filter((x) => x.Id === kr.Id)[0];
+                            found.Status = newValue;
+                        }));
+                    }}/>
+                    <span className="kr-content">{kr.Content}</span>
+                </div>);
     }
 }

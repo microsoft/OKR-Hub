@@ -20,6 +20,8 @@
  
             .okr-form-add-kr {
                 margin-top: 10px;
+                display: flex;
+                float: right;
             }
        }
 
@@ -28,6 +30,7 @@
             align-self: flex-end;
             .bolt-button {
                 padding-right: 10px;
+                margin-left: 8px;
             }
        }
     }
