@@ -1,6 +1,6 @@
 import * as React from "react";
 import { Panel } from "azure-devops-ui/Panel";
-import { StateContext } from '../StateProvider';
+import { StateContext } from '../StateMangement/StateProvider';
 import AreaForm from "./AreaForm";
 import "./AddOKRPanel.scss";
 
@@ -12,24 +12,25 @@ export class AddAreaPanel extends React.Component<{}, IAddAreaPanelState> {
     static contextType = StateContext;
 
     public render(): JSX.Element {
-        const [{ addAreaPanelExpanded }, dispatch] = this.context;
+        const [{ areaPanelExpanded }, actions] = this.context;
         return (
             <div>
-                { addAreaPanelExpanded && (
+                {areaPanelExpanded && (
                     <Panel
                         calloutClassName={"add-area-panel"}
                         showSeparator
-                        onDismiss={() => dispatch({
-                            type: "toggleAddArea",
-                            expanded: false
-                          })}
+                        onDismiss={() =>
+                            actions.toggleAreaPanel({
+                                expanded: false
+                            })}
                         titleProps={{ text: "Add Area" }}
                     >
                         <div className="panel-content">
-                            <AreaForm name="" description=""/>
+                            <AreaForm />
                         </div>
                     </Panel>
-                )}
+                )
+                }
             </div>
         );
     }

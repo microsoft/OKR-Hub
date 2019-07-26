@@ -9,7 +9,7 @@ export const applyMiddleware = dispatch => action =>
   dispatch(action) ||
   match(action.type)
     .equals(Actions.getObjectives).then(()=> {
-        if (!action.payload.area) {
+        if (!action.payload || !action.payload.area) {
             ObjectiveService.instance.getAll().then((allObjectives: Objective[]) => {
                 dispatch({
                     type: Actions.getObjectivesSucceed,
@@ -72,6 +72,32 @@ export const applyMiddleware = dispatch => action =>
         }, (error) => {
             dispatch({
                 type: Actions.createOKRFailed,
+                error: error
+            });
+        });
+    })
+    .equals(Actions.createArea).then(() => {
+        AreaService.instance.create(action.payload).then((created) => {
+            dispatch({
+                type: Actions.createAreaSucceed,
+                payload: created
+            });
+            }, (error) => {
+            dispatch({
+                type: Actions.createAreaFailed,
+                error: error
+            });
+        });
+    })
+    .equals(Actions.editArea).then(() => {
+        AreaService.instance.save(action.payload).then((updated) => {
+            dispatch({
+                type: Actions.editAreaSucceed,
+                payload: updated
+            });
+            }, (error) => {
+            dispatch({
+                type: Actions.editAreaFailed,
                 error: error
             });
         });

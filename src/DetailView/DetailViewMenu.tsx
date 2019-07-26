@@ -82,11 +82,12 @@ const MasterPanelContent: React.FunctionComponent<{
     const initialItemProvider = new ArrayItemProvider(areas as Area[]);
     const initialSelection = new ListSelection({ selectOnFocus: false });
 
-    // This is how the observable interacts with our selected item     
     React.useEffect(() => {
         if (areas.length === 0) { // this condition should be changed to deal with zero data experience.
             actions.getAreas();
         }
+        
+        // This is how the observable interacts with our selected item     
         bindSelectionToObservable(
             initialSelection,
             initialItemProvider,
@@ -96,7 +97,7 @@ const MasterPanelContent: React.FunctionComponent<{
 
     
     const onListClick = (event: React.SyntheticEvent, listRow: IListRow<Area>) => {
-        actions.updateArea({
+        actions.updateSelectedArea({
             selectedArea: listRow.data
         });
     };
