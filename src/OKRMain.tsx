@@ -58,7 +58,7 @@ const OKRPage: React.SFC<{}> = props => {
                 actions.navigatePage({
                     pageLocation: NavigationConstants.Data
                 })
-            }} />            
+            }} />
             {okrPage}
         </div>);
 };

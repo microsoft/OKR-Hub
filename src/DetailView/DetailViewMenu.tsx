@@ -15,6 +15,7 @@ import { DetailView } from "./DetailView";
 import { Circle } from 'react-circle';
 import { useStateValue } from '../StateMangement/StateProvider';
 import { Area } from "../Area/Area";
+import { NavigationConstants } from "../OKRConstants";
 
 const renderInitialRow = (
     index: number,
@@ -62,7 +63,7 @@ function createDetailsViewPayload(): IMasterDetailsContextLayer<Area, undefined>
             renderHeader: () => <MasterPanelHeader title={"Azure Devops"} />,
             onBackButtonClick: () => {
                 actions.navigatePage({
-                    pageLocation: "AreaView"
+                    pageLocation: NavigationConstants.AreaView
                 });
                 return false;
             }
