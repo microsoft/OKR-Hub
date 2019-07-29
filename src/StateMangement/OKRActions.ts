@@ -19,7 +19,7 @@ export interface IOKRActions {
     updateSelectedArea: (data: any) => {};
     createArea: (data: any) => {};
 }
-// TODO: type the data.
+
 export const useActions = (state: OKRMainState, dispatch) => ({
     navigatePage: data => dispatch({ type: Actions.navigatePage, payload: data }),
     getObjectives: data => dispatch({ type: Actions.getObjectives, payload: data }),

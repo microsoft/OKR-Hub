@@ -83,7 +83,7 @@ export default class OKRForm extends React.Component<IOKRFormProps, IOKRFormStat
                             Owner: this.state.owner,
                             Name: this.state.name,
                             Comments: this.state.comments,
-                            KRs: this.state.krs,
+                            KRs: this.state.krs.filter(x => x.Content.trim().length > 0),
                             AreaId: stateContext.state.selectedArea.AreaId || (stateContext.state.areas && stateContext.state.areas[0].AreaId) || "test",
                             //TimeFrame: stateContext.state.timeFrame,
                             Progress: 0
@@ -93,7 +93,7 @@ export default class OKRForm extends React.Component<IOKRFormProps, IOKRFormStat
                             Owner: this.state.owner,
                             Name: this.state.name,
                             Comments: this.state.comments,
-                            KRs: this.state.krs
+                            KRs: this.state.krs.filter(x => x.Content.trim().length > 0)
                         }));
                     }}/>}
                 </ButtonGroup>
