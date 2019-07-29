@@ -5,7 +5,7 @@ import { Objective, KR } from "../Objective/Objective";
 
 import "./DetailOKR.scss";
 import { Button } from "azure-devops-ui/Button";
-import { StateContext } from "../StateMangement/StateProvider";
+import { StateContext, IOKRContext } from "../StateMangement/StateProvider";
 import AddOrEditOKRPanel from "../OKRPanel/AddOrEditOKRPanel";
 import { MutableStatusDropDown } from "../MutableStatusDropDown";
 import { Icon } from "azure-devops-ui/Icon";
@@ -20,7 +20,7 @@ export class DetailOKR extends React.Component<IDetailOKRProps> {
     static contextType = StateContext;
 
     public render(): JSX.Element {
-        const [{editPanelExpandedKey}] = this.context;
+        const stateContext = this.context as IOKRContext;
         return (
             <div className="okr-list-container">
               <Card>
@@ -34,18 +34,18 @@ export class DetailOKR extends React.Component<IDetailOKRProps> {
                     disabled={true}
                 />
               </Card>
-              {editPanelExpandedKey === this.props.objective.id && <AddOrEditOKRPanel title={"Edit OKR"} objective={this.props.objective}/>}
+              {stateContext.state.editPanelExpandedKey === this.props.objective.id && <AddOrEditOKRPanel title={"Edit OKR"} objective={this.props.objective}/>}
             </div>
         );
     }
 
     private _renderObjective = () => {
-        const [{}, actions] = this.context;
+        const stateContext = this.context as IOKRContext;
         return (
             <div className="objective-title">
                 <h3 className="objective-name">{this.props.objective.Name}</h3>
                 <Button iconProps={{ iconName: "Edit" }} onClick={() => {
-                    actions.toggleEditPanel({ expandedKey: this.props.objective.id });
+                    stateContext.actions.toggleEditPanel({ expandedKey: this.props.objective.id });
                 }} />
             </div>
         );
@@ -62,11 +62,11 @@ export class DetailOKR extends React.Component<IDetailOKRProps> {
     }
 
     private _renderKR = (kr: KR, i: number) => {
-        const [{editCommentKey}, actions] = this.context;
+        const stateContext = this.context as IOKRContext;
         return (<div className="kr" key={"kr" + i}>
                     <div className="kr-render">
                         <MutableStatusDropDown value={kr.Status} onSelect={(newValue)=> {
-                            actions.editKRStatus(produce(this.props.objective, draft => {
+                            stateContext.actions.editKRStatus(produce(this.props.objective, draft => {
                                 var found = draft.KRs.filter((x) => x.Id === kr.Id)[0];
                                 found.Status = newValue;
                             }));
@@ -74,15 +74,15 @@ export class DetailOKR extends React.Component<IDetailOKRProps> {
                         <div className="kr-content-container">
                             <span className={"kr-content"}>{kr.Content}</span>
                             <Icon iconName="Comment" onClick={()=> {
-                                actions.editKRComment({id: kr.Id});
+                                stateContext.actions.editKRComment({id: kr.Id});
                             }} tooltipProps={{text: "Add or Edit Comment"}}/>
                         </div>
                     </div>
-                    <KRComment kr={kr} isEditMode={editCommentKey === kr.Id} onCancel={()=> {
-                            actions.editKRComment({id: undefined});
+                    <KRComment kr={kr} isEditMode={stateContext.state.editCommentKey === kr.Id} onCancel={()=> {
+                            stateContext.actions.editKRComment({id: undefined});
                         }}
                         onSave={(newValue: string)=> {
-                        actions.editOKR(produce(this.props.objective, draft => {
+                        stateContext.actions.editOKR(produce(this.props.objective, draft => {
                             var found = draft.KRs.filter((x) => x.Id === kr.Id)[0];
                             found.Comment = newValue;
                         }));

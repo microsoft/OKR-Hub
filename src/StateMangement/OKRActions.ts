@@ -7,7 +7,6 @@ export interface IOKRActions {
     navigatePage: (data: any) => {};
     getObjectives: (data: any) => {};
     getAreas: (data: any) => {};
-    updateArea: (data: any) => {};
     cancelCreationOrEdit: (data: any) => {};
     editOKR: (data: any) => {};
     createOKR: (data: any) => {};
@@ -15,6 +14,10 @@ export interface IOKRActions {
     toggleEditPanel: (data: any) => {};
     editKRStatus: (data: any) => {};
     editKRComment: (data: any) => {};
+    editArea: (data: any) => {};
+    toggleAreaPanel: (data: any) => {};
+    updateSelectedArea: (data: any) => {};
+    createArea: (data: any) => {};
 }
 // TODO: type the data.
 export const useActions = (state: OKRMainState, dispatch) => ({
@@ -35,4 +38,4 @@ export const useActions = (state: OKRMainState, dispatch) => ({
     createArea: data => dispatch({type: Actions.createArea, payload: data}),
     createAreaSucceed: data => dispatch({type: Actions.createAreaSucceed, payload: data}),
     toggleAreaPanel: data => dispatch({ type: Actions.toggleAreaPanel, payload: data })
-});
+} as IOKRActions); 

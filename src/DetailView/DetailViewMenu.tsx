@@ -57,7 +57,8 @@ const renderInitialRow = (
 
 function createDetailsViewPayload(): IMasterDetailsContextLayer<AreaWithObjectives, undefined> {    
 
-    const [{ areas, objectives, selectedArea }, actions] = useStateValue();    
+    const stateContext = useStateValue();
+    const {areas, objectives, selectedArea } = stateContext.state; 
 
     // We need to pass the objectives with the areas to the renderInitialRow method. This is how we display objective counts
     const areasWithObjectives: AreaWithObjectives[] = areas.map((a: Area) => {
@@ -70,7 +71,7 @@ function createDetailsViewPayload(): IMasterDetailsContextLayer<AreaWithObjectiv
 
     const initialItemProvider = new ArrayItemProvider(areasWithObjectives);
     const selectedAreaWithObjectives = areasWithObjectives.find((a => a.area.id === selectedArea.id)); 
-
+    
     return {
         key: "detail-view",
         masterPanelContent: {
@@ -79,7 +80,7 @@ function createDetailsViewPayload(): IMasterDetailsContextLayer<AreaWithObjectiv
             ),
             renderHeader: () => <MasterPanelHeader title={"Azure Devops"} />,
             onBackButtonClick: () => {
-                actions.navigatePage({
+                stateContext.actions.navigatePage({
                     pageLocation: "AreaView"
                 });
                 return false;
@@ -97,10 +98,11 @@ const MasterPanelContent: React.FunctionComponent<{
     initialSelectedMasterItem: IObservableValue<AreaWithObjectives>, 
     itemProvider: ArrayItemProvider<AreaWithObjectives>
 }> = props => {
-    const [{ }, actions] = useStateValue();
+    
+    const stateContext = useStateValue();
     const initialSelection = new ListSelection({ selectOnFocus: false });
-
-    React.useEffect(() => {        
+  
+    React.useEffect(() => {
         // This is how the observable interacts with our selected item     
         bindSelectionToObservable(
             initialSelection,
@@ -110,7 +112,7 @@ const MasterPanelContent: React.FunctionComponent<{
     });
     
     const onListClick = (event: React.SyntheticEvent, listRow: IListRow<AreaWithObjectives>) => {
-        actions.updateSelectedArea({
+        stateContext.actions.updateSelectedArea({
             selectedArea: listRow.data.area
         });
     };

@@ -9,17 +9,17 @@ import { NavigationConstants } from "../OKRConstants";
 import { Area } from "../Area/Area";
 
 export const AreaView: React.FunctionComponent<{}> = props => {
-    const [{ objectives, areas }, actions] = useStateValue();
+    const stateContext = useStateValue();
 
     const areaNavigateCallBack = (area: Area): void => {
-        actions.navigatePage({
+        stateContext.actions.navigatePage({
             selectedArea: area,
             pageLocation: NavigationConstants.DetailView
         })
     }
 
     const editAreaCallback = (area: Area): void => {
-        actions.editArea(area)
+        stateContext.actions.editArea(area)
     }
 
     const commandBarItems: IHeaderCommandBarItem[] = [
@@ -28,7 +28,7 @@ export const AreaView: React.FunctionComponent<{}> = props => {
             id: "create-area",
             text: "New Product Area", // TODO: Resource file for localization
             onActivate: () => {
-                actions.toggleAreaPanel({
+                stateContext.actions.toggleAreaPanel({
                     expanded: true
                 });
             },
@@ -40,8 +40,8 @@ export const AreaView: React.FunctionComponent<{}> = props => {
 
     let content = <div>Loading...</div>;
 
-    // Don't show anything until we have fetched the areas and objectives
-    if (areas && objectives) {
+    // Don't show anything until we have fetched the areas and objectives    
+    if (stateContext.state.areas && stateContext.state.objectives) {
         content =
             <div>
                 <Header
@@ -50,7 +50,7 @@ export const AreaView: React.FunctionComponent<{}> = props => {
                     title={"Azure Devops"}
                 />
                 <AddAreaPanel />
-                <AreaGrid areas={areas} objectives={objectives} navigateCallback={areaNavigateCallBack} updateAreaCallback={editAreaCallback} />
+                <AreaGrid areas={stateContext.state.areas} objectives={stateContext.state.objectives} navigateCallback={areaNavigateCallBack} updateAreaCallback={editAreaCallback} />
             </div>
     }
 
