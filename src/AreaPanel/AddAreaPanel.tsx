@@ -23,7 +23,7 @@ export class AddAreaPanel extends React.Component<{}, IAddAreaPanelState> {
                             stateContext.actions.toggleAreaPanel({
                                 expanded: false
                             })}
-                        titleProps={{ text: "Add Area" }}
+                        titleProps={{ text: "Add Product Area" }}
                     >
                         <div className="panel-content">
                             <AreaForm />

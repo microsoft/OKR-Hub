@@ -22,9 +22,10 @@
 					display: flex; 
 					justify-content: space-between; 
 					margin-bottom: 8px;
-				}
-				.bolt-textfield{
-					min-width: 230px;
+
+					.flex-column {
+						flex: 1;
+					}
 				}
 
 				.bolt-expandable-button, .bolt-button {
