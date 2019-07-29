@@ -75,7 +75,7 @@ export class DetailOKR extends React.Component<IDetailOKRProps> {
                             <span className={"kr-content"}>{kr.Content}</span>
                             <Icon iconName="Comment" onClick={()=> {
                                 stateContext.actions.editKRComment({id: kr.Id});
-                            }} tooltipProps={{text: "Add or Edit Comment"}}/>
+                            }} tooltipProps={{text: "Edit Note"}}/>
                         </div>
                     </div>
                     <KRComment kr={kr} isEditMode={stateContext.state.editCommentKey === kr.Id} onCancel={()=> {
