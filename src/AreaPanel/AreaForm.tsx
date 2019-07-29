@@ -1,5 +1,5 @@
 import * as React from "react";
-import { StateContext } from "../StateMangement/StateProvider";
+import { StateContext, IOKRContext } from "../StateMangement/StateProvider";
 import { Button } from "azure-devops-ui/Button";
 import { TextField } from "azure-devops-ui/TextField";
 import { Guid } from "guid-typescript";
@@ -21,7 +21,7 @@ export default class AreaForm extends React.Component<{}, IAreaFormState> {
     }
 
     public render(): JSX.Element {
-        const [{ }, actions] = this.context;
+        const stateContext = this.context as IOKRContext;
         const { name, description } = this.state
         return (
             <>
@@ -53,11 +53,11 @@ export default class AreaForm extends React.Component<{}, IAreaFormState> {
                             OwnerId: "",
                         }
 
-                        actions.createArea({ toBeCreated })
+                        stateContext.actions.createArea({ toBeCreated })
 
                     }} />
                     <Button text="Cancel" onClick={() => {
-                        actions.toggleAreaPanel({
+                        stateContext.actions.toggleAreaPanel({
                             expanded: false
                         })
                     }

@@ -1,6 +1,6 @@
 import React = require("react");
 import { DetailOKR } from "./DetailOKR";
-import { StateContext } from "../StateMangement/StateProvider";
+import { StateContext, IOKRContext } from "../StateMangement/StateProvider";
 import { Area } from "../Area/Area"; 
 
 export interface IDetailOKRListProps {
@@ -24,14 +24,14 @@ export class DetailOKRList extends React.Component<IDetailOKRListProps, {}> {
     }
     
     public render(): JSX.Element {
-        const [{ objectives }] = this.context;
+        const stateContext = this.context as IOKRContext;
         return (<>
-            {objectives.map((objective, index) => <DetailOKR objective={objective} key={"DetailOKR" + index} />)}
+            {stateContext.state.objectives.map((objective, index) => <DetailOKR objective={objective} key={"DetailOKR" + index} />)}
         </>);
     }
 
     private loadData = (area: string) => {
-        const [{}, actions] = this.context;
-        actions.getObjectives({area: area})
+        const stateContext = this.context as IOKRContext;
+        stateContext.actions.getObjectives({area: area})
     }
 }

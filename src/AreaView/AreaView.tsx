@@ -9,26 +9,26 @@ import { NavigationConstants } from "../OKRConstants";
 import { Area } from "../Area/Area";
 
 export const AreaView: React.FunctionComponent<{}> = props => {
-    const [{ objectives, areas }, actions] = useStateValue();
+    const stateContext = useStateValue();
 
     useEffect(() => {
-        if (objectives.length === 0) {
-            actions.getObjectives();
+        if (stateContext.state.objectives.length === 0) {
+            stateContext.actions.getObjectives(null);
         }
-        if (areas.length === 0) {
-            actions.getAreas();
+        if (stateContext.state.areas.length === 0) {
+            stateContext.actions.getAreas(null);
         }
     });
 
     const areaNavigateCallBack = (area: Area): void => {
-        actions.navigatePage({
+        stateContext.actions.navigatePage({
             selectedArea: area,
             pageLocation: NavigationConstants.DetailView
         })
     }
 
     const editAreaCallback = (area: Area): void => {
-        actions.editArea(area)
+        stateContext.actions.editArea(area)
     }
 
     const commandBarItems: IHeaderCommandBarItem[] = [
@@ -37,7 +37,7 @@ export const AreaView: React.FunctionComponent<{}> = props => {
             id: "create-area",
             text: "New Area", // TODO: Resource file for localization
             onActivate: () => {
-                actions.toggleAreaPanel({
+                stateContext.actions.toggleAreaPanel({
                     expanded: true
                 });
             },
@@ -49,7 +49,7 @@ export const AreaView: React.FunctionComponent<{}> = props => {
 
     let content = <div>Loading...</div>;
 
-    if (areas) {
+    if (stateContext.state.areas) {
         content =
             <div>
                 <Header
@@ -58,7 +58,7 @@ export const AreaView: React.FunctionComponent<{}> = props => {
                     title={"Azure Devops"}
                 />
                 <AddAreaPanel />
-                <AreaGrid areas={areas} objectives={objectives} navigateCallback={areaNavigateCallBack} updateAreaCallback={editAreaCallback} />
+                <AreaGrid areas={stateContext.state.areas} objectives={stateContext.state.objectives} navigateCallback={areaNavigateCallBack} updateAreaCallback={editAreaCallback} />
             </div>
     }
 

@@ -1,10 +1,16 @@
 import * as React from 'react';
 import {createContext, useContext, useReducer} from 'react';
 import { applyMiddleware } from './OKRMiddleware';
-import { useActions } from './OKRActions';
+import { useActions, IOKRActions } from './OKRActions';
 import { reducer, initialState } from './OKRReducers';
+import { OKRMainState } from './OKRState';
 
-export const StateContext = createContext([initialState] as any);
+export interface IOKRContext {
+    state: OKRMainState;
+    actions: IOKRActions;
+}
+
+export const StateContext = createContext({state: initialState, actions: undefined} as IOKRContext);
 
 export const StateProvider = ({children}) => {
   const [state, dispatch] = useReducer(reducer, initialState);
@@ -13,7 +19,7 @@ export const StateProvider = ({children}) => {
   const actions = useActions(state, enhancedDispatch);
 
   return (
-    <StateContext.Provider value={[state, actions]}>
+    <StateContext.Provider value={{ state, actions } as IOKRContext}>
       {children}
     </StateContext.Provider>
   );
