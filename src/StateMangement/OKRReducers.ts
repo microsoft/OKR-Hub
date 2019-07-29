@@ -11,8 +11,9 @@ export const initialState: OKRMainState = {
   error: "",
   addPanelExpanded: false,
   editPanelExpandedKey: undefined,
-  areaPanelExpanded: false
-};
+  areaPanelExpanded: false,
+  editCommentKey: undefined
+}
 
 export const reducer = (state: OKRMainState = initialState, action) => {
   return produce(state, draft => {
@@ -74,6 +75,7 @@ export const reducer = (state: OKRMainState = initialState, action) => {
           return o.id === action.payload.id ? action.payload : o;
         });
         draft.editPanelExpandedKey = undefined;
+        draft.editCommentKey = undefined;
         break;
       case Types.editOKRFailed:
         draft.error = action.error;
@@ -81,6 +83,9 @@ export const reducer = (state: OKRMainState = initialState, action) => {
       case Types.cancelCreationOrEdit:
         draft.editPanelExpandedKey = undefined;
         draft.addPanelExpanded = false;
+        break;
+      case Types.editKRComment:
+        draft.editCommentKey = action.payload.id;
         break;
       default:
         return state;
