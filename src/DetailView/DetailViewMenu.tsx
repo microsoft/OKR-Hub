@@ -15,16 +15,20 @@ import { DetailView } from "./DetailView";
 import { Circle } from 'react-circle';
 import { useStateValue } from '../StateMangement/StateProvider';
 import { Area } from "../Area/Area";
+import { Objective } from "../Objective/Objective";
+
+interface AreaWithObjectives {
+    area: Area; 
+    objectives : Objective[]; 
+}
 
 const renderInitialRow = (
     index: number,
-    item: Area,
-    details: IListItemDetails<Area>,
+    item: AreaWithObjectives,
+    details: IListItemDetails<AreaWithObjectives>,
 ): JSX.Element => {
-    //const objectives = useObjectives();
-    const objectives = []; 
-    const currentObjectives= objectives.filter(objective => objective.AreaId === item.AreaId);
     
+    const currentObjectives = item.objectives; 
     let totalProgress = 0; 
     currentObjectives.forEach(objective => totalProgress += objective.Progress); 
     const progress = totalProgress / currentObjectives.length;
@@ -37,7 +41,7 @@ const renderInitialRow = (
         >
             <div className="master-row-content">
                 <div className="area-description">
-                    <div className="area-name title">{item.Name}</div>
+                    <div className="area-name title">{item.area.Name}</div>
                     <div className="area-objectives-count">{currentObjectives.length.toString() + " objectives"}</div>
                 </div>
                 <Circle
@@ -51,13 +55,28 @@ const renderInitialRow = (
     );
 };
 
-function createDetailsViewPayload(): IMasterDetailsContextLayer<Area, undefined> {
+function createDetailsViewPayload(): IMasterDetailsContextLayer<AreaWithObjectives, undefined> {    
+
     const stateContext = useStateValue();
+    const {areas, objectives, selectedArea } = stateContext.state; 
+
+    // We need to pass the objectives with the areas to the renderInitialRow method. This is how we display objective counts
+    const areasWithObjectives: AreaWithObjectives[] = areas.map((a: Area) => {
+        const currentObjectives = objectives ? objectives.filter(objective => objective.AreaId === a.AreaId) : [];
+        return {
+            area: a,
+            objectives: currentObjectives
+        }
+    }); 
+
+    const initialItemProvider = new ArrayItemProvider(areasWithObjectives);
+    const selectedAreaWithObjectives = areasWithObjectives.find((a => a.area.id === selectedArea.id)); 
+    
     return {
         key: "detail-view",
         masterPanelContent: {
             renderContent: (parentItem, initialSelectedMasterItem) => (
-                <MasterPanelContent initialSelectedMasterItem={initialSelectedMasterItem} />
+                <MasterPanelContent initialSelectedMasterItem={initialSelectedMasterItem} itemProvider={initialItemProvider} />
             ),
             renderHeader: () => <MasterPanelHeader title={"Azure Devops"} />,
             onBackButtonClick: () => {
@@ -68,43 +87,39 @@ function createDetailsViewPayload(): IMasterDetailsContextLayer<Area, undefined>
             }
         },
         detailsContent: {
-            renderContent: item => <DetailView selectedArea={item} />
+            // Pass the detail view just the area, no need to pass the special w/objectives data
+            renderContent: item => <DetailView selectedArea={selectedArea} />
         },
-        selectedMasterItem: new ObservableValue<Area>(stateContext.state.selectedArea),
+        selectedMasterItem: new ObservableValue<AreaWithObjectives>(selectedAreaWithObjectives),
     };
 }
 
 const MasterPanelContent: React.FunctionComponent<{
-    initialSelectedMasterItem: IObservableValue<Area>;
+    initialSelectedMasterItem: IObservableValue<AreaWithObjectives>, 
+    itemProvider: ArrayItemProvider<AreaWithObjectives>
 }> = props => {
+    
     const stateContext = useStateValue();
-
-    const initialItemProvider = new ArrayItemProvider(stateContext.state.areas as Area[]);
     const initialSelection = new ListSelection({ selectOnFocus: false });
-
+  
     React.useEffect(() => {
-        if (stateContext.state.areas.length === 0) { // this condition should be changed to deal with zero data experience.
-            stateContext.actions.getAreas(null);
-        }
-        
         // This is how the observable interacts with our selected item     
         bindSelectionToObservable(
             initialSelection,
-            initialItemProvider,
+            props.itemProvider,
             props.initialSelectedMasterItem
         );
     });
-
     
-    const onListClick = (event: React.SyntheticEvent, listRow: IListRow<Area>) => {
+    const onListClick = (event: React.SyntheticEvent, listRow: IListRow<AreaWithObjectives>) => {
         stateContext.actions.updateSelectedArea({
-            selectedArea: listRow.data
+            selectedArea: listRow.data.area
         });
     };
 
     return (
         <List
-            itemProvider={initialItemProvider}
+            itemProvider={props.itemProvider}
             selection={initialSelection}
             renderRow={renderInitialRow}
             onSelect={onListClick}

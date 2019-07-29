@@ -25,6 +25,16 @@ export class OKRMain extends React.Component<{}, {}> {
 
 const OKRPage: React.SFC<{}> = props => {
     const stateContext = useStateValue();
+    // Make sure to initialize the objectives and areas
+    React.useEffect(() => {
+        if (!stateContext.state.objectives) {
+            stateContext.actions.getObjectives({});
+        }
+        if (!stateContext.state.areas) {
+            stateContext.actions.getAreas({});
+        }
+    });
+    
 
     let okrPage;
 
@@ -58,7 +68,7 @@ const OKRPage: React.SFC<{}> = props => {
                 stateContext.actions.navigatePage({
                     pageLocation: NavigationConstants.Data
                 })
-            }} />            
+            }} />
             {okrPage}
         </div>);
 };

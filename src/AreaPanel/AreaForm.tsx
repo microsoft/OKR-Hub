@@ -4,7 +4,6 @@ import { Button } from "azure-devops-ui/Button";
 import { ButtonGroup } from "azure-devops-ui/ButtonGroup";
 import { TextField } from "azure-devops-ui/TextField";
 import { Guid } from "guid-typescript";
-import { AreaService } from "../Area/AreaService";
 
 export interface IAreaFormState {
     name: string;
@@ -60,7 +59,7 @@ export default class AreaForm extends React.Component<{}, IAreaFormState> {
                                 OwnerId: "",
                             }
 
-                            stateContext.actions.createArea({ toBeCreated })
+                        stateContext.actions.createArea(toBeCreated)
 
                         }} />
                     </ButtonGroup>
