@@ -3,6 +3,7 @@ import { DetailOKR } from "./DetailOKR";
 import { StateContext, IOKRContext } from "../StateMangement/StateProvider";
 import { Area } from "../Area/Area";
 import { ObjectiveZeroData } from "./ObjectiveZeroData";
+import { OKRMainState } from "../StateMangement/OKRState";
 
 export interface IDetailOKRListProps {
     area: Area;
@@ -25,7 +26,7 @@ export class DetailOKRList extends React.Component<IDetailOKRListProps, {}> {
     }
 
     public render(): JSX.Element {
-        const [{ objectives, selectedArea }] = this.context;
+        const { objectives, selectedArea } = this.context.state as OKRMainState;
         if (objectives && objectives.length > 0) {
             return (<>
                 {objectives.map((objective, index) => <DetailOKR objective={objective} key={"DetailOKR" + index} />)}
