@@ -2,7 +2,7 @@ import * as React from "react";
 import { Panel } from "azure-devops-ui/Panel";
 import { StateContext, IOKRContext } from '../StateMangement/StateProvider';
 import AreaForm from "./AreaForm";
-import "./AddOKRPanel.scss";
+import "./AddAreaPanel.scss";
 
 interface IAddAreaPanelState {
     expanded: boolean;
