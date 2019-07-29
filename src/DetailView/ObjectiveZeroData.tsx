@@ -14,7 +14,7 @@ export class ObjectiveZeroData extends React.Component<ObjectivesZeroDataProps, 
         const zeroDataSecondaryText = "Create some Objectives and Key Results for " + areaName;        
 
         return <ZeroData
-            imagePath={require('../Resources/ToDo.svg')}
+            imagePath={require('../Resources/ToDo.png')}
             imageAltText={"Todo list"}            
             secondaryText={zeroDataSecondaryText}>
         </ZeroData>;

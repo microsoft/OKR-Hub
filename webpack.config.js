@@ -42,7 +42,8 @@ module.exports = {
 		extensions: [".ts", ".tsx", ".js", ".json"]
 	},
 	module: {
-		rules: [{
+		rules: [
+			{
 				test: /\.tsx?$/,
 				exclude: /node_modules/,
 				use: [{
@@ -80,34 +81,43 @@ module.exports = {
 				test: /\.(scss)$/,
 
 				use: [{
-						loader: 'style-loader',
-						options: {
-							sourceMap: true
-						}
-					}, {
-						loader: 'css-loader',
-						options: {
-							sourceMap: true
-						}
-					},
-					{
-						loader: 'sass-loader',
-						options: {
-							sourceMap: true
-						}
+					loader: 'style-loader',
+					options: {
+						sourceMap: true
 					}
+				}, {
+					loader: 'css-loader',
+					options: {
+						sourceMap: true
+					}
+				},
+				{
+					loader: 'sass-loader',
+					options: {
+						sourceMap: true
+					}
+				}
 				]
 			},
 			{
-                test: /\.(woff(2)?|ttf|eot|svg)(\?v=\d+\.\d+\.\d+)?$/,
-                use: [{
-                    loader: 'file-loader',
-                    options: {
-                        name: '[name].[ext]',
-                        outputPath: 'fonts/'
-                    }
-                }]
-            }
+				test: /\.(woff(2)?|ttf|eot|svg)(\?v=\d+\.\d+\.\d+)?$/,
+				use: [{
+					loader: 'file-loader',
+					options: {
+						name: '[name].[ext]',
+						outputPath: 'fonts/'
+					}
+				}]
+			},
+			{
+				test: /\.(png|jpe?g|gif)$/,
+				use: [
+					{
+						loader: 'file-loader',
+						options: {},
+					},
+				],
+			},
 		]
 	},
 
