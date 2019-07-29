@@ -2,6 +2,7 @@
 	.area-grid {
 		display: flex;
 		flex-wrap: wrap; 
+		width: 100%;
 	}
 
 	.area-card {
@@ -11,7 +12,7 @@
 		.area-details {
 			display: flex;
 			flex-direction: column;
-			width: 90%;
+			width: 100%;
 
 			.area-card-details{
 				display: flex;
@@ -20,6 +21,11 @@
 				.card-header{
 					display: flex; 
 					justify-content: space-between; 
+					margin-bottom: 8px;
+
+					.flex-column {
+						flex: 1;
+					}
 				}
 
 				.area-name-title:hover{

@@ -19,6 +19,7 @@
             .kr-render {
                 display: flex;
                 flex-direction: row;
+
                 .kr-status {
                     padding-right: 5px;
 
@@ -43,6 +44,11 @@
                 font-style: italic;
                 span {
                     padding-right: 5px;
+                }
+                
+                .kr-button-group{
+                    display: flex;
+                    justify-content: flex-end;
                 }
             }
         }

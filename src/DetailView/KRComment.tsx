@@ -4,6 +4,7 @@ import { Icon } from "azure-devops-ui/Icon";
 import { KR } from "../Objective/Objective";
 import { Button } from "azure-devops-ui/Button";
 
+
 interface IKRCommentProps {
     isEditMode: boolean;
     kr: KR;
@@ -27,15 +28,17 @@ export class KRComment extends React.Component<IKRCommentProps, IKRCommentState>
                     { isEditMode? (<div>
                                     <TextField
                                         value={this.state.value}
-                                        placeholder="Add Comment"
+                                        placeholder="Add Note"
                                         multiline={true}
                                         autoFocus={true}
                                         onChange={(e, newValue) => {
                                             this.setState({value: newValue});
                                         }
                                     }/>
-                                    <Button iconProps={{ iconName: "CheckMark" }} subtle={true} onClick={() => { onSave(this.state.value) }} /> 
-                                    <Button iconProps={{ iconName: "Cancel" }} subtle={true} onClick={onCancel}/>
+                                    <div className="kr-button-group">
+                                        <Button iconProps={{ iconName: "Cancel" }} subtle={true} onClick={onCancel}/>
+                                        <Button iconProps={{ iconName: "CheckMark" }} subtle={true} onClick={() => { onSave(this.state.value) }} /> 
+                                    </div>
                                 </div>)
                                 : (kr.Comment ? (<div>
                                             <Icon iconName="Comment" />

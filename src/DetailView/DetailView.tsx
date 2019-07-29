@@ -20,7 +20,7 @@ export class DetailView extends React.Component<IDetailViewProps, {}> {
     
     constructor(props: IDetailViewProps) {
         super(props);
-        this.selectedTabId = new ObservableValue("q2");
+        this.selectedTabId = new ObservableValue("current");
     }
 
     public render() {
@@ -36,8 +36,7 @@ export class DetailView extends React.Component<IDetailViewProps, {}> {
                     selectedTabId={this.selectedTabId}
                     tabSize={TabSize.Tall}
                 >
-                    <Tab name="Q2" id="q2" />
-                    <Tab name="Future" id="future" />
+                    <Tab name="Current Quater" id="current" />
                 </TabBar>
                 <Observer selectedTabId={this.selectedTabId}>
                     {(props: { selectedTabId: string }) => {
