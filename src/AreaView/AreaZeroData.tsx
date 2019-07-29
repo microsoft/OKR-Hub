@@ -9,7 +9,7 @@ export class AreaZeroData extends React.Component<{}, {}> {
         const zeroDataSecondaryText = "To get started, create a new Product Area. Product Areas are a way to group your OKRs. It may be grouped by team, by product, or by service.";        
 
         return <ZeroData
-            imagePath={require('../Resources/ToDo.svg')}
+            imagePath={require('../Resources/ToDo.png')}
             imageAltText={"Todo list"}
             primaryText={zeroDataString}
             secondaryText={zeroDataSecondaryText}>
