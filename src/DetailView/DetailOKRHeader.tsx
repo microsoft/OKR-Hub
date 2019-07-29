@@ -10,7 +10,7 @@ export interface IDetailOKRHeaderProps {
 
 export const DetailOKRHeader: React.SFC<IDetailOKRHeaderProps> = (props: IDetailOKRHeaderProps) => {
 
-    const [{ }, actions ] = useStateValue();
+    const stateContext = useStateValue();
 
         
     const commandBarItems: IHeaderCommandBarItem[] = [
@@ -19,7 +19,7 @@ export const DetailOKRHeader: React.SFC<IDetailOKRHeaderProps> = (props: IDetail
             id: "create-okr",
             text: "New OKR", // TODO: Resource file for localization
             onActivate: () => {
-                actions.toggleAddPanel({ expanded: true });
+                stateContext.actions.toggleAddPanel({ expanded: true });
             },
             iconProps: {
                 iconName: "Add"

@@ -52,7 +52,7 @@ const renderInitialRow = (
 };
 
 function createDetailsViewPayload(): IMasterDetailsContextLayer<Area, undefined> {
-    const [{selectedArea}, actions] = useStateValue();
+    const stateContext = useStateValue();
     return {
         key: "detail-view",
         masterPanelContent: {
@@ -61,7 +61,7 @@ function createDetailsViewPayload(): IMasterDetailsContextLayer<Area, undefined>
             ),
             renderHeader: () => <MasterPanelHeader title={"Azure Devops"} />,
             onBackButtonClick: () => {
-                actions.navigatePage({
+                stateContext.actions.navigatePage({
                     pageLocation: "AreaView"
                 });
                 return false;
@@ -70,21 +70,21 @@ function createDetailsViewPayload(): IMasterDetailsContextLayer<Area, undefined>
         detailsContent: {
             renderContent: item => <DetailView selectedArea={item} />
         },
-        selectedMasterItem: new ObservableValue<Area>(selectedArea),
+        selectedMasterItem: new ObservableValue<Area>(stateContext.state.selectedArea),
     };
 }
 
 const MasterPanelContent: React.FunctionComponent<{
     initialSelectedMasterItem: IObservableValue<Area>;
 }> = props => {
-    const [{ areas }, actions] = useStateValue();
+    const stateContext = useStateValue();
 
-    const initialItemProvider = new ArrayItemProvider(areas as Area[]);
+    const initialItemProvider = new ArrayItemProvider(stateContext.state.areas as Area[]);
     const initialSelection = new ListSelection({ selectOnFocus: false });
 
     React.useEffect(() => {
-        if (areas.length === 0) { // this condition should be changed to deal with zero data experience.
-            actions.getAreas();
+        if (stateContext.state.areas.length === 0) { // this condition should be changed to deal with zero data experience.
+            stateContext.actions.getAreas(null);
         }
         
         // This is how the observable interacts with our selected item     
@@ -97,7 +97,7 @@ const MasterPanelContent: React.FunctionComponent<{
 
     
     const onListClick = (event: React.SyntheticEvent, listRow: IListRow<Area>) => {
-        actions.updateSelectedArea({
+        stateContext.actions.updateSelectedArea({
             selectedArea: listRow.data
         });
     };

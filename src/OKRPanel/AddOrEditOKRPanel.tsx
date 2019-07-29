@@ -1,6 +1,6 @@
 import * as React from "react";
 import { Panel } from "azure-devops-ui/Panel";
-import { StateContext } from '../StateMangement/StateProvider';
+import { StateContext, IOKRContext } from '../StateMangement/StateProvider';
 import OKRForm from "./OKRForm";
 import "./AddOrEditOKRPanel.scss";
 import { Objective } from "../Objective/Objective";
@@ -15,14 +15,14 @@ export default class AddOrEditOKRPanel extends React.Component<IAddOrEditOKRPane
     static contextType = StateContext;
 
     public render(): JSX.Element {
-        const [{}, actions] = this.context;
+        const stateContext = this.context as IOKRContext;
         const { title, objective } = this.props;
         return (
             <div>
                 <Panel
                         calloutClassName={"add-objective-panel"}
                         showSeparator
-                        onDismiss={() => actions.cancelCreationOrEdit({})}
+                        onDismiss={() => stateContext.actions.cancelCreationOrEdit({})}
                         titleProps={{ text: title }}
                     >
                         <div className="panel-content">
