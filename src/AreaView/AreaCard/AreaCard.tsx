@@ -14,6 +14,7 @@ export interface IAreaCardProps {
     identityProvider: IPeoplePickerProvider;
     navigateCallback: (area: Area) => void;
     updateAreaCallback: (area: Area) => void;
+    removeAreaCallback: (id: string, areaId: string) => void;
 }
 
 export class AreaCard extends React.Component<IAreaCardProps> {
@@ -34,7 +35,11 @@ export class AreaCard extends React.Component<IAreaCardProps> {
     }
 
     private onRenderNearElement = (): JSX.Element => {
-        return <AreaCardDetails area={this.props.area} objectives={this.props.objectives} navigateCallback={this.props.navigateCallback} updateAreaCallback={this.props.updateAreaCallback} />;
+        return <AreaCardDetails area={this.props.area} 
+                                objectives={this.props.objectives} 
+                                navigateCallback={this.props.navigateCallback} 
+                                updateAreaCallback={this.props.updateAreaCallback} 
+                                removeAreaCallback={this.props.removeAreaCallback} />;
     };
 
     private onRenderFarElement = (): JSX.Element => {
