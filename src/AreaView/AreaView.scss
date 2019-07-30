@@ -1,4 +1,6 @@
 .okrhub {
+	min-width: 1366px;
+
 	.area-grid {
 		display: flex;
 		flex-wrap: wrap; 
@@ -34,6 +36,7 @@
 
 				.bolt-expandable-button, .bolt-button {
 					align-items: center; 
+					flex-direction: column;
 				}
 			}
 		}

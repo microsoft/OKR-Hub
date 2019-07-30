@@ -29,7 +29,7 @@ export class MutableStatusDropDown extends React.Component<IMutableStatusDropDow
                     <option value="Queued">Not Started</option>
                     <option value="Success">On Track</option>
                     <option value="Warning">At Risk</option>
-                    <option value="Failed">Incomplete</option>
+                    <option value="Warning">Incomplete</option>
                     <option value="Canceled">Cancelled</option>
                     <option value="Success">Completed</option>
                 </select>);
