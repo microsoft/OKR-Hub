@@ -1,5 +1,5 @@
 .okrhub {
-	min-width: 1366px;
+	min-width: 1140px;
 
 	.area-grid {
 		display: flex;
@@ -9,7 +9,7 @@
 
 	.area-card {
 		margin: 8px;
-		width: 300px;
+		width: 380px;
 
 		.area-details {
 			display: flex;
@@ -24,6 +24,7 @@
 					display: flex; 
 					justify-content: space-between; 
 					margin-bottom: 8px;
+					align-items: baseline;
 
 					.flex-column {
 						flex: 1;
