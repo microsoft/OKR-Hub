@@ -12,6 +12,7 @@ export interface IAreaCardDetailsProps {
 	objectives: Objective[];
 	navigateCallback: (area: Area) => void;
 	updateAreaCallback: (area: Area) => void;
+	removeAreaCallback: (id: string, areaId: string) => void;
 }
 
 interface IAreaCardDetailsState {
@@ -44,7 +45,7 @@ export class AreaCardDetails extends React.Component<IAreaCardDetailsProps, IAre
 
 		}
 		else {
-			button = <MenuButton hideDropdownIcon={true} contextualMenuProps={{ menuProps: { id: "test", items: this.getButtons() } }} iconProps={{ iconName: "MoreVertical" }} />;
+			button = <MenuButton hideDropdownIcon={true} contextualMenuProps={{ menuProps: { id: "edit-area", items: this.getButtons() } }} iconProps={{ iconName: "More" }} />;
 			nameField = <h3><div className="area-name-title" onClick={() => { navigateCallback(area) }}>{area.Name}</div></h3>;
 			descriptionField = <p> {area.Description}</p>;
 		}
@@ -74,7 +75,9 @@ export class AreaCardDetails extends React.Component<IAreaCardDetailsProps, IAre
 				id: "delete-button",
 				text: "Delete",
 				iconProps: { iconName: "Delete" },
-				onActivate: () => { alert("To Do") }
+				onActivate: () => { 
+					this.props.removeAreaCallback(this.props.area.id, this.props.area.AreaId);
+				}
 			}
 		];
 	}

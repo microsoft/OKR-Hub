@@ -4,13 +4,13 @@ import { SplitterElementPosition, Splitter } from "azure-devops-ui/Splitter";
 import { Objective, KR } from "../Objective/Objective";
 
 import "./DetailOKR.scss";
-import { Button } from "azure-devops-ui/Button";
 import { StateContext, IOKRContext } from "../StateMangement/StateProvider";
 import AddOrEditOKRPanel from "../OKRPanel/AddOrEditOKRPanel";
 import { MutableStatusDropDown } from "../MutableStatusDropDown";
 import { Icon } from "azure-devops-ui/Icon";
 import produce from "immer";
 import { KRComment } from "./KRComment";
+import { MenuButton, IMenuItem } from "azure-devops-ui/Menu";
 
 export interface IDetailOKRProps {
     objective: Objective;
@@ -40,13 +40,10 @@ export class DetailOKR extends React.Component<IDetailOKRProps> {
     }
 
     private _renderObjective = () => {
-        const stateContext = this.context as IOKRContext;
         return (
             <div className="objective-title">
                 <h3 className="objective-name">{this.props.objective.Name}</h3>
-                <Button iconProps={{ iconName: "Edit" }} onClick={() => {
-                    stateContext.actions.toggleEditPanel({ expandedKey: this.props.objective.id });
-                }} />
+                <div className="objective-contex-menu"><MenuButton hideDropdownIcon={true} contextualMenuProps={{ menuProps: { id: "edit-okr", items: this.getButtons() } }} iconProps={{ iconName: "More" }} /></div>
             </div>
         );
     }
@@ -89,4 +86,26 @@ export class DetailOKR extends React.Component<IDetailOKRProps> {
                     }}/>
                 </div>);
     }
+
+    private getButtons(): IMenuItem[] {
+        const stateContext = this.context as IOKRContext;
+		return [
+			{
+				id: "edit-button",
+				text: "Edit Content",
+				iconProps: { iconName: "Edit" },
+				onActivate: () => { 
+                    stateContext.actions.toggleEditPanel({ expandedKey: this.props.objective.id });
+                }
+			},
+			{
+				id: "delete-button",
+				text: "Delete",
+				iconProps: { iconName: "Delete" },
+				onActivate: () => {
+                    stateContext.actions.removeOKR({id: this.props.objective.id});
+                }
+			}
+		];
+	}
 }
