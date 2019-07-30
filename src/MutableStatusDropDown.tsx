@@ -26,11 +26,11 @@ export class MutableStatusDropDown extends React.Component<IMutableStatusDropDow
 		if (selection) {
 			return (
                 <select className="kr-status" value={selection} onChange={this.onChange} onKeyDown={this.onKeyDown} onBlur={this.onBlur} tabIndex={0} autoFocus={true} style={selectStyle}>
-                    <option value="Queued">Not Started</option>
-                    <option value="Success">On Track</option>
+                    <option value="Waiting">Not Started</option>
+                    <option value="Running">On Track</option>
                     <option value="Warning">At Risk</option>
                     <option value="Warning">Incomplete</option>
-                    <option value="Canceled">Cancelled</option>
+                    <option value="Canceled">Canceled</option>
                     <option value="Success">Completed</option>
                 </select>);
         }
