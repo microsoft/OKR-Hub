@@ -11,13 +11,17 @@
            .kr-editor {
                 display: flex;
                 flex-direction: row;
-                margin-top: 20px;
+                margin-top: 10px;
 
                .flex-column {
                    flex: 1;
                }
             }
- 
+            
+            .okr-form-objective-name{
+                margin-top: 8px;
+            }
+
             .okr-form-add-kr {
                 margin-top: 10px;
                 display: flex;

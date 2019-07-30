@@ -4,15 +4,16 @@ import { OKRMainState } from "../StateMangement/OKRState";
 import { NavigationConstants } from "../OKRConstants";
 
 export const initialState: OKRMainState = {
-  pageLocation: NavigationConstants.DetailView,
+  pageLocation: NavigationConstants.AreaView,
   selectedArea: undefined,
-  objectives: [],
-  areas: [],
+  objectives: undefined,
+  areas: undefined,
   error: "",
   addPanelExpanded: false,
   editPanelExpandedKey: undefined,
-  areaPanelExpanded: false
-};
+  areaPanelExpanded: false,
+  editCommentKey: undefined
+}
 
 export const reducer = (state: OKRMainState = initialState, action) => {
   return produce(state, draft => {
@@ -28,6 +29,8 @@ export const reducer = (state: OKRMainState = initialState, action) => {
       // Areas
       case Types.getAreasSucceed:
         draft.areas = action.payload;
+        // If an area isn't already selected, set the first areas as the selected area
+        draft.selectedArea = draft.selectedArea ? draft.selectedArea : draft.areas[0]; 
         break;
       case Types.getAreasFailed:
         draft.error = action.error;
@@ -72,6 +75,7 @@ export const reducer = (state: OKRMainState = initialState, action) => {
           return o.id === action.payload.id ? action.payload : o;
         });
         draft.editPanelExpandedKey = undefined;
+        draft.editCommentKey = undefined;
         break;
       case Types.editOKRFailed:
         draft.error = action.error;
@@ -79,6 +83,9 @@ export const reducer = (state: OKRMainState = initialState, action) => {
       case Types.cancelCreationOrEdit:
         draft.editPanelExpandedKey = undefined;
         draft.addPanelExpanded = false;
+        break;
+      case Types.editKRComment:
+        draft.editCommentKey = action.payload.id;
         break;
       default:
         return state;

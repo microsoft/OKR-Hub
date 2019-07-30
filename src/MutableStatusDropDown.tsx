@@ -2,6 +2,11 @@ import * as React from "react";
 import { StatusType, Status, Statuses, StatusSize } from "azure-devops-ui/Status";
 import { KeyCode } from "azure-devops-ui/Util";
 
+const selectStyle = {
+    paddingRight: "5px",
+    fontFamily: '"Segoe UI","-apple-system",BlinkMacSystemFont,Roboto'
+}
+
 export interface IMutableStatusDropDownProps {
 	value: StatusType,
 	onSelect: (newValue: StatusType) => void
@@ -20,12 +25,13 @@ export class MutableStatusDropDown extends React.Component<IMutableStatusDropDow
         const {selection} = this.state;
 		if (selection) {
 			return (
-                <select value={selection} onChange={this.onChange} onKeyDown={this.onKeyDown} onBlur={this.onBlur} tabIndex={0} autoFocus={true}>
+                <select className="kr-status" value={selection} onChange={this.onChange} onKeyDown={this.onKeyDown} onBlur={this.onBlur} tabIndex={0} autoFocus={true} style={selectStyle}>
                     <option value="Queued">Not Started</option>
                     <option value="Success">On Track</option>
                     <option value="Warning">At Risk</option>
-                    <option value="Failed">In complete</option>
+                    <option value="Failed">Incomplete</option>
                     <option value="Canceled">Cancelled</option>
+                    <option value="Success">Completed</option>
                 </select>);
         }
         else {

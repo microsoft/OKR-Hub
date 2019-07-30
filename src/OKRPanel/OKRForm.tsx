@@ -1,5 +1,5 @@
 import * as React from "react";
-import { StateContext } from "../StateMangement/StateProvider";
+import { StateContext, IOKRContext } from "../StateMangement/StateProvider";
 import { Button } from "azure-devops-ui/Button";
 import { ButtonGroup } from "azure-devops-ui/ButtonGroup";
 import { TextField } from "azure-devops-ui/TextField";
@@ -31,7 +31,7 @@ export default class OKRForm extends React.Component<IOKRFormProps, IOKRFormStat
     }
     
     public render(): JSX.Element {
-        const [{ areas, selectedArea, timeFrame }, actions] = this.context;
+        const stateContext = this.context as IOKRContext;
         const { name, krs } = this.state;
         return (
             <>
@@ -76,24 +76,24 @@ export default class OKRForm extends React.Component<IOKRFormProps, IOKRFormStat
             <div className="okr-form-submit">
                 <ButtonGroup>
                     <Button text="Cancel" onClick={() => {
-                        actions.cancelCreationOrEdit({});
+                        stateContext.actions.cancelCreationOrEdit({});
                     }}/>
                     {this.props.objective === undefined ? <Button text="Create" primary={true} onClick={() => {
-                        actions.createOKR({
+                        stateContext.actions.createOKR({
                             Owner: this.state.owner,
                             Name: this.state.name,
                             Comments: this.state.comments,
-                            KRs: this.state.krs,
-                            AreaId: selectedArea.AreaId || (areas && areas[0].AreaId) || "test",
-                            TimeFrame: timeFrame,
+                            KRs: this.state.krs.filter(x => x.Content.trim().length > 0),
+                            AreaId: stateContext.state.selectedArea.AreaId || (stateContext.state.areas && stateContext.state.areas[0].AreaId) || "test",
+                            //TimeFrame: stateContext.state.timeFrame,
                             Progress: 0
                         });
                     }}/> : <Button text="Save" primary={true} onClick={() => {
-                        actions.editOKR(Object.assign(this.props.objective, {
+                        stateContext.actions.editOKR(Object.assign(this.props.objective, {
                             Owner: this.state.owner,
                             Name: this.state.name,
                             Comments: this.state.comments,
-                            KRs: this.state.krs
+                            KRs: this.state.krs.filter(x => x.Content.trim().length > 0)
                         }));
                     }}/>}
                 </ButtonGroup>

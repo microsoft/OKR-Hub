@@ -5,7 +5,7 @@ import { Observer } from "azure-devops-ui/Observer";
 import { Tab, TabBar, TabSize } from "azure-devops-ui/Tabs";
 import AddOrEditOKRPanel from "../OKRPanel/AddOrEditOKRPanel";
 import { DetailOKRHeader } from "./DetailOKRHeader";
-import { StateContext } from '../StateMangement/StateProvider';
+import { StateContext, IOKRContext } from '../StateMangement/StateProvider';
 import { Area } from "../Area/Area";
 
 import "./DetailView.scss";
@@ -20,24 +20,23 @@ export class DetailView extends React.Component<IDetailViewProps, {}> {
     
     constructor(props: IDetailViewProps) {
         super(props);
-        this.selectedTabId = new ObservableValue("q2");
+        this.selectedTabId = new ObservableValue("current");
     }
 
     public render() {
         const { selectedArea } = this.props;
-        const [{ areas, addPanelExpanded }] = this.context;
-        var area = selectedArea || (areas && areas[0]) ||{AreaId: "test"} as Area; // TODO: remove this fallback logic once we fix the routing.
+        const stateContext = this.context as IOKRContext;
+        var area = selectedArea || (stateContext.state.areas && stateContext.state.areas[0]) ||{AreaId: "test"} as Area; // TODO: remove this fallback logic once we fix the routing.
         return (
             <div className="detail-view-container">
                 <DetailOKRHeader selectedArea={area}/>
-                {addPanelExpanded && <AddOrEditOKRPanel title={"Add OKR"}/>}
+                {stateContext.state.addPanelExpanded && <AddOrEditOKRPanel title={"Add OKR"}/>}
                 <TabBar
                     onSelectedTabChanged={this.onSelectedTabChanged}
                     selectedTabId={this.selectedTabId}
                     tabSize={TabSize.Tall}
                 >
-                    <Tab name="Q2" id="q2" />
-                    <Tab name="Future" id="future" />
+                    <Tab name="Current Quater" id="current" />
                 </TabBar>
                 <Observer selectedTabId={this.selectedTabId}>
                     {(props: { selectedTabId: string }) => {

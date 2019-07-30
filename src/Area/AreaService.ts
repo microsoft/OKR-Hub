@@ -1,7 +1,5 @@
 import { Area } from "./Area";
 import { OKRDataService } from "../Data/OKRDataService";
-import { useStateValue } from "../StateMangement/StateProvider";
-import { useEffect } from "react";
 
 export class AreaService extends OKRDataService<Area> {
     private static singleton: AreaService;

@@ -24,11 +24,21 @@ export class OKRMain extends React.Component<{}, {}> {
 }
 
 const OKRPage: React.SFC<{}> = props => {
-    const [{ pageLocation }, actions] = useStateValue();
+    const stateContext = useStateValue();
+    // Make sure to initialize the objectives and areas
+    React.useEffect(() => {
+        if (!stateContext.state.objectives) {
+            stateContext.actions.getObjectives({});
+        }
+        if (!stateContext.state.areas) {
+            stateContext.actions.getAreas({});
+        }
+    });
+    
 
     let okrPage;
 
-    switch (pageLocation) {
+    switch (stateContext.state.pageLocation) {
         case NavigationConstants.AreaView:
             okrPage = <AreaView />;
             break;
@@ -43,19 +53,19 @@ const OKRPage: React.SFC<{}> = props => {
     return (
         <div>
             <Button text={"Home"} onClick={() => {
-                actions.navigatePage({
+                stateContext.actions.navigatePage({
                     pageLocation: NavigationConstants.AreaView
                 })
             }} />
 
             <Button text={"Objectives View"} onClick={() => {
-                actions.navigatePage({
+                stateContext.actions.navigatePage({
                     pageLocation: NavigationConstants.DetailView
                 })
             }} />
 
             <Button text={"Data"} onClick={() => {
-                actions.navigatePage({
+                stateContext.actions.navigatePage({
                     pageLocation: NavigationConstants.Data
                 })
             }} />
