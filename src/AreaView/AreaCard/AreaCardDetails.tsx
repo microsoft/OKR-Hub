@@ -1,10 +1,11 @@
 import * as React from "react";
 import { Objective } from "../../Objective/Objective";
 import { AreaCardProgress } from "./ActiveCardProgress";
-import { MenuButton, IMenuItem, MenuItemType, IMenu } from "azure-devops-ui/Menu";
+import { MenuButton, IMenuItem } from "azure-devops-ui/Menu";
 import { Button } from "azure-devops-ui/Button";
 import { TextField } from "azure-devops-ui/TextField";
 import { Area } from "../../Area/Area";
+import { Dialog } from "azure-devops-ui/Dialog";
 
 
 export interface IAreaCardDetailsProps {
@@ -12,12 +13,14 @@ export interface IAreaCardDetailsProps {
 	objectives: Objective[];
 	navigateCallback: (area: Area) => void;
 	updateAreaCallback: (area: Area) => void;
+	removeAreaCallback: (id: string, areaId: string) => void;
 }
 
 interface IAreaCardDetailsState {
 	isEditing: boolean;
 	editedName: string;
 	editedDescription: string;
+	isDialogOpen: boolean;
 }
 
 export class AreaCardDetails extends React.Component<IAreaCardDetailsProps, IAreaCardDetailsState> {
@@ -27,7 +30,8 @@ export class AreaCardDetails extends React.Component<IAreaCardDetailsProps, IAre
 		this.state = {
 			isEditing: false,
 			editedName: props.area.Name,
-			editedDescription: props.area.Description
+			editedDescription: props.area.Description,
+			isDialogOpen: false
 		}
 	}
 
@@ -44,7 +48,7 @@ export class AreaCardDetails extends React.Component<IAreaCardDetailsProps, IAre
 
 		}
 		else {
-			button = <MenuButton hideDropdownIcon={true} contextualMenuProps={{ menuProps: { id: "test", items: this.getButtons() } }} iconProps={{ iconName: "MoreVertical" }} />;
+			button = <MenuButton hideDropdownIcon={true} contextualMenuProps={{ menuProps: { id: "edit-area", items: this.getButtons() } }} iconProps={{ iconName: "More" }} />;
 			nameField = <h3><div className="area-name-title" onClick={() => { navigateCallback(area) }}>{area.Name}</div></h3>;
 			descriptionField = <p> {area.Description}</p>;
 		}
@@ -57,6 +61,26 @@ export class AreaCardDetails extends React.Component<IAreaCardDetailsProps, IAre
 				</div>
 				{descriptionField}
 				<h4>{`${objectives.length} objectives`}</h4>
+				{this.state.isDialogOpen && 
+                            <Dialog
+                                titleProps={{text: "Delete Area"}}
+                                footerButtonProps={[
+                                    {
+                                        text: "Cancel",
+                                        onClick: () => {
+                                            this.setState({isDialogOpen: false});
+                                        }
+                                    },
+                                    { text: "OK", primary: true, onClick: ()=> {
+                                        this.props.removeAreaCallback(this.props.area.id, this.props.area.AreaId);
+                                        this.setState({isDialogOpen: false});
+                                    }}
+                                ]}
+                                onDismiss={() => {
+                                    this.setState({isDialogOpen: false});
+                                }}>
+                                {"Are you sure to delete this area?"}
+                        </Dialog>}
 				<AreaCardProgress objectives={objectives} />
 			</div>
 		);
@@ -68,13 +92,15 @@ export class AreaCardDetails extends React.Component<IAreaCardDetailsProps, IAre
 				id: "edit-button",
 				text: "Edit",
 				iconProps: { iconName: "Edit" },
-				onActivate: (menuItem: IMenuItem) => { this.setState({ isEditing: true }) }
+				onActivate: () => { this.setState({ isEditing: true }) }
 			},
 			{
 				id: "delete-button",
 				text: "Delete",
 				iconProps: { iconName: "Delete" },
-				onActivate: () => { alert("To Do") }
+				onActivate: () => {
+					this.setState({isDialogOpen: true})
+				}
 			}
 		];
 	}

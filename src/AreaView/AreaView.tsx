@@ -22,6 +22,13 @@ export const AreaView: React.FunctionComponent<{}> = props => {
         stateContext.actions.editArea(area)
     }
 
+    const removeAreaCallback = (id: string, areaId: string): void => {
+        stateContext.actions.removeArea({
+            id: id,
+            areaId: areaId
+        });
+    }
+
     const commandBarItems: IHeaderCommandBarItem[] = [
         {
             important: true,
@@ -50,7 +57,7 @@ export const AreaView: React.FunctionComponent<{}> = props => {
                     title={"Azure Devops"}
                 />
                 <AddAreaPanel />
-                <AreaGrid areas={stateContext.state.areas} objectives={stateContext.state.objectives} navigateCallback={areaNavigateCallBack} updateAreaCallback={editAreaCallback} />
+                <AreaGrid areas={stateContext.state.areas} objectives={stateContext.state.objectives} navigateCallback={areaNavigateCallBack} updateAreaCallback={editAreaCallback} removeAreaCallback={removeAreaCallback}/>
             </div>
     }
 
