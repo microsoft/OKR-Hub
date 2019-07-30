@@ -96,7 +96,7 @@ export const applyMiddleware = dispatch => action =>
             });
             }, (error) => {
             dispatch({
-                type: Actions.areaOperationFailed,
+                type: Actions.createAreaFailed,
                 error: error
             });
         });

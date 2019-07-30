@@ -26,7 +26,7 @@ export const reducer = (state: OKRMainState = initialState, action) => {
         draft.selectedArea = action.payload.selectedArea;
         break;
 
-        // Error
+      // Error
       case Types.setError:
         draft.error = action.payload.error;
         break;
@@ -51,7 +51,7 @@ export const reducer = (state: OKRMainState = initialState, action) => {
         draft.areaPanelExpanded = false;
         break;
 
-        // Area failures
+      // Area failures
       case Types.createAreaFailed:
         draft.error = action.error;
         draft.areaPanelExpanded = false;
@@ -64,19 +64,12 @@ export const reducer = (state: OKRMainState = initialState, action) => {
       case Types.getObjectivesSucceed:
         draft.objectives = action.payload;
         break;
-      case Types.getObjectivesFailed:
-        draft.objectives = [];
-        draft.error = action.error;
-        break;
       case Types.toggleAddPanel:
         draft.addPanelExpanded = action.payload.expanded;
         break;
       case Types.createOKRSucceed:
         draft.objectives.push(action.payload);
         draft.addPanelExpanded = false;
-        break;
-      case Types.createOKRFailed:
-        draft.error = action.error;
         break;
       case Types.toggleEditPanel:
         draft.editPanelExpandedKey = action.payload.expandedKey;
@@ -88,9 +81,6 @@ export const reducer = (state: OKRMainState = initialState, action) => {
         draft.editPanelExpandedKey = undefined;
         draft.editCommentKey = undefined;
         break;
-      case Types.editOKRFailed:
-        draft.error = action.error;
-        break;
       case Types.cancelCreationOrEdit:
         draft.editPanelExpandedKey = undefined;
         draft.addPanelExpanded = false;
@@ -98,6 +88,20 @@ export const reducer = (state: OKRMainState = initialState, action) => {
       case Types.editKRComment:
         draft.editCommentKey = action.payload.id;
         break;
+
+      //Objective failures
+      case Types.createOKRFailed:
+        draft.error = action.error;
+        draft.addPanelExpanded = false;
+        break;
+      case Types.editOKRFailed:
+        draft.error = action.error;
+        break;
+      case Types.getObjectivesFailed:
+        draft.objectives = [];
+        draft.error = action.error;
+        break;
+
       default:
         return state;
     }
