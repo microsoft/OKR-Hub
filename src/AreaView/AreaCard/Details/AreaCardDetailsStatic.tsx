@@ -1,40 +1,42 @@
 import * as React from "react";
 import { Link } from "azure-devops-ui/Link";
-import { useStateValue } from "../../../StateProvider";
-import * as StateActions from "../../../DetailView/DetailViewActions";
+import { useStateValue } from "../../../StateMangement/StateProvider";
 import { NavigationConstants } from "../../../OKRConstants";
 import { useAreaCardValue } from "../Provider/AreaCardProvider";
+import { MenuButton, IMenuItem } from "azure-devops-ui/Menu";
 import * as AreaViewActions from "../Provider/AreaCardActions";
-import { Button } from "azure-devops-ui/Button";
 
 export const AreaCardDetailsStatic: React.FunctionComponent = props => {
-	const [{}, stateDispatcher] = useStateValue();
-	const [{area}, areaViewDispatcher] = useAreaCardValue();
+	const [{ }, stateDispatcher] = useStateValue();
+	const [{ area }, areaCardDispatcher] = useAreaCardValue();
 
 	return <>
-		{renderEditButton(areaViewDispatcher)}
-		<Link onClick={() => { onNameClick(stateDispatcher, area); }}>{area.Name}</Link>
-		<p>{area.Description}</p>
+		<div className="card-header">
+			<Link onClick={() => { onNameClick(stateDispatcher, area); }}>{area.Name}</Link>
+			<MenuButton hideDropdownIcon={true} contextualMenuProps={{ menuProps: { id: "test", items: getButtons(areaCardDispatcher) } }} iconProps={{ iconName: "MoreVertical" }} />
+		</div>
 	</>;
 }
 
-function renderEditButton(areaViewDispatcher): JSX.Element {
-	return <Button
-		onClick={() => areaViewDispatcher({ type: AreaViewActions.toggleEditMode })}
-		ariaLabel="Edit button"
-		iconProps={{ iconName: "Edit" }}
-	/>;
+function getButtons(areaCardDispatcher): IMenuItem[] {
+	return [
+		{
+			id: "edit-button",
+			text: "Edit",
+			iconProps: { iconName: "Edit" },
+			onActivate: () => areaCardDispatcher({ type: AreaViewActions.toggleEditMode })
+		},
+		{
+			id: "delete-button",
+			text: "Delete",
+			iconProps: { iconName: "Delete" },
+			onActivate: () => { alert("To Do") }
+		}
+	];
 }
 
 const onNameClick = (stateDispatcher, area): void => {
-	stateDispatcher({
-		type: StateActions.updateArea,
-		selectedArea: area
-	});
-
-	stateDispatcher({
-		type: StateActions.navigatePage,
-		pageLocation: NavigationConstants.DetailView
-	});
+	stateDispatcher.updateArea(area);
+	stateDispatcher.selectArea(NavigationConstants.DetailView);
 };
 

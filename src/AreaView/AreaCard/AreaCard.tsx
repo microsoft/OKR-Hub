@@ -9,7 +9,6 @@ import { AreaCardIdentity } from "./AreaCardIdentity";
 import { AreaCardDetails } from "./Details/AreaCardDetails";
 import { AreaCardProvider } from "./Provider/AreaCardProvider";
 import { areaCardReducer } from "./Provider/AreaCardReducer";
-import { IdentityProvider } from "../../Identity/IdentityProvider";
 
 export interface IAreaCardProps {
     area: Area;
@@ -20,7 +19,7 @@ export interface IAreaCardProps {
 }
 
 export const AreaCard: React.FunctionComponent<IAreaCardProps> = props => {
-    const { area} = props;
+    const { area } = props;
 
     const initialState = {
         area,
@@ -43,9 +42,9 @@ export const AreaCard: React.FunctionComponent<IAreaCardProps> = props => {
     </AreaCardProvider>;
 }
 
-    private onRenderNearElement = (): JSX.Element => {
-        return <AreaCardDetails navigateCallback={this.props.navigateCallback} updateAreaCallback={this.props.updateAreaCallback} />;
-    };
+function onRenderNearElement(): JSX.Element {
+    return <AreaCardDetails />;
+};
 
 function onRenderFarElement(identityProvider: IPeoplePickerProvider, ownerId: string): JSX.Element {
     return <AreaCardIdentity identityProvider={identityProvider} ownerId={ownerId} />;

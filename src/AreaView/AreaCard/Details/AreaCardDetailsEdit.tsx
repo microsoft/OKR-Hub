@@ -7,28 +7,32 @@ import { useAreaCardValue } from "../Provider/AreaCardProvider";
 export const AreaCardDetailsEdit: React.FunctionComponent = props => {
 	const [{ area }, areaDispatcher] = useAreaCardValue();
 
-	return <>
-		{renderEditButtons(areaDispatcher)}
-		<h3>
-			<MutableField value={area.Name} onChange={() => { console.log("saved"); }} />
-		</h3>
-		<p>
-			<MutableField value={area.Description} onChange={() => { }} />
-		</p>
-	</>;
+	return (
+		<div className="card-header">
+			<h3>
+				<MutableField value={area.Name} onChange={() => { console.log("saved"); }} />
+			</h3>
+			<p>
+				<MutableField value={area.Description} onChange={() => { }} />
+			</p>
+			{renderEditButtons(area, areaDispatcher)}
+		</div>
+	);
 };
 
-function renderEditButtons(areaDispatcher): JSX.Element {
+function renderEditButtons(area, areaDispatcher): JSX.Element {
 	return <>
 		<Button
-			onClick={() => save(areaDispatcher)}
+			onClick={() => save(area, areaDispatcher)}
 			ariaLabel="Save button"
-			iconProps={{ iconName: "Save" }}
+			iconProps={{ iconName: "CheckMark" }}
+			subtle={true}
 		/>
 		<Button
 			onClick={() => editModeToggle(areaDispatcher)}
 			ariaLabel="Cancel button"
 			iconProps={{ iconName: "Cancel" }}
+			subtle={true}
 		/>
 	</>;
 }
@@ -39,7 +43,14 @@ function editModeToggle(areaDispatcher): void {
 	});
 }
 
-function save(areaDispatcher): void {
+function save(area, areaDispatcher): void {
+	const a = {
+		...area,
+		Description: this.state.editedDescription,
+		Name: this.state.editedName
+	}
+
+	this.props.updateAreaCallback(a);
 
 	editModeToggle(areaDispatcher);
 }
