@@ -1,19 +1,24 @@
-
 import * as React from "react";
-import { ZeroData } from "azure-devops-ui/ZeroData";
+import { ZeroData, ZeroDataActionType } from "azure-devops-ui/ZeroData";
 
 export class AreaZeroData extends React.Component<{}, {}> {
 
     public render(): JSX.Element {
         const zeroDataString = "Welcome to the OKR Hub!";
-        const zeroDataSecondaryText = "To get started, create a new Product Area. Product Areas are a way to group your OKRs. It may be grouped by team, by product, or by service.";        
+        const zeroDataSecondaryText = "Create a Product Area, a grouping of OKRs around product, team, or service.";        
+        const zeroDataActionText = "Add Product Area"
 
         return <ZeroData
-            imagePath={require('../Resources/ToDo.png')}
-            imageAltText={"Todo list"}
+            imagePath={'https://cdn.vsassets.io/ext/ms.vss-dashboards-web/dashboard-view-content/images/empty-dashboard.438voqpTHNBIHWTG.svg'}
+            imageAltText={zeroDataActionText}
             primaryText={zeroDataString}
-            secondaryText={zeroDataSecondaryText}>
-        </ZeroData>;
+            secondaryText={zeroDataSecondaryText}
+            actionText={zeroDataActionText}
+            actionType={ZeroDataActionType.ctaButton} 
+            onActionClick={(event, item) =>
+                alert("TODO - open: " + item!.actionText)
+            }
+            />
     }
 
 }
