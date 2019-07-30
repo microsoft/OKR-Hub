@@ -50,7 +50,7 @@ function save(area, areaDispatcher, stateContext: IOKRContext): void {
 		//Name: this.state.editedName
 	}
 
-	stateContext.actions.editArea({ area: area});
+	stateContext.actions.editArea(area);
 
 	editModeToggle(areaDispatcher);
 }
