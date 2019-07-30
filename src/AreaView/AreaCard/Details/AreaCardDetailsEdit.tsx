@@ -3,27 +3,27 @@ import { MutableField } from "../../../MutableField";
 import * as Actions from "../Provider/AreaCardActions";
 import { Button } from "azure-devops-ui/Button";
 import { useAreaCardValue } from "../Provider/AreaCardProvider";
+import { useStateValue, IOKRContext } from "../../../StateMangement/StateProvider";
 
 export const AreaCardDetailsEdit: React.FunctionComponent = props => {
+	const stateContext = useStateValue();
 	const [{ area }, areaDispatcher] = useAreaCardValue();
 
 	return (
 		<div className="card-header">
 			<h3>
-				<MutableField value={area.Name} onChange={() => { console.log("saved"); }} />
+				<MutableField value={area.Name} onChange={(val) => { area.Name = val; }} />
 			</h3>
-			<p>
-				<MutableField value={area.Description} onChange={() => { }} />
-			</p>
-			{renderEditButtons(area, areaDispatcher)}
+			<MutableField value={area.Description} onChange={(val) => { areaDispatcher({ type: Actions.updateArea, area: { ...area, Description: val }})}} />
+			{renderEditButtons(area, areaDispatcher, stateContext)}
 		</div>
 	);
 };
 
-function renderEditButtons(area, areaDispatcher): JSX.Element {
+function renderEditButtons(area, areaDispatcher, stateContext: IOKRContext): JSX.Element {
 	return <>
 		<Button
-			onClick={() => save(area, areaDispatcher)}
+			onClick={() => save(area, areaDispatcher, stateContext)}
 			ariaLabel="Save button"
 			iconProps={{ iconName: "CheckMark" }}
 			subtle={true}
@@ -43,14 +43,14 @@ function editModeToggle(areaDispatcher): void {
 	});
 }
 
-function save(area, areaDispatcher): void {
+function save(area, areaDispatcher, stateContext: IOKRContext): void {
 	const a = {
 		...area,
-		Description: this.state.editedDescription,
-		Name: this.state.editedName
+		//Description: this.state.editedDescription,
+		//Name: this.state.editedName
 	}
 
-	this.props.updateAreaCallback(a);
+	stateContext.actions.editArea({ area: area});
 
 	editModeToggle(areaDispatcher);
 }

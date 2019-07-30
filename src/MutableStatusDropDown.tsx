@@ -36,10 +36,14 @@ export class MutableStatusDropDown extends React.Component<IMutableStatusDropDow
         }
         else {
             return (<div onClick={this.onReadOnlyClick} className="kr-status">
-                    <Status {...Statuses[this.props.value]} size={StatusSize.m} className="status-icon"/>
+                    <Status {...Statuses[this.props.value]} size={StatusSize.m} className="status-icon" onRenderIcon={this.onRenderIcon} />
                    </div>);
         }
-	}
+    }
+    
+    private onRenderIcon = (className: string, size: StatusSize, animated?: boolean, ariaLabel?: string): JSX.Element => {
+        return <div>Hi</div>;
+    }
 
 	private onReadOnlyClick = (): void => {
         this.setState({selection: this.props.value});

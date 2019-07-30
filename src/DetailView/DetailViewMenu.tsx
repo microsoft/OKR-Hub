@@ -29,10 +29,11 @@ const renderInitialRow = (
     details: IListItemDetails<AreaWithObjectives>,
 ): JSX.Element => {
     
-    const currentObjectives = item.objectives; 
+    const currentObjectives = item.objectives;
+    const objectiveCount = currentObjectives.length;
     let totalProgress = 0; 
     currentObjectives.forEach(objective => totalProgress += objective.Progress); 
-    const progress = totalProgress / currentObjectives.length;
+    const progress = objectiveCount > 0 ? totalProgress / objectiveCount : 0;
 
     return (
         <ListItem
@@ -43,7 +44,7 @@ const renderInitialRow = (
             <div className="master-row-content">
                 <div className="area-description">
                     <div className="area-name title">{item.area.Name}</div>
-                    <div className="area-objectives-count">{currentObjectives.length.toString() + " objectives"}</div>
+                    <div className="area-objectives-count">{objectiveCount.toString() + " objectives"}</div>
                 </div>
                 <Circle
                     progress={progress} 
