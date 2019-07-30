@@ -13,9 +13,9 @@ export const AreaCardDetailsStatic: React.FunctionComponent = props => {
 	return <>
 		<div className="card-header">
 			<h3><div className="area-name-title" onClick={() => { onNameClick(stateContext, area); }}>{area.Name}</div></h3>
-			<p>{area.Description}</p>
 			<MenuButton hideDropdownIcon={true} contextualMenuProps={{ menuProps: { id: "test", items: getButtons(areaCardDispatcher) } }} iconProps={{ iconName: "MoreVertical" }} />
 		</div>
+		<p>{area.Description}</p>
 	</>;
 }
 

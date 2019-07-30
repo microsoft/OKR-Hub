@@ -8,22 +8,23 @@ import { useStateValue, IOKRContext } from "../../../StateMangement/StateProvide
 export const AreaCardDetailsEdit: React.FunctionComponent = props => {
 	const stateContext = useStateValue();
 	const [{ area }, areaDispatcher] = useAreaCardValue();
+	const [{ editName, editDescription }, localDispatcher] = React.useState({ editName: area.Name, editDescription: area.Description});
 
-	return (
+	return <>
 		<div className="card-header">
 			<h3>
-				<MutableField value={area.Name} onChange={(val) => { area.Name = val; }} />
+				<input value={editName} onChange={(val) => { localDispatcher({ editName: val.target.value, editDescription})}} />
 			</h3>
-			<MutableField value={area.Description} onChange={(val) => { areaDispatcher({ type: Actions.updateArea, area: { ...area, Description: val }})}} />
-			{renderEditButtons(area, areaDispatcher, stateContext)}
+			{renderEditButtons(area, areaDispatcher, editName, editDescription, stateContext)}
 		</div>
-	);
+		<input value={editDescription} onChange={(val) => { localDispatcher({ editName, editDescription: val.target.value})}} />
+	</>;
 };
 
-function renderEditButtons(area, areaDispatcher, stateContext: IOKRContext): JSX.Element {
+function renderEditButtons(area, areaDispatcher, editName, editDescription, stateContext: IOKRContext): JSX.Element {
 	return <>
 		<Button
-			onClick={() => save(area, areaDispatcher, stateContext)}
+			onClick={() => save(area, areaDispatcher, editName, editDescription, stateContext)}
 			ariaLabel="Save button"
 			iconProps={{ iconName: "CheckMark" }}
 			subtle={true}
@@ -43,14 +44,15 @@ function editModeToggle(areaDispatcher): void {
 	});
 }
 
-function save(area, areaDispatcher, stateContext: IOKRContext): void {
-	const a = {
+function save(area, areaDispatcher, editName, editDescription, stateContext: IOKRContext): void {
+	const newArea = {
 		...area,
-		//Description: this.state.editedDescription,
-		//Name: this.state.editedName
-	}
+		Name: editName,
+		Description: editDescription,
+	};
 
-	stateContext.actions.editArea(area);
+	areaDispatcher({type: Actions.updateArea, area: newArea});
+	stateContext.actions.editArea(newArea);
 
 	editModeToggle(areaDispatcher);
 }
