@@ -11,14 +11,23 @@ import { Icon } from "azure-devops-ui/Icon";
 import produce from "immer";
 import { KRComment } from "./KRComment";
 import { MenuButton, IMenuItem } from "azure-devops-ui/Menu";
+import { Dialog } from "azure-devops-ui/Dialog";
 
 export interface IDetailOKRProps {
     objective: Objective;
 }
 
-export class DetailOKR extends React.Component<IDetailOKRProps> {
-    static contextType = StateContext;
+export interface IDetailOKRState {
+    isDialogOpen: boolean;
+}
 
+export class DetailOKR extends React.Component<IDetailOKRProps, IDetailOKRState> {
+    static contextType = StateContext;
+    constructor(props: IDetailOKRProps) {
+        super(props);
+        this.state = {isDialogOpen: false}
+    }
+    
     public render(): JSX.Element {
         const stateContext = this.context as IOKRContext;
         return (
@@ -40,10 +49,31 @@ export class DetailOKR extends React.Component<IDetailOKRProps> {
     }
 
     private _renderObjective = () => {
+        const stateContext = this.context as IOKRContext;
         return (
             <div className="objective-title">
                 <h3 className="objective-name">{this.props.objective.Name}</h3>
                 <div className="objective-contex-menu"><MenuButton hideDropdownIcon={true} contextualMenuProps={{ menuProps: { id: "edit-okr", items: this.getButtons() } }} iconProps={{ iconName: "More" }} /></div>
+                {this.state.isDialogOpen && 
+                            <Dialog
+                                titleProps={{text: "Delete Objective"}}
+                                footerButtonProps={[
+                                    {
+                                        text: "Cancel",
+                                        onClick: () => {
+                                            this.setState({isDialogOpen: false});
+                                        }
+                                    },
+                                    { text: "OK", primary: true, onClick: ()=> {
+                                        stateContext.actions.removeOKR({id: this.props.objective.id});
+                                        this.setState({isDialogOpen: false});
+                                    }}
+                                ]}
+                                onDismiss={() => {
+                                    this.setState({isDialogOpen: false});
+                                }}>
+                                {"Are you sure to delete this objective?"}
+                        </Dialog>}
             </div>
         );
     }
@@ -103,7 +133,7 @@ export class DetailOKR extends React.Component<IDetailOKRProps> {
 				text: "Delete",
 				iconProps: { iconName: "Delete" },
 				onActivate: () => {
-                    stateContext.actions.removeOKR({id: this.props.objective.id});
+                    this.setState({isDialogOpen: true});
                 }
 			}
 		];
