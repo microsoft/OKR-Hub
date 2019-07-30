@@ -5,6 +5,13 @@
 		width: 100%;
 	}
 
+	.okr-error-message{
+		// This is used in both area view and objectives view
+		.bolt-messagecard-content{
+			padding:5px 12px 5px 12px; 
+		}
+	}
+
 	.area-card {
 		margin: 8px;
 		width: 300px;

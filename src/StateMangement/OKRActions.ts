@@ -18,6 +18,9 @@ export interface IOKRActions {
     toggleAreaPanel: (data: any) => {};
     updateSelectedArea: (data: any) => {};
     createArea: (data: any) => {};
+    createAreaFailed: (data: any) => {};
+    setError: (data: any) => {};
+    areaOperationFailed: (data: any) => {};
 }
 
 export const useActions = (state: OKRMainState, dispatch) => ({
@@ -32,10 +35,14 @@ export const useActions = (state: OKRMainState, dispatch) => ({
     toggleEditPanel: data => dispatch({ type: Actions.toggleEditPanel, payload: data }),
     editArea: data => dispatch({ type: Actions.editArea, payload: data }),
     editAreaSucceeded: data => dispatch({ type: Actions.editAreaSucceed, payload: data }),
-    editKRStatus: data => dispatch({type: Actions.editKRStatus, payload: data}),
-    editKRComment: data => dispatch({type: Actions.editKRComment, payload: data}),
+    editKRStatus: data => dispatch({ type: Actions.editKRStatus, payload: data }),
+    editKRComment: data => dispatch({ type: Actions.editKRComment, payload: data }),
     // Create Area
-    createArea: data => dispatch({type: Actions.createArea, payload: data}),
-    createAreaSucceed: data => dispatch({type: Actions.createAreaSucceed, payload: data}),
-    toggleAreaPanel: data => dispatch({ type: Actions.toggleAreaPanel, payload: data })
+    createArea: data => dispatch({ type: Actions.createArea, payload: data }),
+    createAreaSucceed: data => dispatch({ type: Actions.createAreaSucceed, payload: data }),
+    createAreaFailed: data => dispatch({ type: Actions.createAreaFailed, payload: data }),
+
+    toggleAreaPanel: data => dispatch({ type: Actions.toggleAreaPanel, payload: data }),
+    setError: data => dispatch({ type: Actions.setError, payload: data }),
+    areaOperationFailed: data => dispatch({ type: Actions.areaOperationFailed, payload: data }),
 } as IOKRActions); 

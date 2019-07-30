@@ -34,8 +34,7 @@ export const applyMiddleware = dispatch => action =>
                     error: error
                 });
             });
-        }
-        
+        }        
     })
     .equals(Actions.getAreas).then(() => {
         AreaService.instance.getAll().then((allAreas: Area[]) => {
@@ -45,7 +44,7 @@ export const applyMiddleware = dispatch => action =>
             });
         }, (error)=> {
             dispatch({
-                type: Actions.getAreasFailed,
+                type: Actions.areaOperationFailed,
                 error: error
             });
         });
@@ -97,7 +96,7 @@ export const applyMiddleware = dispatch => action =>
             });
             }, (error) => {
             dispatch({
-                type: Actions.createAreaFailed,
+                type: Actions.areaOperationFailed,
                 error: error
             });
         });
@@ -110,7 +109,7 @@ export const applyMiddleware = dispatch => action =>
             });
             }, (error) => {
             dispatch({
-                type: Actions.editAreaFailed,
+                type: Actions.areaOperationFailed,
                 error: error
             });
         });

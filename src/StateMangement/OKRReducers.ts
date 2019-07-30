@@ -8,7 +8,7 @@ export const initialState: OKRMainState = {
   selectedArea: undefined,
   objectives: undefined,
   areas: undefined,
-  error: "",
+  error: undefined,
   addPanelExpanded: false,
   editPanelExpandedKey: undefined,
   areaPanelExpanded: false,
@@ -26,14 +26,16 @@ export const reducer = (state: OKRMainState = initialState, action) => {
         draft.selectedArea = action.payload.selectedArea;
         break;
 
+        // Error
+      case Types.setError:
+        draft.error = action.payload.error;
+        break;
+
       // Areas
       case Types.getAreasSucceed:
         draft.areas = action.payload;
         // If an area isn't already selected, set the first areas as the selected area
-        draft.selectedArea = draft.selectedArea ? draft.selectedArea : draft.areas[0]; 
-        break;
-      case Types.getAreasFailed:
-        draft.error = action.error;
+        draft.selectedArea = draft.selectedArea ? draft.selectedArea : draft.areas[0];
         break;
       case Types.toggleAreaPanel:
         draft.areaPanelExpanded = action.payload.expanded
@@ -47,6 +49,15 @@ export const reducer = (state: OKRMainState = initialState, action) => {
           return a.id === action.payload.id ? action.payload : a;
         });
         draft.areaPanelExpanded = false;
+        break;
+
+        // Area failures
+      case Types.createAreaFailed:
+        draft.error = action.error;
+        draft.areaPanelExpanded = false;
+        break;
+      case Types.areaOperationFailed:
+        draft.error = action.error;
         break;
 
       // Objectives

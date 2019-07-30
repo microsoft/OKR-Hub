@@ -96,8 +96,7 @@ module.exports = {
 					options: {
 						sourceMap: true
 					}
-				}
-				]
+				}]
 			},
 			{
 				test: /\.(woff(2)?|ttf|eot|svg)(\?v=\d+\.\d+\.\d+)?$/,

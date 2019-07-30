@@ -3,7 +3,6 @@ export const updateSelectedArea = "updateArea";
 
 export const getAreas = "getAreas"; 
 export const getAreasSucceed = "getAreasSucceed"; 
-export const getAreasFailed = "getAreasFailed"; 
 
 export const getObjectives = "getObjectives"; 
 export const getObjectivesSucceed = "getObjectivesSucceed";
@@ -27,9 +26,12 @@ export const createArea = "createArea";
 export const createAreaSucceed = "createAreaSucceed";
 export const createAreaFailed = "createAreaFailed"; 
 
+export const areaOperationFailed = "areaOperationFailed"; 
+
 export const editArea = "editArea";
 export const editAreaSucceed = "editAreaSucceed";
-export const editAreaFailed = "editAreaFailed"; 
-export const editKRStatus = "editKRStatus";
 
+export const editKRStatus = "editKRStatus";
 export const editKRComment = "editKRComment";
+
+export const setError = "setError"; 

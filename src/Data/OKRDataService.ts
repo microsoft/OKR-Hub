@@ -31,15 +31,9 @@ export abstract class OKRDataService<T extends OKRDocument> {
 
     public async getAll(): Promise<T[]> {
         const dataManager: IExtensionDataManager = await this.getDataManager();
-        let documents = [];
-        try {
-
-            const projectKey = await this.getProjectKey();
-            documents = await dataManager.getDocuments(projectKey) as T[];
-        } catch (_) {
-        }
-
-        return documents;
+        
+        const projectKey = await this.getProjectKey();
+        return await dataManager.getDocuments(projectKey) as T[];        
     }
 
     public async create(object: T): Promise<T> {

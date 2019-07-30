@@ -9,6 +9,7 @@ import { StateContext, IOKRContext } from '../StateMangement/StateProvider';
 import { Area } from "../Area/Area";
 
 import "./DetailView.scss";
+import { ErrorMessage } from "../ErrorMessage";
 
 export interface IDetailViewProps {
     selectedArea: Area;
@@ -17,7 +18,7 @@ export interface IDetailViewProps {
 export class DetailView extends React.Component<IDetailViewProps, {}> {
     private selectedTabId: ObservableValue<string>;
     static contextType = StateContext;
-    
+
     constructor(props: IDetailViewProps) {
         super(props);
         this.selectedTabId = new ObservableValue("current");
@@ -26,11 +27,12 @@ export class DetailView extends React.Component<IDetailViewProps, {}> {
     public render() {
         const { selectedArea } = this.props;
         const stateContext = this.context as IOKRContext;
-        var area = selectedArea || (stateContext.state.areas && stateContext.state.areas[0]) ||{AreaId: "test"} as Area; // TODO: remove this fallback logic once we fix the routing.
+
+        var area = selectedArea || (stateContext.state.areas && stateContext.state.areas[0]);
         return (
             <div className="detail-view-container">
-                <DetailOKRHeader selectedArea={area}/>
-                {stateContext.state.addPanelExpanded && <AddOrEditOKRPanel title={"Add OKR"}/>}
+                <DetailOKRHeader selectedArea={area} />
+                {stateContext.state.addPanelExpanded && <AddOrEditOKRPanel title={"Add OKR"} />}
                 <TabBar
                     onSelectedTabChanged={this.onSelectedTabChanged}
                     selectedTabId={this.selectedTabId}
@@ -41,10 +43,11 @@ export class DetailView extends React.Component<IDetailViewProps, {}> {
                 <Observer selectedTabId={this.selectedTabId}>
                     {(props: { selectedTabId: string }) => {
                         return (<>
-                              <div className="detail-view">
-                                 <DetailOKRList area={area} selectedTabId={props.selectedTabId}/>
-                                </div>
-                            </>);
+                            <div className="detail-view">
+                                <ErrorMessage onDismiss={() => { stateContext.actions.setError({ error: undefined }) }} error={stateContext.state.error} />
+                                <DetailOKRList area={area} selectedTabId={props.selectedTabId} />
+                            </div>
+                        </>);
                     }}
                 </Observer>
             </div>
