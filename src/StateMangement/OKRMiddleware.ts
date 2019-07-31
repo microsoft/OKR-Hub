@@ -5,6 +5,7 @@ import { Objective } from '../Objective/Objective';
 import { AreaService } from '../Area/AreaService';
 import { Area } from '../Area/Area';
 import { OKRDocument } from '../Data/OKRDocument';
+import { OKRDataService } from '../Data/OKRDataService';
 
 export const applyMiddleware = dispatch => action =>
   dispatch(action) ||
@@ -21,7 +22,7 @@ export const applyMiddleware = dispatch => action =>
                     type: Actions.getObjectivesFailed,
                     error: error
                 });
-            })
+            });
         }
         else {
             ObjectiveService.instance.getObjectivesByArea(action.payload.area).then((objectives)=> {
@@ -36,7 +37,19 @@ export const applyMiddleware = dispatch => action =>
                 });
             });
         }
-        
+    })
+    .equals(Actions.getProjectName).then(() => {
+        OKRDataService.getProjectName().then((projectName: string) => {
+            dispatch({
+                type: Actions.getProjectNameSucceed,
+                projectName: projectName
+            });
+        }, (error)=> {
+            dispatch({
+                type: Actions.getProjectNameFailed,
+                error: error
+            });
+        });
     })
     .equals(Actions.getAreas).then(() => {
         AreaService.instance.getAll().then((allAreas: Area[]) => {

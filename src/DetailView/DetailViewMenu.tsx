@@ -58,7 +58,7 @@ const renderInitialRow = (
 function createDetailsViewPayload(): IMasterDetailsContextLayer<AreaWithObjectives, undefined> {    
 
     const stateContext = useStateValue();
-    const {areas, objectives, selectedArea } = stateContext.state; 
+    const {areas, objectives, selectedArea, projectName } = stateContext.state; 
 
     // We need to pass the objectives with the areas to the renderInitialRow method. This is how we display objective counts
     const areasWithObjectives: AreaWithObjectives[] = areas.map((a: Area) => {
@@ -78,7 +78,7 @@ function createDetailsViewPayload(): IMasterDetailsContextLayer<AreaWithObjectiv
             renderContent: (parentItem, initialSelectedMasterItem) => (
                 <MasterPanelContent initialSelectedMasterItem={initialSelectedMasterItem} itemProvider={initialItemProvider} />
             ),
-            renderHeader: () => <MasterPanelHeader title={"Azure Devops"} />,
+            renderHeader: () => <MasterPanelHeader title={projectName} />,
             onBackButtonClick: () => {
                 stateContext.actions.navigatePage({
                     pageLocation: "AreaView"

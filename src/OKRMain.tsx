@@ -33,6 +33,9 @@ const OKRPage: React.SFC<{}> = props => {
         if (!stateContext.state.areas) {
             stateContext.actions.getAreas({});
         }
+        if (!stateContext.state.projectName) {
+            stateContext.actions.getProjectName({});
+        }
     });
     
 
