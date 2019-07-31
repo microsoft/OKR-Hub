@@ -2,6 +2,8 @@ import produce from "immer";
 import * as Types from "./OKRActionTypes";
 import { OKRMainState } from "../StateMangement/OKRState";
 import { NavigationConstants } from "../OKRConstants";
+import { Objective } from "../Objective/Objective";
+import { Area } from "../Area/Area";
 
 export const initialState: OKRMainState = {
   pageLocation: NavigationConstants.AreaView,
@@ -36,6 +38,7 @@ export const reducer = (state: OKRMainState = initialState, action) => {
         draft.areas = action.payload;
         // If an area isn't already selected, set the first areas as the selected area
         draft.selectedArea = draft.selectedArea ? draft.selectedArea : draft.areas[0];
+        draft.selectedArea = draft.selectedArea ? draft.selectedArea : draft.areas[0];
         break;
       case Types.toggleAreaPanel:
         draft.areaPanelExpanded = action.payload.expanded
@@ -49,6 +52,11 @@ export const reducer = (state: OKRMainState = initialState, action) => {
           return a.id === action.payload.id ? action.payload : a;
         });
         draft.areaPanelExpanded = false;
+        break;
+      case Types.removeAreaSucceed:
+        draft.areas = draft.areas.filter((area: Area) => {
+          return area.id !== action.id;
+        })
         break;
 
       // Area failures
@@ -88,13 +96,18 @@ export const reducer = (state: OKRMainState = initialState, action) => {
       case Types.editKRComment:
         draft.editCommentKey = action.payload.id;
         break;
+      case Types.removeOKRSucceed:
+        draft.objectives = draft.objectives.filter((objective: Objective) => {
+          return objective.id !== action.id;
+        })
+        break;
 
       //Objective failures
       case Types.createOKRFailed:
         draft.error = action.error;
         draft.addPanelExpanded = false;
         break;
-      case Types.editOKRFailed:
+      case Types.objectiveOperationFailed:
         draft.error = action.error;
         break;
       case Types.getObjectivesFailed:

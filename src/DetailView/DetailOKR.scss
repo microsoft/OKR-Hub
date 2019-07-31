@@ -1,10 +1,15 @@
 .okr-list-container {
     padding: 10px;
+    align-items: baseline;
 
     .objective-title {
         display: flex;
+
         .objective-name {
             flex-grow: 1;
+        }
+        .objective-context-menu {
+            margin: 6px 0 6px 20px;
         }
     }
 

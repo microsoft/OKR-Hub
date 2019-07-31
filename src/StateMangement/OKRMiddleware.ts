@@ -4,6 +4,7 @@ import { ObjectiveService } from '../Objective/ObjectiveService';
 import { Objective } from '../Objective/Objective';
 import { AreaService } from '../Area/AreaService';
 import { Area } from '../Area/Area';
+import { OKRDocument } from '../Data/OKRDocument';
 
 export const applyMiddleware = dispatch => action =>
   dispatch(action) ||
@@ -57,7 +58,7 @@ export const applyMiddleware = dispatch => action =>
             });
             }, (error) => {
             dispatch({
-                type: Actions.editOKRFailed,
+                type: Actions.objectiveOperationFailed,
                 error: error
             });
         });
@@ -70,7 +71,7 @@ export const applyMiddleware = dispatch => action =>
             });
             }, (error) => {
             dispatch({
-                type: Actions.editOKRFailed,
+                type: Actions.objectiveOperationFailed,
                 error: error
             });
         });
@@ -112,6 +113,39 @@ export const applyMiddleware = dispatch => action =>
                 type: Actions.areaOperationFailed,
                 error: error
             });
+        });
+    })
+    .equals(Actions.removeOKR).then(()=> {
+        ObjectiveService.instance.delete((docuemnt: OKRDocument) => {
+            return docuemnt.id === action.payload.id;
+        }).then(()=> {
+            dispatch({
+                type: Actions.removeOKRSucceed,
+                id: action.payload.id
+            });
+        }, (error) => {
+            dispatch({
+                type: Actions.objectiveOperationFailed,
+                error: error
+        });
+        });
+    })
+    .equals(Actions.removeArea).then(()=> {
+        AreaService.instance.delete((area: Area) => {
+            return area.id === action.payload.id;
+        }).then(()=> {
+            dispatch({
+                type: Actions.removeAreaSucceed,
+                id: action.payload.id
+            });
+            ObjectiveService.instance.delete((okr: Objective) => {
+                return okr.AreaId === action.payload.areaId;
+            });
+        }, (error) => {
+            dispatch({
+                type: Actions.areaOperationFailed,
+                error: error
+        });
         });
     })
     .else(null);

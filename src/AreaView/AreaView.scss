@@ -1,4 +1,6 @@
 .okrhub {
+	min-width: 1140px;
+
 	.area-grid {
 		display: flex;
 		flex-wrap: wrap; 
@@ -14,7 +16,7 @@
 
 	.area-card {
 		margin: 8px;
-		width: 300px;
+		width: 380px;
 
 		.area-details {
 			display: flex;
@@ -29,6 +31,7 @@
 					display: flex; 
 					justify-content: space-between; 
 					margin-bottom: 8px;
+					align-items: baseline;
 
 					.flex-column {
 						flex: 1;
@@ -41,6 +44,7 @@
 
 				.bolt-expandable-button, .bolt-button {
 					align-items: center; 
+					flex-direction: column;
 				}
 			}
 		}
