@@ -16,14 +16,13 @@ export const getObjectivesFailed = "getObjectivesFailed";
 export const createOKR = "createOKR";
 export const createOKRSucceed = "createOKRSucceed";
 export const cancelCreationOrEdit = "cancelCreation";
-export const createOKRFailed = "createOKRFailed";
 
 export const createArea = "createArea";
 export const createAreaSucceed = "createAreaSucceed";
 export const createAreaFailed = "createAreaFailed"; 
 
 export const areaOperationFailed = "areaOperationFailed";
-export const objectiveOperationFailed = "areaOperationFailed";
+export const objectiveOperationFailed = "objectiveOperationFailed";
 export const setError = "setError"; 
 
 export const editOKR = "editOKR";
@@ -40,3 +39,7 @@ export const removeOKRSucceed = "removeOKRSucceed";
 
 export const removeArea = "removeArea";
 export const removeAreaSucceed = "removeAreaSucceed";
+
+export const getProjectName = "getProjectName";
+export const getProjectNameSucceed = "getProjectNameSucceed";
+export const getProjectNameFailed = "getProjectNameFailed";

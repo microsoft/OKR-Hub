@@ -1,23 +1,32 @@
 import * as React from "react";
-import { IdentityPickerDropdown, IPeoplePickerProvider, IIdentity } from "azure-devops-ui/IdentityPicker";
+import { IPeoplePickerProvider, IIdentity, IdentityPickerDropdown } from "azure-devops-ui/IdentityPicker";
 
 export interface IAreaCardIdentityProps {
+    identityProvider: IPeoplePickerProvider;
     ownerId: string;
-	identityProvider: IPeoplePickerProvider;
+    editMode: boolean;
 }
 
-export class AreaCardIdentity extends React.Component<IAreaCardIdentityProps> {
-	public render = (): JSX.Element => {
-        return <div className="area-identity">
-            <IdentityPickerDropdown
-                onChange={this.onChange}
-                pickerProvider={this.props.identityProvider}
-                value={this.props.identityProvider.getEntityFromUniqueAttribute(this.props.ownerId) as IIdentity}
-            />
-        </div>;
-    };
+export const AreaCardIdentity: React.FunctionComponent<IAreaCardIdentityProps> = props => {
+    const { identityProvider, ownerId, editMode } = props;
 
-	private onChange = (identity?: IIdentity) => {
+    return <div className="area-identity">
+        {editMode ? renderPicker(identityProvider, ownerId) : renderStatic(ownerId)}
+    </div>;
+};
 
-    };
-}
+function renderStatic(ownerId): JSX.Element {
+    return <div>{ownerId}</div>;
+};
+
+function renderPicker(identityProvider: IPeoplePickerProvider, ownerId: string): JSX.Element {
+    return <IdentityPickerDropdown
+        onChange={onChange}
+        pickerProvider={identityProvider}
+        value={identityProvider.getEntityFromUniqueAttribute(ownerId) as IIdentity}
+    />;
+};
+
+function onChange(identity?: IIdentity) {
+
+};

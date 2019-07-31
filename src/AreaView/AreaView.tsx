@@ -50,12 +50,18 @@ export const AreaView: React.FunctionComponent<{}> = props => {
 
     // Don't show anything until we have fetched the areas and objectives    
     if (stateContext.state.areas && stateContext.state.objectives) {
+        let cbItems = [...commandBarItems]
+        // TODO: wait for ZeroData CTA working to enable this hide
+        // ZeroData - hide New Product Area button
+        // if(stateContext.state.areas && stateContext.state.areas.length < 1){
+        //     cbItems = []
+        // }
         content =
             <div>
                 <Header
                     className={"area-view-header"}
-                    commandBarItems={[...commandBarItems]}
-                    title={"Azure Devops"}
+                    commandBarItems={cbItems}
+                    title={stateContext.state.projectName}
                 />
                 <ErrorMessage onDismiss={dismissError} error={stateContext.state.error} />
                 <AddAreaPanel />

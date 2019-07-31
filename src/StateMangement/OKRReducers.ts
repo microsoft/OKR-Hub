@@ -14,7 +14,8 @@ export const initialState: OKRMainState = {
   addPanelExpanded: false,
   editPanelExpandedKey: undefined,
   areaPanelExpanded: false,
-  editCommentKey: undefined
+  editCommentKey: undefined,
+  projectName: ""
 }
 
 export const reducer = (state: OKRMainState = initialState, action) => {
@@ -26,6 +27,12 @@ export const reducer = (state: OKRMainState = initialState, action) => {
         break;
       case Types.updateSelectedArea:
         draft.selectedArea = action.payload.selectedArea;
+        break;
+      case Types.getProjectNameSucceed:
+        draft.projectName = action.projectName;
+        break;
+      case Types.getProjectNameFailed:
+        draft.error = action.error;
         break;
 
       // Error
@@ -103,12 +110,10 @@ export const reducer = (state: OKRMainState = initialState, action) => {
         break;
 
       //Objective failures
-      case Types.createOKRFailed:
-        draft.error = action.error;
-        draft.addPanelExpanded = false;
-        break;
       case Types.objectiveOperationFailed:
         draft.error = action.error;
+        draft.editPanelExpandedKey = undefined;
+        draft.addPanelExpanded = false;
         break;
       case Types.getObjectivesFailed:
         draft.objectives = [];

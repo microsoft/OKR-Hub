@@ -24,13 +24,10 @@
             .kr-render {
                 display: flex;
                 flex-direction: row;
+                align-items: baseline;
 
                 .kr-status {
                     padding-right: 5px;
-
-                    &:hover {
-                        border: 1px solid #666666;
-                    }
                 }
 
                 .kr-content-container {
