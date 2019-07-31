@@ -33,3 +33,11 @@ export const editAreaFailed = "editAreaFailed";
 export const editKRStatus = "editKRStatus";
 
 export const editKRComment = "editKRComment";
+
+export const removeOKR = "removeOKR";
+export const removeOKRSucceed = "removeOKRSucceed";
+export const removeOKRFailed = "removeOKRFailed";
+
+export const removeArea = "removeArea";
+export const removeAreaSucceed = "removeAreaSucceed";
+export const removeAreaFailed = "removeAreaFailed";

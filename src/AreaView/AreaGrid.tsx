@@ -12,6 +12,7 @@ export interface IAreaGridProps {
     objectives: Objective[];
     navigateCallback: (area: Area) => void;
     updateAreaCallback: (area: Area) => void;
+    removeAreaCallback: (id: string, areaId: string) => void;
 }
 
 export class AreaGrid extends React.Component<IAreaGridProps> {
@@ -19,7 +20,6 @@ export class AreaGrid extends React.Component<IAreaGridProps> {
     private identityProvider: IPeoplePickerProvider = new IdentityProvider();
 
     public render(): JSX.Element {
-
         const { areas } = this.props;
 
         if (areas && areas.length > 0) {
@@ -32,6 +32,7 @@ export class AreaGrid extends React.Component<IAreaGridProps> {
                         key={index}
                         navigateCallback={this.props.navigateCallback}
                         updateAreaCallback={this.props.updateAreaCallback}
+                        removeAreaCallback={this.props.removeAreaCallback}
                     />
                 )}
             </div>
@@ -39,7 +40,6 @@ export class AreaGrid extends React.Component<IAreaGridProps> {
         else {
             return <AreaZeroData />; 
         }
-
     }
 
     private getObjectives(areaId: string): Objective[] {        

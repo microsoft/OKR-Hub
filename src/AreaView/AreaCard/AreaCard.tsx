@@ -16,6 +16,7 @@ export interface IAreaCardProps {
     identityProvider: IPeoplePickerProvider;
     navigateCallback: (area: Area) => void;
     updateAreaCallback: (area: Area) => void;
+    removeAreaCallback: (id: string, areaId: string) => void;
 }
 
 export const AreaCard: React.FunctionComponent<IAreaCardProps> = props => {
