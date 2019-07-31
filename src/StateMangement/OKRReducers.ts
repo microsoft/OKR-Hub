@@ -10,7 +10,7 @@ export const initialState: OKRMainState = {
   selectedArea: undefined,
   objectives: undefined,
   areas: undefined,
-  error: "",
+  error: undefined,
   addPanelExpanded: false,
   editPanelExpandedKey: undefined,
   areaPanelExpanded: false,
@@ -35,15 +35,17 @@ export const reducer = (state: OKRMainState = initialState, action) => {
         draft.error = action.error;
         break;
 
+      // Error
+      case Types.setError:
+        draft.error = action.payload.error;
+        break;
+
       // Areas
       case Types.getAreasSucceed:
         draft.areas = action.payload;
         // If an area isn't already selected, set the first areas as the selected area
-        draft.selectedArea = draft.selectedArea ? draft.selectedArea : draft.areas[0]; 
-        break;
-      case Types.getAreasFailed:
-      case Types.removeAreaFailed:
-        draft.error = action.error;
+        draft.selectedArea = draft.selectedArea ? draft.selectedArea : draft.areas[0];
+        draft.selectedArea = draft.selectedArea ? draft.selectedArea : draft.areas[0];
         break;
       case Types.toggleAreaPanel:
         draft.areaPanelExpanded = action.payload.expanded
@@ -64,13 +66,18 @@ export const reducer = (state: OKRMainState = initialState, action) => {
         })
         break;
 
+      // Area failures
+      case Types.createAreaFailed:
+        draft.error = action.error;
+        draft.areaPanelExpanded = false;
+        break;
+      case Types.areaOperationFailed:
+        draft.error = action.error;
+        break;
+
       // Objectives
       case Types.getObjectivesSucceed:
         draft.objectives = action.payload;
-        break;
-      case Types.getObjectivesFailed:
-        draft.objectives = [];
-        draft.error = action.error;
         break;
       case Types.toggleAddPanel:
         draft.addPanelExpanded = action.payload.expanded;
@@ -78,9 +85,6 @@ export const reducer = (state: OKRMainState = initialState, action) => {
       case Types.createOKRSucceed:
         draft.objectives.push(action.payload);
         draft.addPanelExpanded = false;
-        break;
-      case Types.createOKRFailed:
-        draft.error = action.error;
         break;
       case Types.toggleEditPanel:
         draft.editPanelExpandedKey = action.payload.expandedKey;
@@ -91,10 +95,6 @@ export const reducer = (state: OKRMainState = initialState, action) => {
         });
         draft.editPanelExpandedKey = undefined;
         draft.editCommentKey = undefined;
-        break;
-      case Types.editOKRFailed:
-      case Types.removeOKRFailed:
-        draft.error = action.error;
         break;
       case Types.cancelCreationOrEdit:
         draft.editPanelExpandedKey = undefined;
@@ -108,6 +108,18 @@ export const reducer = (state: OKRMainState = initialState, action) => {
           return objective.id !== action.id;
         })
         break;
+
+      //Objective failures
+      case Types.objectiveOperationFailed:
+        draft.error = action.error;
+        draft.editPanelExpandedKey = undefined;
+        draft.addPanelExpanded = false;
+        break;
+      case Types.getObjectivesFailed:
+        draft.objectives = [];
+        draft.error = action.error;
+        break;
+
       default:
         return state;
     }

@@ -41,7 +41,15 @@ export abstract class OKRDataService<T extends OKRDocument> {
         try {
             const projectKey = await this.getProjectKey();
             documents = await dataManager.getDocuments(projectKey) as T[];
-        } catch (_) {
+        } catch (error) {
+            // Document collection doesn't exist will throw on first run experience. 
+            // Users don't want to see this error. Swallow error and return empty documents. 
+            if (error && error.serverError && error.serverError.typeKey === "DocumentCollectionDoesNotExistException") {
+                // no-op
+            }
+            else {
+                throw (error);
+            }
         }
 
         return documents;

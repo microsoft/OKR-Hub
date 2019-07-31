@@ -6,6 +6,7 @@ import { AddAreaPanel } from '../AreaPanel/AddAreaPanel';
 import { useStateValue } from "../StateMangement/StateProvider";
 import { NavigationConstants } from "../OKRConstants";
 import { Area } from "../Area/Area";
+import { ErrorMessage } from "../ErrorMessage";
 
 export const AreaView: React.FunctionComponent<{}> = props => {
     const stateContext = useStateValue();
@@ -15,18 +16,19 @@ export const AreaView: React.FunctionComponent<{}> = props => {
             selectedArea: area,
             pageLocation: NavigationConstants.DetailView
         })
-    }
-
+    };
     const editAreaCallback = (area: Area): void => {
         stateContext.actions.editArea(area)
-    }
-
+    };
+    const dismissError = (): void => {
+        stateContext.actions.setError({error: undefined});
+    }; 
     const removeAreaCallback = (id: string, areaId: string): void => {
         stateContext.actions.removeArea({
             id: id,
             areaId: areaId
         });
-    }
+    };
 
     const commandBarItems: IHeaderCommandBarItem[] = [
         {
@@ -61,6 +63,7 @@ export const AreaView: React.FunctionComponent<{}> = props => {
                     commandBarItems={cbItems}
                     title={stateContext.state.projectName}
                 />
+                <ErrorMessage onDismiss={dismissError} error={stateContext.state.error} />
                 <AddAreaPanel />
                 <AreaGrid areas={stateContext.state.areas} objectives={stateContext.state.objectives} navigateCallback={areaNavigateCallBack} updateAreaCallback={editAreaCallback} removeAreaCallback={removeAreaCallback}/>
             </div>

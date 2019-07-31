@@ -59,7 +59,7 @@ export const applyMiddleware = dispatch => action =>
             });
         }, (error)=> {
             dispatch({
-                type: Actions.getAreasFailed,
+                type: Actions.areaOperationFailed,
                 error: error
             });
         });
@@ -72,7 +72,7 @@ export const applyMiddleware = dispatch => action =>
             });
             }, (error) => {
             dispatch({
-                type: Actions.editOKRFailed,
+                type: Actions.objectiveOperationFailed,
                 error: error
             });
         });
@@ -85,7 +85,7 @@ export const applyMiddleware = dispatch => action =>
             });
             }, (error) => {
             dispatch({
-                type: Actions.editOKRFailed,
+                type: Actions.objectiveOperationFailed,
                 error: error
             });
         });
@@ -98,7 +98,7 @@ export const applyMiddleware = dispatch => action =>
             });
         }, (error) => {
             dispatch({
-                type: Actions.createOKRFailed,
+                type: Actions.objectiveOperationFailed,
                 error: error
             });
         });
@@ -124,7 +124,7 @@ export const applyMiddleware = dispatch => action =>
             });
             }, (error) => {
             dispatch({
-                type: Actions.editAreaFailed,
+                type: Actions.areaOperationFailed,
                 error: error
             });
         });
@@ -139,7 +139,7 @@ export const applyMiddleware = dispatch => action =>
             });
         }, (error) => {
             dispatch({
-                type: Actions.removeOKRFailed,
+                type: Actions.objectiveOperationFailed,
                 error: error
         });
         });
@@ -157,7 +157,7 @@ export const applyMiddleware = dispatch => action =>
             });
         }, (error) => {
             dispatch({
-                type: Actions.removeAreaFailed,
+                type: Actions.areaOperationFailed,
                 error: error
         });
         });

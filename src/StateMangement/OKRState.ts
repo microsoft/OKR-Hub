@@ -7,7 +7,7 @@ export interface OKRMainState {
     selectedArea: Area;
     objectives: Objective[];
     areas: Area[];
-    error: string;
+    error: Error;
     addPanelExpanded: boolean;
     editPanelExpandedKey: string;
     areaPanelExpanded: boolean; 
