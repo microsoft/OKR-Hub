@@ -2,11 +2,7 @@
     "manifestVersion": 1,
     "id": "okr-hub",
     "publisher": "nianwensong",
-<<<<<<< HEAD
-    "version": "1.0.361",
-=======
-    "version": "1.0.365",
->>>>>>> origin/master
+    "version": "1.0.367",
     "name": "OKR Hub",
     "description": "",
     "public": false,
