@@ -38,6 +38,11 @@ export const AreaCard: React.FunctionComponent<IAreaCardProps> = props => {
     };
 
     const onClickCard = (e) => {
+        if (editMode) {
+            e.stopPropagation();
+            return;
+        }
+        
         var element = e.target;
         while(!element.classList.contains("area-grid")) {
             if (element.classList.contains("area-context-menu")) {
