@@ -21,6 +21,7 @@ export interface IOKRActions {
     createAreaFailed: (data: any) => {};
     setError: (data: any) => {};
     areaOperationFailed: (data: any) => {};
+    objectivesOperationFailed: (data: any) => {};
     removeOKR: (data: any) => {};
     removeArea: (data: any) => {};
     getProjectName: (data: any) => {};
@@ -48,6 +49,7 @@ export const useActions = (state: OKRMainState, dispatch) => ({
     toggleAreaPanel: data => dispatch({ type: Actions.toggleAreaPanel, payload: data }),
     setError: data => dispatch({ type: Actions.setError, payload: data }),
     areaOperationFailed: data => dispatch({ type: Actions.areaOperationFailed, payload: data }),
+    objectivesOperationFailed: data => dispatch({ type: Actions.objectiveOperationFailed, payload: data }),    
     removeOKR: data => dispatch({ type: Actions.removeOKR, payload: data }),
     removeArea: data => dispatch({ type: Actions.removeArea, payload: data }),
     getProjectName: data => dispatch({ type: Actions.getProjectName, payload: data })

@@ -98,7 +98,7 @@ export const applyMiddleware = dispatch => action =>
             });
         }, (error) => {
             dispatch({
-                type: Actions.createOKRFailed,
+                type: Actions.objectiveOperationFailed,
                 error: error
             });
         });
