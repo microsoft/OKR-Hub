@@ -1,16 +1,15 @@
 import * as React from "react";
-import { IdentityPickerDropdown, IPeoplePickerProvider, IIdentity } from "azure-devops-ui/IdentityPicker";
-import { useAreaCardValue } from "./Provider/AreaCardProvider";
+import { IPeoplePickerProvider, IIdentity, IdentityPickerDropdown } from "azure-devops-ui/IdentityPicker";
 
 export interface IAreaCardIdentityProps {
     identityProvider: IPeoplePickerProvider;
     ownerId: string;
+    editMode: boolean;
 }
 
 export const AreaCardIdentity: React.FunctionComponent<IAreaCardIdentityProps> = props => {
-    const { identityProvider, ownerId } = props;
-    const [{editMode}] = useAreaCardValue();
-    
+    const { identityProvider, ownerId, editMode } = props;
+
     return <div className="area-identity">
         {editMode ? renderPicker(identityProvider, ownerId) : renderStatic(ownerId)}
     </div>;

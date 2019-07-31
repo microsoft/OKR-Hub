@@ -1,10 +1,15 @@
 import * as React from "react";
 import Circle from "react-circle";
 import { Objective } from "../../../Objective/Objective";
-import { useAreaCardValue } from "../Provider/AreaCardProvider";
+import { Area } from "../../../Area/Area";
 
-export const AreaCardProgress: React.FunctionComponent = props => {
-	const [{objectives}, areaDispatcher] = useAreaCardValue();
+export interface IAreaCardProgressProps {
+	area: Area,
+	objectives: Objective[],
+}
+
+export const AreaCardProgress: React.FunctionComponent<IAreaCardProgressProps> = props => {
+	const {objectives} = props;
 
 	return <div className="area-progress">
 		{objectives.map((objective, index) => {

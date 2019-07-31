@@ -7,8 +7,6 @@ import { Objective } from "../../Objective/Objective";
 import "../AreaView.scss";
 import { AreaCardIdentity } from "./AreaCardIdentity";
 import { AreaCardDetails } from "./Details/AreaCardDetails";
-import { AreaCardProvider } from "./Provider/AreaCardProvider";
-import { areaCardReducer } from "./Provider/AreaCardReducer";
 
 export interface IAreaCardProps {
     area: Area;
@@ -20,33 +18,30 @@ export interface IAreaCardProps {
 }
 
 export const AreaCard: React.FunctionComponent<IAreaCardProps> = props => {
-    const { area } = props;
+    const { area, identityProvider } = props;
+    const [{ editMode }, localDispatcher] = React.useState({ editMode: false });
+    
+    const toggleEditMode = () => {
+		localDispatcher({ editMode: !editMode });
+	};
 
-    const initialState = {
-        area,
-        objectives: props.objectives,
-        editMode: false,
-    };
-
-    return <AreaCardProvider initialState={initialState} reducer={areaCardReducer}>
-        <Card className="area-card">
+    return <Card className="area-card">
             <Splitter
                 fixedElement={SplitterElementPosition.Far}
                 fixedSize={64}
                 splitterDirection={1}
-                onRenderNearElement={onRenderNearElement}
-                onRenderFarElement={() => onRenderFarElement(props.identityProvider, area.OwnerId)}
+                onRenderNearElement={() => onRenderNearElement(area, editMode, toggleEditMode)}
+                onRenderFarElement={() => onRenderFarElement(identityProvider, area.OwnerId, editMode)}
                 nearElementClassName="area-details"
                 disabled={true}
             />
         </Card>
-    </AreaCardProvider>;
 }
 
-function onRenderNearElement(): JSX.Element {
-    return <AreaCardDetails />;
+function onRenderNearElement(area, editMode: boolean, toggleEditMode: () => void): JSX.Element {
+    return <AreaCardDetails area={area} editMode={editMode} toggleEditMode={toggleEditMode} />;
 };
 
-function onRenderFarElement(identityProvider: IPeoplePickerProvider, ownerId: string): JSX.Element {
-    return <AreaCardIdentity identityProvider={identityProvider} ownerId={ownerId} />;
+function onRenderFarElement(identityProvider: IPeoplePickerProvider, ownerId: string, editMode: boolean): JSX.Element {
+    return <AreaCardIdentity identityProvider={identityProvider} ownerId={ownerId} editMode={editMode} />;
 };

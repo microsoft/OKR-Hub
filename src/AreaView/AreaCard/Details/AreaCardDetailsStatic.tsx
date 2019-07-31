@@ -1,31 +1,34 @@
 import * as React from "react";
-import { Link } from "azure-devops-ui/Link";
 import { useStateValue, IOKRContext } from "../../../StateMangement/StateProvider";
 import { NavigationConstants } from "../../../OKRConstants";
-import { useAreaCardValue } from "../Provider/AreaCardProvider";
 import { MenuButton, IMenuItem } from "azure-devops-ui/Menu";
-import * as AreaViewActions from "../Provider/AreaCardActions";
+import { Area } from "../../../Area/Area";
 
-export const AreaCardDetailsStatic: React.FunctionComponent = props => {
+export interface IAreaCardDetailsStaticProps {
+	area: Area,
+	toggleEditMode: () => void
+}
+
+export const AreaCardDetailsStatic: React.FunctionComponent<IAreaCardDetailsStaticProps> = props => {
 	const stateContext: IOKRContext = useStateValue();
-	const [{ area }, areaCardDispatcher] = useAreaCardValue();
+	const { area, toggleEditMode } = props;
 
 	return <>
 		<div className="card-header">
 			<h3><div className="area-name-title" onClick={() => { onNameClick(stateContext, area); }}>{area.Name}</div></h3>
-			<MenuButton hideDropdownIcon={true} contextualMenuProps={{ menuProps: { id: "test", items: getButtons(areaCardDispatcher) } }} iconProps={{ iconName: "MoreVertical" }} />
+			<MenuButton hideDropdownIcon={true} contextualMenuProps={{ menuProps: { id: "test", items: getButtons(toggleEditMode) } }} iconProps={{ iconName: "MoreVertical" }} />
 		</div>
 		<p>{area.Description}</p>
 	</>;
 }
 
-function getButtons(areaCardDispatcher): IMenuItem[] {
+function getButtons(toggleEditMode: () => void): IMenuItem[] {
 	return [
 		{
 			id: "edit-button",
 			text: "Edit",
 			iconProps: { iconName: "Edit" },
-			onActivate: () => areaCardDispatcher({ type: AreaViewActions.toggleEditMode })
+			onActivate: toggleEditMode
 		},
 		{
 			id: "delete-button",

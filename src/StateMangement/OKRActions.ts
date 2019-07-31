@@ -41,5 +41,5 @@ export const useActions = (state: OKRMainState, dispatch) => ({
     createAreaSucceed: data => dispatch({type: Actions.createAreaSucceed, payload: data}),
     toggleAreaPanel: data => dispatch({ type: Actions.toggleAreaPanel, payload: data }),
     removeOKR: data => dispatch({ type: Actions.removeOKR, payload: data }),
-    removeArea: data => dispatch({ type: Actions.removeArea, payload: data })
+    removeArea: data => dispatch({ type: Actions.removeArea, payload: data }),
 } as IOKRActions); 
