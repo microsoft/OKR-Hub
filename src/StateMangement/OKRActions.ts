@@ -20,6 +20,7 @@ export interface IOKRActions {
     createArea: (data: any) => {};
     removeOKR: (data: any) => {};
     removeArea: (data: any) => {};
+    getProjectName: (data: any) => {};
 }
 
 export const useActions = (state: OKRMainState, dispatch) => ({
@@ -41,5 +42,6 @@ export const useActions = (state: OKRMainState, dispatch) => ({
     createAreaSucceed: data => dispatch({type: Actions.createAreaSucceed, payload: data}),
     toggleAreaPanel: data => dispatch({ type: Actions.toggleAreaPanel, payload: data }),
     removeOKR: data => dispatch({ type: Actions.removeOKR, payload: data }),
-    removeArea: data => dispatch({ type: Actions.removeArea, payload: data })
+    removeArea: data => dispatch({ type: Actions.removeArea, payload: data }),
+    getProjectName: data => dispatch({ type: Actions.getProjectName, payload: data })
 } as IOKRActions); 

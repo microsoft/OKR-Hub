@@ -41,3 +41,7 @@ export const removeOKRFailed = "removeOKRFailed";
 export const removeArea = "removeArea";
 export const removeAreaSucceed = "removeAreaSucceed";
 export const removeAreaFailed = "removeAreaFailed";
+
+export const getProjectName = "getProjectName";
+export const getProjectNameSucceed = "getProjectNameSucceed";
+export const getProjectNameFailed = "getProjectNameFailed";

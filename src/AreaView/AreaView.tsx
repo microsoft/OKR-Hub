@@ -4,7 +4,6 @@ import { Header } from "azure-devops-ui/Header";
 import { IHeaderCommandBarItem } from "azure-devops-ui/HeaderCommandBar";
 import { AddAreaPanel } from '../AreaPanel/AddAreaPanel';
 import { useStateValue } from "../StateMangement/StateProvider";
-import { useEffect } from "react";
 import { NavigationConstants } from "../OKRConstants";
 import { Area } from "../Area/Area";
 
@@ -54,7 +53,7 @@ export const AreaView: React.FunctionComponent<{}> = props => {
                 <Header
                     className={"area-view-header"}
                     commandBarItems={[...commandBarItems]}
-                    title={"Azure Devops"}
+                    title={stateContext.state.projectName}
                 />
                 <AddAreaPanel />
                 <AreaGrid areas={stateContext.state.areas} objectives={stateContext.state.objectives} navigateCallback={areaNavigateCallBack} updateAreaCallback={editAreaCallback} removeAreaCallback={removeAreaCallback}/>
