@@ -60,7 +60,7 @@ export const AreaView: React.FunctionComponent<{}> = props => {
                 />
                 <ErrorMessage onDismiss={dismissError} error={stateContext.state.error} />
                 <AddAreaPanel />
-                <AreaGrid areas={stateContext.state.areas} objectives={stateContext.state.objectives} removeAreaCallback={removeAreaCallback} onCardClick={onCardClick}/>
+                <AreaGrid areas={stateContext.state.areas} removeAreaCallback={removeAreaCallback} onCardClick={onCardClick}/>
             </div>
     }
 
