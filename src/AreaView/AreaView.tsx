@@ -59,7 +59,7 @@ export const AreaView: React.FunctionComponent<{}> = props => {
                 <Header
                     className={"area-view-header"}
                     commandBarItems={cbItems}
-                    title={"Azure Devops"}
+                    title={stateContext.state.projectName}
                 />
                 <AddAreaPanel />
                 <AreaGrid areas={stateContext.state.areas} objectives={stateContext.state.objectives} navigateCallback={areaNavigateCallBack} updateAreaCallback={editAreaCallback} removeAreaCallback={removeAreaCallback}/>

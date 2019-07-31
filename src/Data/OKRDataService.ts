@@ -29,11 +29,16 @@ export abstract class OKRDataService<T extends OKRDocument> {
         return projectKey;
     }
 
+    public static async getProjectName(): Promise<string> {
+        const projectService = await SDK.getService<IProjectPageService>(CommonServiceIds.ProjectPageService);
+        const project = await projectService.getProject();
+        return project.name;
+    }
+
     public async getAll(): Promise<T[]> {
         const dataManager: IExtensionDataManager = await this.getDataManager();
         let documents = [];
         try {
-
             const projectKey = await this.getProjectKey();
             documents = await dataManager.getDocuments(projectKey) as T[];
         } catch (_) {
