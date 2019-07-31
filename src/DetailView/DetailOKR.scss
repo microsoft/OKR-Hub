@@ -1,8 +1,10 @@
 .okr-list-container {
     padding: 10px;
+    align-items: baseline;
 
     .objective-title {
         display: flex;
+
         .objective-name {
             flex-grow: 1;
         }
@@ -22,13 +24,10 @@
             .kr-render {
                 display: flex;
                 flex-direction: row;
+                align-items: baseline;
 
                 .kr-status {
                     padding-right: 5px;
-
-                    &:hover {
-                        border: 1px solid #666666;
-                    }
                 }
 
                 .kr-content-container {
