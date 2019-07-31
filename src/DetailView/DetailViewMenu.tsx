@@ -30,10 +30,7 @@ const renderInitialRow = (
 ): JSX.Element => {
     
     const currentObjectives = item.objectives;
-    const objectiveCount = currentObjectives.length;
-    let totalProgress = 0; 
-    currentObjectives.forEach(objective => totalProgress += objective.Progress); 
-    const progress = objectiveCount > 0 ? totalProgress / objectiveCount : 0;
+    const objectiveCount = currentObjectives.length;             
 
     return (
         <ListItem
