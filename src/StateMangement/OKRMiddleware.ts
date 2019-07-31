@@ -91,7 +91,9 @@ export const applyMiddleware = dispatch => action =>
         });
     })
     .equals(Actions.createOKR).then(() => {
-        ObjectiveService.instance.create(action.payload).then((created) => {
+        const objectiveOrders = action.payload.objectives.map((value: Objective) => value.order);
+        action.payload.data.order = Math.max(...objectiveOrders, 0) + 10;
+        ObjectiveService.instance.create(action.payload.data).then((created) => {
             dispatch({
                 type: Actions.createOKRSucceed,
                 payload: created
@@ -104,7 +106,9 @@ export const applyMiddleware = dispatch => action =>
         });
     })
     .equals(Actions.createArea).then(() => {
-        AreaService.instance.create(action.payload).then((created) => {
+        const areasOrders = action.payload.areas.map((value: Area) => value.order);
+        action.payload.data.order = Math.max(...areasOrders, 0) + 10;
+        AreaService.instance.create(action.payload.data).then((created) => {
             dispatch({
                 type: Actions.createAreaSucceed,
                 payload: created

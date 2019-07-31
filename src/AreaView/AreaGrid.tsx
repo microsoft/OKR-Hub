@@ -10,8 +10,6 @@ import { AreaZeroData } from "./AreaZeroData";
 export interface IAreaGridProps {
     areas: Area[];
     objectives: Objective[];
-    navigateCallback: (area: Area) => void;
-    updateAreaCallback: (area: Area) => void;
     removeAreaCallback: (id: string, areaId: string) => void;
 }
 
@@ -30,8 +28,6 @@ export class AreaGrid extends React.Component<IAreaGridProps> {
                         objectives={this.getObjectives(area.AreaId)}
                         identityProvider={this.identityProvider}
                         key={index}
-                        navigateCallback={this.props.navigateCallback}
-                        updateAreaCallback={this.props.updateAreaCallback}
                         removeAreaCallback={this.props.removeAreaCallback}
                     />
                 )}

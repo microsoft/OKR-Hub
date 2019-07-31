@@ -11,15 +11,6 @@ import { ErrorMessage } from "../ErrorMessage";
 export const AreaView: React.FunctionComponent<{}> = props => {
     const stateContext = useStateValue();
 
-    const areaNavigateCallBack = (area: Area): void => {
-        stateContext.actions.navigatePage({
-            selectedArea: area,
-            pageLocation: NavigationConstants.DetailView
-        })
-    };
-    const editAreaCallback = (area: Area): void => {
-        stateContext.actions.editArea(area)
-    };
     const dismissError = (): void => {
         stateContext.actions.setError({error: undefined});
     }; 
@@ -65,7 +56,7 @@ export const AreaView: React.FunctionComponent<{}> = props => {
                 />
                 <ErrorMessage onDismiss={dismissError} error={stateContext.state.error} />
                 <AddAreaPanel />
-                <AreaGrid areas={stateContext.state.areas} objectives={stateContext.state.objectives} navigateCallback={areaNavigateCallBack} updateAreaCallback={editAreaCallback} removeAreaCallback={removeAreaCallback}/>
+                <AreaGrid areas={stateContext.state.areas} objectives={stateContext.state.objectives} removeAreaCallback={removeAreaCallback}/>
             </div>
     }
 

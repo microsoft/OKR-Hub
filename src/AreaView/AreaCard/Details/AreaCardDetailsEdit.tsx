@@ -5,7 +5,7 @@ import { Area } from "../../../Area/Area";
 
 export interface IAreaCardDetailsEditProps {
 	area: Area,
-	toggleEditMode: () => void
+	toggleEditMode: () => void;
 }
 
 export const AreaCardDetailsEdit: React.FunctionComponent<IAreaCardDetailsEditProps> = props => {

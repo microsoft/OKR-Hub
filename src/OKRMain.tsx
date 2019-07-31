@@ -43,35 +43,10 @@ const OKRPage: React.SFC<{}> = props => {
 
     switch (stateContext.state.pageLocation) {
         case NavigationConstants.AreaView:
-            okrPage = <AreaView />;
-            break;
+            return <AreaView />;
         case NavigationConstants.DetailView:
-            okrPage = <DetailViewMenu />;
-            break;
+            return <DetailViewMenu />;
         case NavigationConstants.Data:
-            okrPage = <SampleDataPage />;
-            break;
+            return <SampleDataPage />;
     }
-
-    return (
-        <div>
-            <Button text={"Home"} onClick={() => {
-                stateContext.actions.navigatePage({
-                    pageLocation: NavigationConstants.AreaView
-                })
-            }} />
-
-            <Button text={"Objectives View"} onClick={() => {
-                stateContext.actions.navigatePage({
-                    pageLocation: NavigationConstants.DetailView
-                })
-            }} />
-
-            <Button text={"Data"} onClick={() => {
-                stateContext.actions.navigatePage({
-                    pageLocation: NavigationConstants.Data
-                })
-            }} />
-            {okrPage}
-        </div>);
 };
