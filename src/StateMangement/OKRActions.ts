@@ -34,7 +34,7 @@ export const useActions = (state: OKRMainState, dispatch) => ({
     updateSelectedArea: data => dispatch({ type: Actions.updateSelectedArea, payload: data }),
     cancelCreationOrEdit: data => dispatch({ type: Actions.cancelCreationOrEdit, payload: data }),
     editOKR: data => dispatch({ type: Actions.editOKR, payload: data }),
-    createOKR: data => dispatch({ type: Actions.createOKR, payload: data }),
+    createOKR: data => dispatch({ type: Actions.createOKR, payload: { data: data, objectives: state.objectives }}),
     toggleAddPanel: data => dispatch({ type: Actions.toggleAddPanel, payload: data }),
     toggleEditPanel: data => dispatch({ type: Actions.toggleEditPanel, payload: data }),
     editArea: data => dispatch({ type: Actions.editArea, payload: data }),
@@ -42,10 +42,9 @@ export const useActions = (state: OKRMainState, dispatch) => ({
     editKRStatus: data => dispatch({ type: Actions.editKRStatus, payload: data }),
     editKRComment: data => dispatch({ type: Actions.editKRComment, payload: data }),
     // Create Area
-    createArea: data => dispatch({ type: Actions.createArea, payload: data }),
+    createArea: data => dispatch({ type: Actions.createArea, payload: { data: data, areas: state.areas } }),
     createAreaSucceed: data => dispatch({ type: Actions.createAreaSucceed, payload: data }),
     createAreaFailed: data => dispatch({ type: Actions.createAreaFailed, payload: data }),
-
     toggleAreaPanel: data => dispatch({ type: Actions.toggleAreaPanel, payload: data }),
     setError: data => dispatch({ type: Actions.setError, payload: data }),
     areaOperationFailed: data => dispatch({ type: Actions.areaOperationFailed, payload: data }),

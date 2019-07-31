@@ -16,7 +16,7 @@ export const AreaCardIdentity: React.FunctionComponent<IAreaCardIdentityProps> =
 };
 
 function renderStatic(ownerId): JSX.Element {
-    return <div>{ownerId}</div>;
+    return <div>{ownerId || "unassigned"}</div>;
 };
 
 function renderPicker(identityProvider: IPeoplePickerProvider, ownerId: string): JSX.Element {

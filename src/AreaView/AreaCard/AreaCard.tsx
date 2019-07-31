@@ -7,25 +7,55 @@ import { Objective } from "../../Objective/Objective";
 import "../AreaView.scss";
 import { AreaCardIdentity } from "./AreaCardIdentity";
 import { AreaCardDetails } from "./Details/AreaCardDetails";
+import { Dialog } from "azure-devops-ui/Dialog";
 
 export interface IAreaCardProps {
     area: Area;
     objectives: Objective[];
     identityProvider: IPeoplePickerProvider;
-    navigateCallback: (area: Area) => void;
-    updateAreaCallback: (area: Area) => void;
     removeAreaCallback: (id: string, areaId: string) => void;
+    onCardClick: (area: Area) => void;
 }
 
 export const AreaCard: React.FunctionComponent<IAreaCardProps> = props => {
-    const { area, identityProvider } = props;
-    const [{ editMode }, localDispatcher] = React.useState({ editMode: false });
-    
-    const toggleEditMode = () => {
-		localDispatcher({ editMode: !editMode });
-	};
+    const { area, identityProvider, removeAreaCallback, onCardClick } = props;
+    const [{ editMode, isDialogOpen }, localDispatcher] = React.useState({ editMode: false, isDialogOpen: false });
 
-    return <Card className="area-card">
+    const toggleEditMode = () => {
+        localDispatcher({ editMode: !editMode, isDialogOpen: isDialogOpen });
+    };
+
+    const setDialogState = (dialogStatus: boolean) => {
+        localDispatcher({ editMode: editMode, isDialogOpen: dialogStatus });
+    };
+
+    const onRenderFarElement = (identityProvider: IPeoplePickerProvider, ownerId: string, editMode: boolean) => {
+        return <AreaCardIdentity identityProvider={identityProvider} ownerId={ownerId} editMode={editMode} />;
+    };
+
+    const onRenderNearElement = (area, editMode: boolean, toggleEditMode: () => void) => {
+        return <AreaCardDetails area={area} editMode={editMode} toggleEditMode={toggleEditMode} setDialogState={setDialogState} />;
+    };
+
+    const onClickCard = (e) => {
+        if (editMode) {
+            e.stopPropagation();
+            return;
+        }
+        
+        var element = e.target;
+        while(!element.classList.contains("area-grid")) {
+            if (element.classList.contains("area-context-menu")) {
+                e.stopPropagation();
+                return;
+            }
+            element = element.parentElement;
+        }
+        onCardClick(area);
+    }
+
+    return (<div onClick={onClickCard}>
+        <Card className="area-card">
             <Splitter
                 fixedElement={SplitterElementPosition.Far}
                 fixedSize={64}
@@ -35,13 +65,31 @@ export const AreaCard: React.FunctionComponent<IAreaCardProps> = props => {
                 nearElementClassName="area-details"
                 disabled={true}
             />
+            {isDialogOpen &&
+                <Dialog
+                    titleProps={{ text: "Delete Area" }}
+                    footerButtonProps={[
+                        {
+                            text: "Cancel",
+                            onClick: () => {
+                                setDialogState(false);
+                            }
+                        },
+                        {
+                            text: "OK", primary: true, onClick: () => {
+                                removeAreaCallback(area.id, area.AreaId);
+                                setDialogState(false);
+                            }
+                        }
+                    ]}
+                    onDismiss={() => {
+                        setDialogState(false);
+                    }}>
+                    {"Are you sure to delete this area?"}
+                </Dialog>}
         </Card>
+    </div>);
 }
 
-function onRenderNearElement(area, editMode: boolean, toggleEditMode: () => void): JSX.Element {
-    return <AreaCardDetails area={area} editMode={editMode} toggleEditMode={toggleEditMode} />;
-};
 
-function onRenderFarElement(identityProvider: IPeoplePickerProvider, ownerId: string, editMode: boolean): JSX.Element {
-    return <AreaCardIdentity identityProvider={identityProvider} ownerId={ownerId} editMode={editMode} />;
-};
+

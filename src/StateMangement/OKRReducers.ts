@@ -23,6 +23,7 @@ export const reducer = (state: OKRMainState = initialState, action) => {
     switch (action.type) {
       // Navigation
       case Types.navigatePage:
+        draft.selectedArea = action.payload.selectedArea ? action.payload.selectedArea : draft.selectedArea;
         draft.pageLocation = action.payload.pageLocation;
         break;
       case Types.updateSelectedArea:
@@ -43,6 +44,9 @@ export const reducer = (state: OKRMainState = initialState, action) => {
       // Areas
       case Types.getAreasSucceed:
         draft.areas = action.payload;
+        draft.areas.sort((a, b) => {
+          return a.order - b.order;
+        });
         // If an area isn't already selected, set the first areas as the selected area
         draft.selectedArea = draft.selectedArea ? draft.selectedArea : draft.areas[0];
         draft.selectedArea = draft.selectedArea ? draft.selectedArea : draft.areas[0];
@@ -51,7 +55,7 @@ export const reducer = (state: OKRMainState = initialState, action) => {
         draft.areaPanelExpanded = action.payload.expanded
         break;
       case Types.createAreaSucceed:
-        draft.areas.push(action.payload)
+        draft.areas.push(action.payload);
         draft.areaPanelExpanded = false;
         break;
       case Types.editAreaSucceed:
@@ -78,6 +82,9 @@ export const reducer = (state: OKRMainState = initialState, action) => {
       // Objectives
       case Types.getObjectivesSucceed:
         draft.objectives = action.payload;
+        draft.objectives.sort((a, b) => {
+          return a.order - b.order;
+        });
         break;
       case Types.toggleAddPanel:
         draft.addPanelExpanded = action.payload.expanded;

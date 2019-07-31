@@ -75,7 +75,7 @@ function createDetailsViewPayload(): IMasterDetailsContextLayer<AreaWithObjectiv
             renderHeader: () => <MasterPanelHeader title={projectName} />,
             onBackButtonClick: () => {
                 stateContext.actions.navigatePage({
-                    pageLocation: "AreaView"
+                    pageLocation: NavigationConstants.AreaView
                 });
                 return false;
             }
