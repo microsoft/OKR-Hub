@@ -10,24 +10,25 @@ const selectStyle = {
 }
 
 export interface IMutableStatusDropDownProps {
-	value: StatusType,
-	onSelect: (newValue: StatusType) => void
+    value: StatusType,
+    onSelect: (newValue: StatusType) => void
 }
 
 export interface IMutableStatusDropDownState {
+
     selection: string;
 }
 
 export class MutableStatusDropDown extends React.Component<IMutableStatusDropDownProps, IMutableStatusDropDownState> {
     constructor(props) {
         super(props);
-        this.state = {selection: undefined};
+        this.state = { selection: undefined };
     }
 
-	public render = (): JSX.Element => {
-        const {selection} = this.state;
-		if (selection) {
-			return (
+    public render = (): JSX.Element => {
+        const { selection } = this.state;
+        if (selection) {
+            return (
                 <select className="kr-status" value={selection} onChange={this.onChange} onKeyDown={this.onKeyDown} onBlur={this.onBlur} tabIndex={0} autoFocus={true} style={selectStyle}>
                     <option value="NotStarted">Not Started</option>
                     <option value="OnTrack">On Track</option>
@@ -38,49 +39,47 @@ export class MutableStatusDropDown extends React.Component<IMutableStatusDropDow
                 </select>);
         }
         else {
-            return (<div onClick={this.onReadOnlyClick} className="kr-status">
-<<<<<<< HEAD
-                    <Status {...Statuses[this.props.value]} size={StatusSize.m} className="status-icon" onRenderIcon={this.onRenderIcon} />
-=======
+            return (
+                <div onClick={this.onReadOnlyClick} className="kr-status">
                     <Pill
                         className="status-pill"
                         color={this.colorMap[this.props.value]}
                         size={PillSize.regular}
                         variant={PillVariant.colored}
-                        >
+                    >
                         {this.statusMap[this.props.value]}
                     </Pill>
->>>>>>> master
-                   </div>);
+                </div>
+            );
         }
     }
-    
+
     private onRenderIcon = (className: string, size: StatusSize, animated?: boolean, ariaLabel?: string): JSX.Element => {
         return <div>Hi</div>;
     }
 
-	private onReadOnlyClick = (): void => {
-        this.setState({selection: this.props.value});
+    private onReadOnlyClick = (): void => {
+        this.setState({ selection: this.props.value });
     };
-    
-	private onChange = (event: React.ChangeEvent<HTMLSelectElement>): void => {
+
+    private onChange = (event: React.ChangeEvent<HTMLSelectElement>): void => {
         if (event.target.value) {
-			this.props.onSelect(event.target.value as StatusType);
-			this.setState({selection: undefined});
-		}
+            this.props.onSelect(event.target.value as StatusType);
+            this.setState({ selection: undefined });
+        }
     };
 
-	private onKeyDown = (event: React.KeyboardEvent<HTMLSelectElement>): void => {
-		if (event.keyCode === KeyCode.escape) {
-			this.setState({selection: undefined});
-		}
-		else if (event.keyCode === KeyCode.enter) {
-			this.onBlur();
-		}
-	};
+    private onKeyDown = (event: React.KeyboardEvent<HTMLSelectElement>): void => {
+        if (event.keyCode === KeyCode.escape) {
+            this.setState({ selection: undefined });
+        }
+        else if (event.keyCode === KeyCode.enter) {
+            this.onBlur();
+        }
+    };
 
-	private onBlur = (): void => {
-		this.setState({selection: undefined});
+    private onBlur = (): void => {
+        this.setState({ selection: undefined });
     };
 
     private green: IColor = {
