@@ -38,7 +38,7 @@ export class DetailView extends React.Component<IDetailViewProps, {}> {
                     selectedTabId={this.selectedTabId}
                     tabSize={TabSize.Tall}
                 >
-                    <Tab name="Current Quater" id="current" />
+                    <Tab name="Current Quarter" id="current" />
                 </TabBar>
                 <Observer selectedTabId={this.selectedTabId}>
                     {(props: { selectedTabId: string }) => {

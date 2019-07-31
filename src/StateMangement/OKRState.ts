@@ -11,5 +11,10 @@ export interface OKRMainState {
     addPanelExpanded: boolean;
     editPanelExpandedKey: string;
     areaPanelExpanded: boolean; 
+<<<<<<< HEAD
     editCommentKey: string;    
+=======
+    editCommentKey: string;
+    projectName: string;
+>>>>>>> origin/master
 }

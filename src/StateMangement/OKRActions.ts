@@ -23,6 +23,7 @@ export interface IOKRActions {
     areaOperationFailed: (data: any) => {};
     removeOKR: (data: any) => {};
     removeArea: (data: any) => {};
+    getProjectName: (data: any) => {};
 }
 
 export const useActions = (state: OKRMainState, dispatch) => ({
@@ -48,5 +49,6 @@ export const useActions = (state: OKRMainState, dispatch) => ({
     setError: data => dispatch({ type: Actions.setError, payload: data }),
     areaOperationFailed: data => dispatch({ type: Actions.areaOperationFailed, payload: data }),
     removeOKR: data => dispatch({ type: Actions.removeOKR, payload: data }),
-    removeArea: data => dispatch({ type: Actions.removeArea, payload: data })
+    removeArea: data => dispatch({ type: Actions.removeArea, payload: data }),
+    getProjectName: data => dispatch({ type: Actions.getProjectName, payload: data })
 } as IOKRActions); 
