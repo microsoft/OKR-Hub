@@ -36,9 +36,6 @@ export const applyMiddleware = dispatch => action =>
                     error: error
                 });
             });
-<<<<<<< HEAD
-        }        
-=======
         }
     })
     .equals(Actions.getProjectName).then(() => {
@@ -53,7 +50,6 @@ export const applyMiddleware = dispatch => action =>
                 error: error
             });
         });
->>>>>>> origin/master
     })
     .equals(Actions.getAreas).then(() => {
         AreaService.instance.getAll().then((allAreas: Area[]) => {

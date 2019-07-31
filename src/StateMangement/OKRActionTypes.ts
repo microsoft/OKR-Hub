@@ -40,11 +40,8 @@ export const removeOKRSucceed = "removeOKRSucceed";
 
 export const removeArea = "removeArea";
 export const removeAreaSucceed = "removeAreaSucceed";
-<<<<<<< HEAD
-=======
 export const removeAreaFailed = "removeAreaFailed";
 
 export const getProjectName = "getProjectName";
 export const getProjectNameSucceed = "getProjectNameSucceed";
 export const getProjectNameFailed = "getProjectNameFailed";
->>>>>>> origin/master
