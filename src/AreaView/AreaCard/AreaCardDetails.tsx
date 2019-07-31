@@ -1,6 +1,6 @@
 import * as React from "react";
 import { Objective } from "../../Objective/Objective";
-import { AreaCardProgress } from "./ActiveCardProgress";
+import { AreaCardProgress } from "./AreaCardProgress";
 import { MenuButton, IMenuItem } from "azure-devops-ui/Menu";
 import { Button } from "azure-devops-ui/Button";
 import { TextField } from "azure-devops-ui/TextField";
