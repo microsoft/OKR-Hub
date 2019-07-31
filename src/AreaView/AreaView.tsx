@@ -21,6 +21,10 @@ export const AreaView: React.FunctionComponent<{}> = props => {
         });
     };
 
+    const onCardClick = (area: Area): void => {
+        stateContext.actions.navigatePage({ pageLocation: NavigationConstants.DetailView, selectedArea: area });
+    };
+
     const commandBarItems: IHeaderCommandBarItem[] = [
         {
             important: true,
@@ -56,7 +60,7 @@ export const AreaView: React.FunctionComponent<{}> = props => {
                 />
                 <ErrorMessage onDismiss={dismissError} error={stateContext.state.error} />
                 <AddAreaPanel />
-                <AreaGrid areas={stateContext.state.areas} objectives={stateContext.state.objectives} removeAreaCallback={removeAreaCallback}/>
+                <AreaGrid areas={stateContext.state.areas} objectives={stateContext.state.objectives} removeAreaCallback={removeAreaCallback} onCardClick={onCardClick}/>
             </div>
     }
 

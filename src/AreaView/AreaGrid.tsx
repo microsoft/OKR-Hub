@@ -11,6 +11,7 @@ export interface IAreaGridProps {
     areas: Area[];
     objectives: Objective[];
     removeAreaCallback: (id: string, areaId: string) => void;
+    onCardClick: (area: Area) => void;
 }
 
 export class AreaGrid extends React.Component<IAreaGridProps> {
@@ -29,6 +30,7 @@ export class AreaGrid extends React.Component<IAreaGridProps> {
                         identityProvider={this.identityProvider}
                         key={index}
                         removeAreaCallback={this.props.removeAreaCallback}
+                        onCardClick={this.props.onCardClick}
                     />
                 )}
             </div>
