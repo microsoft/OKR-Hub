@@ -68,7 +68,7 @@ export default class OKRForm extends React.Component<IOKRFormProps, IOKRFormStat
                     this.setState({krs: [...krs, {
                         Id: Guid.create().toString(),
                         Content: "",
-                        Status:  "Queued",
+                        Status:  "NotStarted",
                         Comment: ""
                     }]});
                 }}/>
