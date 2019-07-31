@@ -1,4 +1,3 @@
-import { StatusType } from "azure-devops-ui/Status";
 import { OKRDocument } from "../Data/OKRDocument";
 
 export class Objective extends OKRDocument {
@@ -14,6 +13,8 @@ export class Objective extends OKRDocument {
 export class KR {
     public Id: string;
     public Content: string;
-    public Status: StatusType;
+    public Status: KRStatus;
     public Comment: string;
 }
+
+export declare type KRStatus = "NotStarted" | "OnTrack" | "AtRisk" | "Completed" | "Incomplete" | "Canceled";

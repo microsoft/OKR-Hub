@@ -12,11 +12,11 @@ import { ArrayItemProvider } from "azure-devops-ui/Utilities/Provider";
 import * as React from 'react';
 import "./DetailViewMenu.scss";
 import { DetailView } from "./DetailView";
-import { Circle } from 'react-circle';
 import { useStateValue } from '../StateMangement/StateProvider';
 import { Area } from "../Area/Area";
 import { NavigationConstants } from "../OKRConstants";
 import { Objective } from "../Objective/Objective";
+import { AreaCardProgress } from "../AreaView/AreaCard/AreaCardProgress";
 
 interface AreaWithObjectives {
     area: Area; 
@@ -30,10 +30,7 @@ const renderInitialRow = (
 ): JSX.Element => {
     
     const currentObjectives = item.objectives;
-    const objectiveCount = currentObjectives.length;
-    let totalProgress = 0; 
-    currentObjectives.forEach(objective => totalProgress += objective.Progress); 
-    const progress = objectiveCount > 0 ? totalProgress / objectiveCount : 0;
+    const objectiveCount = currentObjectives.length;             
 
     return (
         <ListItem
@@ -46,12 +43,7 @@ const renderInitialRow = (
                     <div className="area-name title">{item.area.Name}</div>
                     <div className="area-objectives-count">{objectiveCount.toString() + " objectives"}</div>
                 </div>
-                <Circle
-                    progress={progress} 
-                    showPercentage={false}
-                    size={"40"}
-                    lineWidth={"60"}
-                    progressColor={"rgb(0, 200, 100)"} />
+                <AreaCardProgress objectives={currentObjectives}/>
             </div>
         </ListItem>
     );

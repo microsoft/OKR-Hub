@@ -3,6 +3,7 @@ import { StatusType, Status, Statuses, StatusSize } from "azure-devops-ui/Status
 import { Pill, PillSize, PillVariant } from "azure-devops-ui/Pill";
 import { KeyCode } from "azure-devops-ui/Util";
 import { IColor } from "azure-devops-ui/Utilities/Color";
+import { KRStatus } from "./Objective/Objective";
 
 const selectStyle = {
     paddingRight: "10px",
@@ -10,8 +11,8 @@ const selectStyle = {
 }
 
 export interface IMutableStatusDropDownProps {
-    value: StatusType,
-    onSelect: (newValue: StatusType) => void
+    value: KRStatus,
+    onSelect: (newValue: KRStatus) => void
 }
 
 export interface IMutableStatusDropDownState {
@@ -64,7 +65,7 @@ export class MutableStatusDropDown extends React.Component<IMutableStatusDropDow
 
     private onChange = (event: React.ChangeEvent<HTMLSelectElement>): void => {
         if (event.target.value) {
-            this.props.onSelect(event.target.value as StatusType);
+            this.props.onSelect(event.target.value as KRStatus);
             this.setState({ selection: undefined });
         }
     };
