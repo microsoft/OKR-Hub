@@ -1,5 +1,5 @@
 import * as React from "react";
-import { StatusType, Status, Statuses, StatusSize } from "azure-devops-ui/Status";
+import { StatusSize } from "azure-devops-ui/Status";
 import { Pill, PillSize, PillVariant } from "azure-devops-ui/Pill";
 import { KeyCode } from "azure-devops-ui/Util";
 import { IColor } from "azure-devops-ui/Utilities/Color";
@@ -47,6 +47,9 @@ export class MutableStatusDropDown extends React.Component<IMutableStatusDropDow
                         color={this.colorMap[this.props.value]}
                         size={PillSize.regular}
                         variant={PillVariant.colored}
+                        onClick={() => {
+                          // This is necessary for style purposes.  
+                        }}
                     >
                         {this.statusMap[this.props.value]}
                     </Pill>
