@@ -18,7 +18,7 @@ export const AreaCardProgress: React.FunctionComponent<IAreaCardProgressProps> =
 				lineWidth={"50"}
 				progressColor={"rgb(0, 200, 100)"}
 				animate={false}
-				roundedStroke={true}
+				roundedStroke={false}
 			/>
 		</span>
 	</div>;
