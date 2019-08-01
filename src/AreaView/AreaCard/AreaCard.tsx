@@ -28,7 +28,7 @@ export const AreaCard: React.FunctionComponent<IAreaCardProps> = props => {
     };
 
     const onRenderFarElement = (identityProvider: IPeoplePickerProvider, ownerId: string, editMode: boolean) => {
-        return <AreaCardIdentity identityProvider={identityProvider} ownerId={ownerId} editMode={editMode} />;
+        return <AreaCardIdentity area={area} identityProvider={identityProvider} editMode={editMode} />;
     };
 
     const onRenderNearElement = (area, editMode: boolean, toggleEditMode: () => void) => {

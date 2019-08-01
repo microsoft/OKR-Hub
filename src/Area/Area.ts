@@ -6,4 +6,5 @@ export class Area extends OKRDocument {
     Version: number;
     Description: string;
     OwnerId: string;
+    OwnerName: string;
 }
