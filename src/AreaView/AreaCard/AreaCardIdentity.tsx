@@ -31,7 +31,7 @@ export const AreaCardIdentity: React.FunctionComponent<IAreaCardIdentityProps> =
         return () => {
             mounted = false;
         };
-    });
+    }, []);
 
     if (done) {
         return <div className="area-identity">
