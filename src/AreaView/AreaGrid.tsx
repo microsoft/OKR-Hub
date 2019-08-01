@@ -4,12 +4,10 @@ import { Area } from "../Area/Area";
 import { AreaCard } from "./AreaCard/AreaCard";
 import { IPeoplePickerProvider } from "azure-devops-ui/IdentityPicker";
 import { IdentityProvider } from "../Identity/IdentityProvider";
-import { Objective } from "../Objective/Objective";
 import { AreaZeroData } from "./AreaZeroData";
 
 export interface IAreaGridProps {
-    areas: Area[];
-    objectives: Objective[];
+    areas: Area[];    
     removeAreaCallback: (id: string, areaId: string) => void;
     onCardClick: (area: Area) => void;
 }
@@ -25,8 +23,7 @@ export class AreaGrid extends React.Component<IAreaGridProps> {
             return <div className="area-grid">
                 {this.props.areas.map((area, index) =>
                     <AreaCard
-                        area={area}
-                        objectives={this.getObjectives(area.AreaId)}
+                        area={area}                        
                         identityProvider={this.identityProvider}
                         key={index}
                         removeAreaCallback={this.props.removeAreaCallback}
@@ -38,9 +35,5 @@ export class AreaGrid extends React.Component<IAreaGridProps> {
         else {
             return <AreaZeroData />; 
         }
-    }
-
-    private getObjectives(areaId: string): Objective[] {        
-        return this.props.objectives.filter(objective => objective.AreaId === areaId);
     }
 }

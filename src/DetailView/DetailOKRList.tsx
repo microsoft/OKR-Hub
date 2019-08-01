@@ -4,6 +4,7 @@ import { StateContext, IOKRContext } from "../StateMangement/StateProvider";
 import { Area } from "../Area/Area";
 import { ObjectiveZeroData } from "./ObjectiveZeroData";
 import { OKRMainState } from "../StateMangement/OKRState";
+import { getObjectivesForArea } from "../StateMangement/OKRSelector";
 
 export interface IDetailOKRListProps {
     area: Area;
@@ -13,20 +14,10 @@ export interface IDetailOKRListProps {
 export class DetailOKRList extends React.Component<IDetailOKRListProps, {}> {
     static contextType = StateContext;
 
-    public componentDidMount() {
-        if (this.props.area && this.props.area.AreaId !== "") {
-            this.loadData(this.props.area.AreaId);
-        }
-    }
-
-    public componentDidUpdate(prevProps: IDetailOKRListProps) {
-        if (this.props.area.AreaId !== prevProps.area.AreaId) {
-            this.loadData(this.props.area.AreaId);
-        }
-    }
-
     public render(): JSX.Element {
-        const { objectives, selectedArea } = this.context.state as OKRMainState;
+        const { selectedArea } = this.context.state as OKRMainState;
+        const objectives = getObjectivesForArea(this.context.state, this.props.area); 
+
         if (objectives && objectives.length > 0) {
             return (<>
                 {objectives.map((objective, index) => <DetailOKR objective={objective} key={"DetailOKR" + index} />)}
@@ -36,14 +27,5 @@ export class DetailOKRList extends React.Component<IDetailOKRListProps, {}> {
             const areaName = selectedArea ? selectedArea.Name : "";
             return <ObjectiveZeroData areaName={areaName} />
         }
-    }
-
-    private loadData = (area: string) => {
-        const stateContext = this.context as IOKRContext;
-        stateContext.actions.getObjectives({ area: area })
-        
-        return (<>
-            {stateContext.state.objectives.map((objective, index) => <DetailOKR objective={objective} key={"DetailOKR" + index} />)}
-        </>);
     }
 }

@@ -17,6 +17,7 @@ import { Area } from "../Area/Area";
 import { NavigationConstants } from "../OKRConstants";
 import { Objective } from "../Objective/Objective";
 import { AreaCardProgress } from "../AreaView/AreaCard/AreaCardProgress";
+import { getObjectivesForArea } from "../StateMangement/OKRSelector";
 
 interface AreaWithObjectives {
     area: Area; 
@@ -28,9 +29,7 @@ const renderInitialRow = (
     item: AreaWithObjectives,
     details: IListItemDetails<AreaWithObjectives>,
 ): JSX.Element => {
-    
     const currentObjectives = item.objectives;
-    const objectiveCount = currentObjectives.length;             
 
     return (
         <ListItem
@@ -41,7 +40,7 @@ const renderInitialRow = (
             <div className="master-row-content">
                 <div className="area-description">
                     <div className="area-name title">{item.area.Name}</div>
-                    <div className="area-objectives-count">{objectiveCount.toString() + " objectives"}</div>
+                    <div className="area-objectives-count">{currentObjectives.length.toString() + " objectives"}</div>
                 </div>
                 <AreaCardProgress objectives={currentObjectives}/>
             </div>
@@ -52,11 +51,11 @@ const renderInitialRow = (
 function createDetailsViewPayload(): IMasterDetailsContextLayer<AreaWithObjectives, undefined> {    
 
     const stateContext = useStateValue();
-    const {areas, objectives, selectedArea, projectName } = stateContext.state; 
+    const {areas, selectedArea, projectName } = stateContext.state; 
 
     // We need to pass the objectives with the areas to the renderInitialRow method. This is how we display objective counts
     const areasWithObjectives: AreaWithObjectives[] = areas.map((a: Area) => {
-        const currentObjectives = objectives ? objectives.filter(objective => objective.AreaId === a.AreaId) : [];
+        const currentObjectives = getObjectivesForArea(stateContext.state, a); 
         return {
             area: a,
             objectives: currentObjectives

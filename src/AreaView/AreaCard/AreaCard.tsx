@@ -3,15 +3,13 @@ import { Area } from "../../Area/Area";
 import { Card } from "azure-devops-ui/Card";
 import { Splitter, SplitterElementPosition } from "azure-devops-ui/Splitter";
 import { IPeoplePickerProvider } from "azure-devops-ui/IdentityPicker";
-import { Objective } from "../../Objective/Objective";
 import "../AreaView.scss";
 import { AreaCardIdentity } from "./AreaCardIdentity";
 import { AreaCardDetails } from "./Details/AreaCardDetails";
 import { Dialog } from "azure-devops-ui/Dialog";
 
 export interface IAreaCardProps {
-    area: Area;
-    objectives: Objective[];
+    area: Area;    
     identityProvider: IPeoplePickerProvider;
     removeAreaCallback: (id: string, areaId: string) => void;
     onCardClick: (area: Area) => void;
