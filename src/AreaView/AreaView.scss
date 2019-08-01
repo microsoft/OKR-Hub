@@ -19,6 +19,10 @@
 		width: 380px;
 		cursor: pointer;
 
+		&:hover {
+			background: #F8F8F8;
+		}
+
 		.area-details {
 			display: flex;
 			flex-direction: column;
