@@ -4,6 +4,8 @@
 
     .objective-title {
         display: flex;
+        max-height: 60px;
+        overflow: hidden;
 
         .objective-name {
             flex-grow: 1;
