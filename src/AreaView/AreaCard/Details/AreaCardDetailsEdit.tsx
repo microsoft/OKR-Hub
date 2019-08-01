@@ -24,7 +24,7 @@ export const AreaCardDetailsEdit: React.FunctionComponent<IAreaCardDetailsEditPr
 };
 
 function renderEditButtons(area, editName, editDescription, toggleEditMode, stateContext: IOKRContext): JSX.Element {
-	return <>
+	return <div className="edit-buttons">
 		<Button
 			onClick={() => save(area, editName, editDescription, toggleEditMode, stateContext)}
 			ariaLabel="Save button"
@@ -37,7 +37,7 @@ function renderEditButtons(area, editName, editDescription, toggleEditMode, stat
 			iconProps={{ iconName: "Cancel" }}
 			subtle={true}
 		/>
-	</>;
+	</div>;
 }
 
 function save(area, editName, editDescription, toggleEditMode, stateContext: IOKRContext): void {
