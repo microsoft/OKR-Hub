@@ -1,5 +1,4 @@
 import * as React from "react";
-import { StatusSize } from "azure-devops-ui/Status";
 import { Pill, PillSize, PillVariant } from "azure-devops-ui/Pill";
 import { KeyCode } from "azure-devops-ui/Util";
 import { IColor } from "azure-devops-ui/Utilities/Color";
@@ -56,10 +55,6 @@ export class MutableStatusDropDown extends React.Component<IMutableStatusDropDow
                 </div>
             );
         }
-    }
-
-    private onRenderIcon = (className: string, size: StatusSize, animated?: boolean, ariaLabel?: string): JSX.Element => {
-        return <div>Hi</div>;
     }
 
     private onReadOnlyClick = (): void => {

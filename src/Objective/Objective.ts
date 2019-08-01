@@ -15,6 +15,7 @@ export class KR {
     public Content: string;
     public Status: KRStatus;
     public Comment: string;
+    public Score: string;
 }
 
 export declare type KRStatus = "NotStarted" | "OnTrack" | "AtRisk" | "Completed" | "Incomplete" | "Canceled";
