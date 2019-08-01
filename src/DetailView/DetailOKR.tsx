@@ -92,12 +92,14 @@ export class DetailOKR extends React.Component<IDetailOKRProps, IDetailOKRState>
         const stateContext = this.context as IOKRContext;
         return (<div className="kr" key={"kr" + i}>
                     <div className="kr-render">
-                        <MutableStatusDropDown value={kr.Status} onSelect={(newValue)=> {
-                            stateContext.actions.editKRStatus(produce(this.props.objective, draft => {
-                                var found = draft.KRs.filter((x) => x.Id === kr.Id)[0];
-                                found.Status = newValue;
-                            }));
-                        }}/>
+                        <div className="kr-status-container">
+                            <MutableStatusDropDown value={kr.Status} onSelect={(newValue)=> {
+                                stateContext.actions.editKRStatus(produce(this.props.objective, draft => {
+                                    var found = draft.KRs.filter((x) => x.Id === kr.Id)[0];
+                                    found.Status = newValue;
+                                }));
+                            }}/>
+                        </div>
                         <div className="kr-content-container">
                             <span className={"kr-content"}>{kr.Content}</span>
                             <Icon iconName="Comment" onClick={()=> {

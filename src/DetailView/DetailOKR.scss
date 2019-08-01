@@ -26,8 +26,10 @@
                 flex-direction: row;
                 align-items: baseline;
 
-                .kr-status {
-                    padding-right: 5px;
+                .kr-status-container {
+                    flex-shrink: 0;
+                    width: 108px;
+                    padding-top: 10px;
                 }
 
                 .kr-content-container {
