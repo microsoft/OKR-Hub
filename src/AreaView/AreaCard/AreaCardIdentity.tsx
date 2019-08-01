@@ -2,7 +2,6 @@ import * as React from "react";
 import { IPeoplePickerProvider, IIdentity, IdentityPickerDropdown } from "azure-devops-ui/IdentityPicker";
 import { useStateValue, IOKRContext } from "../../StateMangement/StateProvider";
 import { Area } from "../../Area/Area";
-import { IReadonlyObservableValue, IObservableValue, Observable } from "azure-devops-ui/Core/Observable";
 
 export interface IAreaCardIdentityProps {
     area: Area;
@@ -31,7 +30,7 @@ export const AreaCardIdentity: React.FunctionComponent<IAreaCardIdentityProps> =
         return () => {
             mounted = false;
         };
-    }, []);
+    }, [props.editMode]);
 
     if (done) {
         return <div className="area-identity">
