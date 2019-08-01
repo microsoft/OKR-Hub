@@ -5,6 +5,8 @@
 		display: flex;
 		flex-wrap: wrap; 
 		width: 100%;
+
+		padding: 15px; 
 	}
 
 	.okr-error-message{
@@ -14,25 +16,22 @@
 		}
 	}
 
-	.area-card {
-		margin: 8px;
-		width: 380px;
-		cursor: pointer;
-
+	.area-card {		
+		
 		&:hover {
 			background: #F8F8F8;
 		}
 
-		.area-details {
-			display: flex;
+		.area-card-interior {		
+			width: 380px;
+			cursor: pointer;
 			flex-direction: column;
-			width: 100%;
 
 			.area-card-details{
-				display: flex;
-				flex-direction: column;
+			display: flex;
+			flex-direction: column;
 
-				.card-header{
+			.card-header{
 					display: flex; 
 					justify-content: space-between; 
 					margin-bottom: 0px;
@@ -63,7 +62,8 @@
 		}
 
 		.area-identity {
-			margin-top: 20px;
+			padding-top: 20px;
+			border-top: 1px solid lightgray; 			
 		}
 	}
 }

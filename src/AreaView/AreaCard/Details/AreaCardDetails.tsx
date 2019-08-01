@@ -8,20 +8,22 @@ import { getObjectivesForArea } from "../../../StateMangement/OKRSelector";
 
 export interface IAreaCardDetailsProps {
 	area: Area;
+	draftArea: Area; 
 	editMode: boolean;
-	toggleEditMode: () => void;
-	setDialogState: (dialogStatus: boolean) => void;
+	updateDraftName: (name: string) => void;
+	updateDraftDescription: (description: string) => void;
+	buttons: JSX.Element; 
 }
 
 export const AreaCardDetails: React.FunctionComponent<IAreaCardDetailsProps> = props => {
 	const stateContext = useStateValue();
 
-	const { area, editMode, toggleEditMode, setDialogState } = props;
+	const { area, draftArea, editMode, updateDraftDescription, updateDraftName, buttons } = props;
 	const objectives = getObjectivesForArea(stateContext.state, area); 
 
 	return (
 		<div className="area-card-details">
-			{editMode ? <AreaCardDetailsEdit area={props.area} toggleEditMode={toggleEditMode} /> : <AreaCardDetailsStatic area={props.area} toggleEditMode={toggleEditMode} setDialogState={setDialogState}/>}
+			{editMode ? <AreaCardDetailsEdit draftArea={draftArea} updateDraftName={updateDraftName} updateDraftDescription={updateDraftDescription} buttons={buttons} /> : <AreaCardDetailsStatic area={area} buttons={buttons}/>}
 			<h4>{`${objectives.length} objectives`}</h4>
 			<AreaCardProgress objectives={objectives} />
 		</div>

@@ -1,17 +1,16 @@
 import * as React from "react";
 import { IPeoplePickerProvider, IIdentity, IdentityPickerDropdown } from "azure-devops-ui/IdentityPicker";
-import { useStateValue, IOKRContext } from "../../StateMangement/StateProvider";
 import { Area } from "../../Area/Area";
 
 export interface IAreaCardIdentityProps {
     area: Area;
     identityProvider: IPeoplePickerProvider;
     editMode: boolean;
+    updateDraftOwner: (udpatedOwnerId: string, updatedOwnerName: string) => void;
 }
 
 export const AreaCardIdentity: React.FunctionComponent<IAreaCardIdentityProps> = props => {
-    const { identityProvider, area, editMode } = props;
-    const stateContext = useStateValue();
+    const { identityProvider, area, editMode, updateDraftOwner } = props;    
     const [{ done, selected }, localDispatch] = React.useState({ done: false, selected: undefined });
 
     React.useEffect(() => {
@@ -34,7 +33,7 @@ export const AreaCardIdentity: React.FunctionComponent<IAreaCardIdentityProps> =
 
     if (done) {
         return <div className="area-identity">
-            {editMode ? renderPicker(stateContext, identityProvider, area, selected) : renderStatic(area)}
+            {editMode ? renderPicker(updateDraftOwner, identityProvider, selected) : renderStatic(area)}
         </div>;
     } else {
         return <div />
@@ -45,20 +44,17 @@ function renderStatic(area: Area): JSX.Element {
     return <div>{area.OwnerName || "unassigned"}</div>;
 };
 
-function renderPicker(stateContext: IOKRContext, identityProvider: IPeoplePickerProvider, area: Area, selected: IIdentity): JSX.Element {
+function renderPicker(updateOwnerCallback: Function, identityProvider: IPeoplePickerProvider, selected: IIdentity): JSX.Element {
     return <IdentityPickerDropdown
-        onChange={(identity?: IIdentity) => onChange(stateContext, area, identity)}
+        onChange={(identity?: IIdentity) => onChange(updateOwnerCallback, identity)}
         pickerProvider={identityProvider}
         value={selected}
     />;
 };
 
-function onChange(stateContext: IOKRContext, area: Area, identity?: IIdentity) {
-    const newArea = {
-        ...area,
-        OwnerId: identity ? identity.entityId : undefined,
-        OwnerName: identity ? identity.displayName : undefined,
-    };
+function onChange(updateOwnerCallback: Function, identity?: IIdentity) {
+    let ownerId = identity ? identity.entityId : undefined;
+    let ownerName = identity ? identity.displayName : undefined;
 
-    stateContext.actions.editArea(newArea);
+    updateOwnerCallback(ownerId, ownerName);     
 };
