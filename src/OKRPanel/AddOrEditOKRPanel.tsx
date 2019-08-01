@@ -4,7 +4,6 @@ import { StateContext, IOKRContext } from '../StateMangement/StateProvider';
 import OKRForm from "./OKRForm";
 import "./AddOrEditOKRPanel.scss";
 import { Objective } from "../Objective/Objective";
-import { cancelCreationOrEdit } from "../StateMangement/OKRActionTypes";
 
 interface IAddOrEditOKRPanelProps {
     title: string;

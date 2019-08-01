@@ -1,10 +1,8 @@
 import * as React from "react";
-import { SampleDataPage } from "./SampleDataPage";
 import { DetailViewMenu } from "./DetailView/DetailViewMenu";
 import { AreaView } from "./AreaView/AreaView";
 import * as SDK from "azure-devops-extension-sdk";
 import { StateProvider, useStateValue } from './StateMangement/StateProvider';
-import { Button } from "azure-devops-ui/Button";
 import { NavigationConstants } from "./OKRConstants";
 
 export class OKRMain extends React.Component<{}, {}> {
@@ -46,7 +44,5 @@ const OKRPage: React.SFC<{}> = props => {
             return <AreaView />;
         case NavigationConstants.DetailView:
             return <DetailViewMenu />;
-        case NavigationConstants.Data:
-            return <SampleDataPage />;
     }
 };

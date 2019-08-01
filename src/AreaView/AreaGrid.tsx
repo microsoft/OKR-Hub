@@ -1,4 +1,3 @@
-
 import * as React from "react";
 import { Area } from "../Area/Area";
 import { AreaCard } from "./AreaCard/AreaCard";

@@ -1,6 +1,6 @@
 import React = require("react");
 import { DetailOKR } from "./DetailOKR";
-import { StateContext, IOKRContext } from "../StateMangement/StateProvider";
+import { StateContext } from "../StateMangement/StateProvider";
 import { Area } from "../Area/Area";
 import { ObjectiveZeroData } from "./ObjectiveZeroData";
 import { OKRMainState } from "../StateMangement/OKRState";

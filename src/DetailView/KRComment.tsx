@@ -4,7 +4,6 @@ import { Icon } from "azure-devops-ui/Icon";
 import { KR } from "../Objective/Objective";
 import { Button } from "azure-devops-ui/Button";
 
-
 interface IKRCommentProps {
     isEditMode: boolean;
     kr: KR;

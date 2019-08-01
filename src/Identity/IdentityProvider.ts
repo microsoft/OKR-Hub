@@ -3,8 +3,6 @@ import { IdentityServiceIds, IVssIdentityService }from "azure-devops-extension-a
 import * as SDK from "azure-devops-extension-sdk";
 
 export class IdentityProvider implements IPeoplePickerProvider {
-	private identities: IIdentity[];
-
 	public getEntityFromUniqueAttribute = async (entityId: string): Promise<IIdentity> => {
 		const service = await SDK.getService<IVssIdentityService>(IdentityServiceIds.IdentityService);
 		const identities = await service.searchIdentitiesAsync(entityId, ["user"], ["ims", "source"], "uid");
