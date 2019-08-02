@@ -12,7 +12,7 @@ import { NavigationConstants } from "../../OKRConstants";
 
 export interface IAreaCardProps {
     area: Area;
-    identityProvider: IPeoplePickerProvider;    
+    identityProvider: IPeoplePickerProvider;
 }
 
 export const AreaCard: React.FunctionComponent<IAreaCardProps> = props => {
@@ -57,7 +57,12 @@ export const AreaCard: React.FunctionComponent<IAreaCardProps> = props => {
     const save = () => {
         // save before you toggle edit mode. Toggling edit will clear the draft. 
         stateContext.actions.editArea(draftArea);
-        toggleEditMode();
+        
+        // Setting a timeout on closing the edit mode so that edit area has a chance to complete
+        // This is to avoid a flash on completion 
+        setTimeout(() => {
+            toggleEditMode();
+        }, 200);
     }
 
     const removeAreaCallback = (): void => {
@@ -74,8 +79,8 @@ export const AreaCard: React.FunctionComponent<IAreaCardProps> = props => {
         }
 
         var element = e.target;
-        while(element && !element.classList.contains("area-grid")) {
-            if (element.classList.contains("area-context-menu") 
+        while (element && !element.classList.contains("area-grid")) {
+            if (element.classList.contains("area-context-menu")
                 || element.classList.contains("bolt-callout")) {
                 e.stopPropagation();
                 return;
