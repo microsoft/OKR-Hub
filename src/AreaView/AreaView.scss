@@ -25,25 +25,23 @@
 			background: #F8F8F8;
 		}
 
-		.area-card-interior {		
-			width: 380px;
-			cursor: pointer;
+		.area-card-interior {			
 			flex-direction: column;
 
 			.area-card-details{
-			display: flex;
-			flex-direction: column;
+				display: flex;
+				flex-direction: column;
 
 			.card-header{
-					display: flex; 
-					justify-content: space-between; 
-					margin-bottom: 0px;
-					align-items: baseline;
+				display: flex; 
+				justify-content: space-between; 
+				margin-bottom: 0px;
+				align-items: baseline;
 
-					.flex-column {
-						flex: 1;
-					}
+				.flex-column {
+					flex: 1;
 				}
+			}
 
 				.area-name-title:hover{
 					cursor: pointer;
