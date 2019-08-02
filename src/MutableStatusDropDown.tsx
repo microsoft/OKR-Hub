@@ -76,7 +76,10 @@ export class MutableStatusDropDown extends React.Component<IMutableStatusDropDow
             this.setState({ selection: undefined });
         }
         else if (event.keyCode === KeyCode.enter) {
-            this.onBlur();
+            if (this.state.selection) {
+                this.props.onSelect(this.state.selection as KRStatus);
+                this.setState({ selection: undefined });
+            }
         }
     };
 

@@ -7,12 +7,28 @@
         max-height: 60px;
         overflow: hidden;
 
+        &:hover {
+            cursor: pointer;
+        }
+
         .objective-name {
             flex-grow: 1;
             margin-right: 20px;
         }
         .objective-context-menu {
             margin: 6px 0 6px 20px;
+        }
+    }
+
+    
+    .mutableField {
+        &:hover {
+            cursor: pointer;
+        }
+        display: flex;
+
+        div:first-child {
+            flex-grow: 1;
         }
     }
 
@@ -23,33 +39,6 @@
 
         .kr {
             padding: 10px;
-            
-            .kr-render {
-                display: flex;
-                flex-direction: row;
-                align-items: center;
-
-                .kr-score {
-                    &:hover {
-                        background-color: rgba(0, 0, 0, .108); 
-                    }
-                }
-
-                .kr-status-container {
-                    flex-shrink: 0;
-                    width: 108px;
-                    padding-top: 10px;
-                }
-
-                .kr-content-container {
-                    flex-grow: 1;
-                    display: flex;
-                    flex-direction: row;
-                    .kr-content {
-                        flex-grow: 1;
-                    }
-                }
-            }
 
             .kr-table {
                 table-layout: fixed;
@@ -70,6 +59,10 @@
                     }
                 }
 
+                .kr-content-column:hover {
+                    cursor: pointer;
+                }
+
                 .kr-score-column {
                     width: 50px;
 
@@ -79,6 +72,10 @@
 
                     .kr-score {
                         height: 22px;
+                        cursor: pointer;
+                    }
+
+                    .kr-comment-icon:hover {
                         cursor: pointer;
                     }
                 }
