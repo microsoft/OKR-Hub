@@ -37,15 +37,15 @@ export const AreaCardButtons: React.FunctionComponent<IAreaCardButtons> = props 
 function renderEditButtons(toggleEditMode: Function, save: Function): JSX.Element {
     return <div className="edit-buttons">
         <Button
-            onClick={() => { save() }}
-            ariaLabel="Save button"
-            iconProps={{ iconName: "CheckMark" }}
-            subtle={true}
-        />
-        <Button
             onClick={() => toggleEditMode()}
             ariaLabel="Cancel button"
             iconProps={{ iconName: "Cancel" }}
+            subtle={true}
+        />
+        <Button
+            onClick={() => { save() }}
+            ariaLabel="Save button"
+            iconProps={{ iconName: "CheckMark" }}
             subtle={true}
         />
     </div>;
