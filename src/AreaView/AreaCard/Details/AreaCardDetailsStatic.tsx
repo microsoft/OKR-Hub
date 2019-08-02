@@ -14,7 +14,7 @@ export const AreaCardDetailsStatic: React.FunctionComponent<IAreaCardDetailsStat
 			<h3 style={{marginBottom: 10, flexGrow: 1}}><div className="area-name-title">{area.Name}</div></h3>
 			{buttons}
 		</div>
-		<p>{area.Description}</p>
+		<p className="card-description">{area.Description}</p>
 	</>;
 }
 

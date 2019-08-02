@@ -27,8 +27,10 @@
 		}
 
 		.area-card-interior {			
+			display:flex;
 			flex-direction: column;
 			width: 100%;
+			justify-content: space-between; 
 
 			.area-card-details{
 				display: flex;
@@ -40,13 +42,27 @@
 					margin-bottom: 0px;
 					align-items: baseline;
 
+					.area-name-title {
+						overflow: hidden;
+						white-space: nowrap;
+						text-overflow: ellipsis;
+					}
+
+					.area-name-title:hover{
+						cursor: pointer;
+					}
+
 					.flex-column {
 						flex: 1;
 					}
 				}
 
-				.area-name-title:hover{
-					cursor: pointer;
+				.card-description{
+					height: 40px;
+					overflow: hidden;
+					display: -webkit-box;
+					-webkit-line-clamp: 2; 
+					-webkit-box-orient: vertical; 
 				}
 
 				.bolt-expandable-button, .bolt-button {
