@@ -5,21 +5,19 @@ import { IPeoplePickerProvider } from "azure-devops-ui/IdentityPicker";
 import "../AreaView.scss";
 import { AreaCardIdentity } from "./AreaCardIdentity";
 import { AreaCardDetails } from "./Details/AreaCardDetails";
-import { Dialog } from "azure-devops-ui/Dialog";
 import { useStateValue } from "../../StateMangement/StateProvider";
 import produce from "immer";
 import { AreaCardButtons } from "./AreaCardButtons";
+import { NavigationConstants } from "../../OKRConstants";
 
 export interface IAreaCardProps {
     area: Area;
-    identityProvider: IPeoplePickerProvider;
-    removeAreaCallback: (id: string, areaId: string) => void;
-    onCardClick: (area: Area) => void;
+    identityProvider: IPeoplePickerProvider;    
 }
 
 export const AreaCard: React.FunctionComponent<IAreaCardProps> = props => {
-    const { area, identityProvider, removeAreaCallback, onCardClick } = props;
-    const [{ editMode, isDialogOpen, draftArea }, localDispatcher] = React.useState({ editMode: false, isDialogOpen: false, draftArea: undefined });
+    const { area, identityProvider } = props;
+    const [{ editMode, draftArea }, localDispatcher] = React.useState({ editMode: false, draftArea: undefined });
     const stateContext = useStateValue();
 
     const toggleEditMode = () => {
@@ -28,11 +26,7 @@ export const AreaCard: React.FunctionComponent<IAreaCardProps> = props => {
         const exitingEditMode = editMode;
         let newDraftArea = exitingEditMode ? undefined : area;
 
-        localDispatcher({ editMode: !editMode, isDialogOpen: isDialogOpen, draftArea: newDraftArea });
-    };
-
-    const setDeleteDialogState = (dialogStatus: boolean) => {
-        localDispatcher({ editMode: editMode, isDialogOpen: dialogStatus, draftArea: draftArea });
+        localDispatcher({ editMode: !editMode, draftArea: newDraftArea });
     };
 
     const updateOwner = (ownerId: string, ownerName: string) => {
@@ -41,7 +35,7 @@ export const AreaCard: React.FunctionComponent<IAreaCardProps> = props => {
             draft.OwnerName = ownerName;
         })
 
-        localDispatcher({ editMode: editMode, isDialogOpen: isDialogOpen, draftArea: newArea });
+        localDispatcher({ editMode: editMode, draftArea: newArea });
     }
 
     const updateName = (name: string) => {
@@ -49,7 +43,7 @@ export const AreaCard: React.FunctionComponent<IAreaCardProps> = props => {
             draft.Name = name;
         })
 
-        localDispatcher({ editMode: editMode, isDialogOpen: isDialogOpen, draftArea: newArea });
+        localDispatcher({ editMode: editMode, draftArea: newArea });
     }
 
     const updateDescription = (description: string) => {
@@ -57,7 +51,7 @@ export const AreaCard: React.FunctionComponent<IAreaCardProps> = props => {
             draft.Description = description;
         })
 
-        localDispatcher({ editMode: editMode, isDialogOpen: isDialogOpen, draftArea: newArea });
+        localDispatcher({ editMode: editMode, draftArea: newArea });
     }
 
     const save = () => {
@@ -65,6 +59,13 @@ export const AreaCard: React.FunctionComponent<IAreaCardProps> = props => {
         stateContext.actions.editArea(draftArea);
         toggleEditMode();
     }
+
+    const removeAreaCallback = (): void => {
+        stateContext.actions.removeArea({
+            id: area.id,
+            areaId: area.AreaId
+        });
+    };
 
     const onClickCard = (e) => {
         if (editMode) {
@@ -80,38 +81,17 @@ export const AreaCard: React.FunctionComponent<IAreaCardProps> = props => {
             }
             element = element.parentElement;
         }
-        onCardClick(area);
+
+        stateContext.actions.navigatePage({ pageLocation: NavigationConstants.DetailView, selectedArea: area });
     }
 
-    const buttons = <AreaCardButtons toggleEditMode={toggleEditMode} save={save} editMode={editMode} setDeleteDialogState={setDeleteDialogState} />;
+    const buttons = <AreaCardButtons toggleEditMode={toggleEditMode} save={save} editMode={editMode} removeAreaCallback={removeAreaCallback} />;
 
     return (<div onClick={onClickCard}>
         <Card className="area-card">
             <div className="area-card-interior">
                 <AreaCardDetails area={area} draftArea={draftArea} editMode={editMode} updateDraftName={updateName} updateDraftDescription={updateDescription} buttons={buttons} />
-                <AreaCardIdentity area={editMode? draftArea: area} identityProvider={identityProvider} editMode={editMode} updateDraftOwner={updateOwner} />
-                {isDialogOpen &&
-                    <Dialog
-                        titleProps={{ text: "Delete Area" }}
-                        footerButtonProps={[
-                            {
-                                text: "Cancel",
-                                onClick: () => {
-                                    setDeleteDialogState(false);
-                                }
-                            },
-                            {
-                                text: "OK", primary: true, onClick: () => {
-                                    removeAreaCallback(area.id, area.AreaId);
-                                    setDeleteDialogState(false);
-                                }
-                            }
-                        ]}
-                        onDismiss={() => {
-                            setDeleteDialogState(false);
-                        }}>
-                        {"Are you sure to delete this area?"}
-                    </Dialog>}
+                <AreaCardIdentity area={editMode ? draftArea : area} identityProvider={identityProvider} editMode={editMode} updateDraftOwner={updateOwner} />
             </div>
         </Card>
     </div>);

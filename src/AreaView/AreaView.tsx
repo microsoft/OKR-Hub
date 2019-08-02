@@ -4,8 +4,6 @@ import { Header } from "azure-devops-ui/Header";
 import { IHeaderCommandBarItem } from "azure-devops-ui/HeaderCommandBar";
 import { AddAreaPanel } from '../AreaPanel/AddAreaPanel';
 import { useStateValue } from "../StateMangement/StateProvider";
-import { NavigationConstants } from "../OKRConstants";
-import { Area } from "../Area/Area";
 import { ErrorMessage } from "../ErrorMessage";
 
 export const AreaView: React.FunctionComponent<{}> = props => {
@@ -14,16 +12,6 @@ export const AreaView: React.FunctionComponent<{}> = props => {
     const dismissError = (): void => {
         stateContext.actions.setError({error: undefined});
     }; 
-    const removeAreaCallback = (id: string, areaId: string): void => {
-        stateContext.actions.removeArea({
-            id: id,
-            areaId: areaId
-        });
-    };
-
-    const onCardClick = (area: Area): void => {
-        stateContext.actions.navigatePage({ pageLocation: NavigationConstants.DetailView, selectedArea: area });
-    };
 
     const commandBarItems: IHeaderCommandBarItem[] = [
         {
@@ -60,7 +48,7 @@ export const AreaView: React.FunctionComponent<{}> = props => {
                 />
                 <ErrorMessage onDismiss={dismissError} error={stateContext.state.error} />
                 <AddAreaPanel />
-                <AreaGrid areas={stateContext.state.areas} removeAreaCallback={removeAreaCallback} onCardClick={onCardClick}/>
+                <AreaGrid areas={stateContext.state.areas} />
             </div>
     }
 

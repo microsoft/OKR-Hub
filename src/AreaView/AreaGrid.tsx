@@ -7,8 +7,6 @@ import { AreaZeroData } from "./AreaZeroData";
 
 export interface IAreaGridProps {
     areas: Area[];    
-    removeAreaCallback: (id: string, areaId: string) => void;
-    onCardClick: (area: Area) => void;
 }
 
 export class AreaGrid extends React.Component<IAreaGridProps> {
@@ -24,9 +22,7 @@ export class AreaGrid extends React.Component<IAreaGridProps> {
                     <AreaCard
                         area={area}                        
                         identityProvider={this.identityProvider}
-                        key={index}
-                        removeAreaCallback={this.props.removeAreaCallback}
-                        onCardClick={this.props.onCardClick}
+                        key={index}                                                
                     />
                 )}
             </div>

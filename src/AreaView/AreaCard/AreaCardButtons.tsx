@@ -2,23 +2,39 @@ import * as React from "react";
 import "../AreaView.scss";
 import { IMenuItem, MenuButton } from "azure-devops-ui/Menu";
 import { Button } from "azure-devops-ui/Button";
+import { Dialog } from "azure-devops-ui/Dialog";
 
 export interface IAreaCardButtons {
     editMode: boolean;
     toggleEditMode: () => void;
-    setDeleteDialogState: (state: boolean) => void;
+    removeAreaCallback: () => void;
     save: () => void;
 }
 
 export const AreaCardButtons: React.FunctionComponent<IAreaCardButtons> = props => {
-    const { editMode, toggleEditMode, setDeleteDialogState: setDialogState, save } = props;
+    const { editMode, toggleEditMode, removeAreaCallback, save } = props;
 
-    return editMode ?
+    const [{ isDialogOpen }, localDispatcher] = React.useState({ isDialogOpen: false });
+
+    const setDeleteDialogState = (dialogStatus: boolean) => {
+        localDispatcher({ isDialogOpen: dialogStatus });
+    };
+
+    const buttons = editMode ?
         renderEditButtons(toggleEditMode, save) :
-        renderStaticButtons(toggleEditMode, setDialogState);
+        renderStaticButtons(toggleEditMode, setDeleteDialogState);
+
+    const dialog = isDialogOpen ?
+        renderDeleteConfirmationDialog(setDeleteDialogState, removeAreaCallback) :
+        null;
+
+    return <div>
+        {buttons}
+        {dialog}
+    </div>;
 }
 
-function renderEditButtons(toggleEditMode, save: Function): JSX.Element {
+function renderEditButtons(toggleEditMode: Function, save: Function): JSX.Element {
     return <div className="edit-buttons">
         <Button
             onClick={() => { save() }}
@@ -27,7 +43,7 @@ function renderEditButtons(toggleEditMode, save: Function): JSX.Element {
             subtle={true}
         />
         <Button
-            onClick={toggleEditMode}
+            onClick={() => toggleEditMode()}
             ariaLabel="Cancel button"
             iconProps={{ iconName: "Cancel" }}
             subtle={true}
@@ -35,7 +51,7 @@ function renderEditButtons(toggleEditMode, save: Function): JSX.Element {
     </div>;
 }
 
-function renderStaticButtons(toggleEditMode, setDeleteDialogState) {
+function renderStaticButtons(toggleEditMode: () => void, setDeleteDialogState): JSX.Element {
     const getButtons = (toggleEditMode: () => void): IMenuItem[] => {
         return [
             {
@@ -58,7 +74,26 @@ function renderStaticButtons(toggleEditMode, setDeleteDialogState) {
     return <div className="area-context-menu"><MenuButton hideDropdownIcon={true} contextualMenuProps={{ menuProps: { id: "editButtons", items: getButtons(toggleEditMode) } }} iconProps={{ iconName: "More" }} /></div>;
 }
 
-
-
-
-
+function renderDeleteConfirmationDialog(setDeleteDialogState: Function, removeAreaCallback: Function): JSX.Element {
+    return <Dialog
+        titleProps={{ text: "Delete Area" }}
+        footerButtonProps={[
+            {
+                text: "Cancel",
+                onClick: () => {
+                    setDeleteDialogState(false);
+                }
+            },
+            {
+                text: "OK", primary: true, onClick: () => {
+                    removeAreaCallback();
+                    setDeleteDialogState(false);
+                }
+            }
+        ]}
+        onDismiss={() => {
+            setDeleteDialogState(false);
+        }}>
+        {"Are you sure to delete this area?"}
+    </Dialog>
+}
