@@ -1,43 +1,37 @@
 {
-    "manifestVersion": 1,
-    "id": "okr-hub",
-    "publisher": "nianwensong",
-    "version": "1.0.623",
-    "name": "OKR Hub",
-    "description": "",
-    "public": false,
-    "categories": ["Azure Boards"],
-    "targets": [
-        {
-            "id": "Microsoft.VisualStudio.Services"
-        }
-    ],
-    "scopes": [
-        "vso.work",
-        "vso.graph",
-        "vso.identity"
-    ],
-    "contributions": [
-        {
-            "id": "okr-hub",
-            "type": "ms.vss-web.hub",
-            "includes": [
-                "ms.vss-tfs-web.tfs-page-data-service",
-                "ms.vss-features.extension-data-service"
-            ],
-            "targets": [
-                "ms.vss-work-web.work-hub-group"
-            ],
-            "properties": {
-                "name": "OKR Hub",
-                "uri": "dist/okr-hub.html"
-            }
-        }
-    ],
-    "files": [
-        {
-            "path": "dist",
-            "addressable": true
-        }
-    ]
+	"manifestVersion": 1,
+	"id": "okr-hub",
+	"publisher": "nianwensong",
+	"version": "1.0.624",
+	"name": "OKR Hub",
+	"description": "",
+	"public": false,
+	"categories": ["Azure Boards"],
+	"targets": [
+		{
+			"id": "Microsoft.VisualStudio.Services"
+		}
+	],
+	"scopes": ["vso.work", "vso.graph", "vso.identity"],
+	"contributions": [
+		{
+			"id": "okr-hub",
+			"type": "ms.vss-web.hub",
+			"includes": [
+				"ms.vss-tfs-web.tfs-page-data-service",
+				"ms.vss-features.extension-data-service"
+			],
+			"targets": ["ms.vss-work-web.work-hub-group"],
+			"properties": {
+				"name": "OKR Hub",
+				"uri": "dist/okr-hub.html"
+			}
+		}
+	],
+	"files": [
+		{
+			"path": "dist",
+			"addressable": true
+		}
+	]
 }
