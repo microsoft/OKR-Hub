@@ -5,6 +5,8 @@
 		display: flex;
 		flex-wrap: wrap; 
 		width: 100%;
+
+		padding: 10px; 
 	}
 
 	.okr-error-message{
@@ -18,14 +20,13 @@
 		margin: 8px;
 		width: 380px;
 		height: 350px;
-		cursor: pointer;
+		cursor: pointer;		
 
 		&:hover {
 			background: #F8F8F8;
 		}
 
-		.area-details {
-			display: flex;
+		.area-card-interior {			
 			flex-direction: column;
 			width: 100%;
 
@@ -64,7 +65,8 @@
 		}
 
 		.area-identity {
-			margin-top: 20px;
+			padding-top: 20px;
+			border-top: 1px solid lightgray; 			
 		}
 	}
 }

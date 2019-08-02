@@ -4,50 +4,22 @@ import { useStateValue, IOKRContext } from "../../../StateMangement/StateProvide
 import { Area } from "../../../Area/Area";
 
 export interface IAreaCardDetailsEditProps {
-	area: Area,
-	toggleEditMode: () => void;
+	draftArea: Area,
+	buttons: JSX.Element; 
+	updateDraftName: (name: string) => void;
+	updateDraftDescription: (description: string) => void;
 }
 
 export const AreaCardDetailsEdit: React.FunctionComponent<IAreaCardDetailsEditProps> = props => {
-	const stateContext = useStateValue();
-	const [{ editName, editDescription }, localDispatcher] = React.useState({ editName: props.area.Name, editDescription: props.area.Description});
+	const { draftArea, buttons, updateDraftName, updateDraftDescription } = props;		
 
 	return <>
 		<div className="card-header">
 			<h3>
-				<input value={editName} onChange={(val) => { localDispatcher({ editName: val.target.value, editDescription})}} />
-			</h3>
-			{renderEditButtons(props.area, editName, editDescription, props.toggleEditMode, stateContext)}
+				<input value={draftArea.Name} onChange={(val) => { updateDraftName(val.target.value) }} />
+			</h3>			
+			{buttons}
 		</div>
-		<input value={editDescription} onChange={(val) => { localDispatcher({ editName, editDescription: val.target.value})}} />
+		<input value={draftArea.Description} onChange={(val) => {updateDraftDescription(val.target.value) }} />
 	</>;
 };
-
-function renderEditButtons(area, editName, editDescription, toggleEditMode, stateContext: IOKRContext): JSX.Element {
-	return <div className="edit-buttons">
-		<Button
-			onClick={() => save(area, editName, editDescription, toggleEditMode, stateContext)}
-			ariaLabel="Save button"
-			iconProps={{ iconName: "CheckMark" }}
-			subtle={true}
-		/>
-		<Button
-			onClick={toggleEditMode}
-			ariaLabel="Cancel button"
-			iconProps={{ iconName: "Cancel" }}
-			subtle={true}
-		/>
-	</div>;
-}
-
-function save(area, editName, editDescription, toggleEditMode, stateContext: IOKRContext): void {
-	const newArea = {
-		...area,
-		Name: editName,
-		Description: editDescription,
-	};
-
-	stateContext.actions.editArea(newArea);
-
-	toggleEditMode();
-}
