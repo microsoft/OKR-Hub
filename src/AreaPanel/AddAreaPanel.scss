@@ -6,11 +6,9 @@
        flex-direction: column;
 
        .area-form-fields {
-           flex: 1;
 
-           .area-form-name{
-               margin-top: 8px;
-               margin-bottom: 8px;
+           .area-field {
+               margin-top: 8px; 
            }
        }
 

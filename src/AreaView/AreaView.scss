@@ -6,7 +6,7 @@
 		flex-wrap: wrap; 
 		width: 100%;
 
-		padding: 15px; 
+		padding: 10px; 
 	}
 
 	.okr-error-message{
@@ -17,9 +17,10 @@
 	}
 
 	.area-card {
+		margin: 8px;
 		width: 380px;
 		height: 350px;
-		cursor: pointer;
+		cursor: pointer;		
 
 		&:hover {
 			background: #F8F8F8;

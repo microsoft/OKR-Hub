@@ -4,30 +4,46 @@ import { Button } from "azure-devops-ui/Button";
 import { ButtonGroup } from "azure-devops-ui/ButtonGroup";
 import { TextField } from "azure-devops-ui/TextField";
 import { Guid } from "guid-typescript";
+import { AreaCardIdentity } from "../AreaView/AreaCard/AreaCardIdentity";
+import { IPeoplePickerProvider } from "azure-devops-ui/IdentityPicker";
+
+export interface IAreaFormProps {
+    identityProvider: IPeoplePickerProvider;
+}
 
 export interface IAreaFormState {
     name: string;
     description: string;
+    ownerId: string;
+    ownerName: string;
 }
 
-export default class AreaForm extends React.Component<{}, IAreaFormState> {
+export default class AreaForm extends React.Component<IAreaFormProps, IAreaFormState> {
     static contextType = StateContext;
     constructor(props) {
         super(props)
         this.state = {
             name: "",
             description: "",
+            ownerId: undefined,
+            ownerName: undefined,
         }
     }
 
     public render(): JSX.Element {
         const stateContext = this.context as IOKRContext;
-        const { name, description } = this.state
+        const { name, description } = this.state;
+        const { identityProvider } = this.props;
+
+        const updateOwnerState = (updatedOwnerId: string, updatedOwnerName: string) => {
+            this.setState({ ownerId: updatedOwnerId, ownerName: updatedOwnerName });
+        }
+
         return (
             <>
                 <div className="area-form-fields">
                     <TextField
-                        className="area-form-name"
+                        className="area-field"
                         placeholder="Product Area"
                         value={name}
                         onChange={(e, newValue) => {
@@ -35,13 +51,17 @@ export default class AreaForm extends React.Component<{}, IAreaFormState> {
                         }}
                     />
                     <TextField
-                        className="area-form-description"
+                        className="area-field"
                         placeholder="Description"
                         value={description}
+                        multiline={true}
                         onChange={(e, newValue) => {
                             this.setState({ description: newValue });
                         }}
                     />
+                    <div className={"area-field"}>
+                        <AreaCardIdentity area={{} as any} identityProvider={identityProvider} editMode={true} updateDraftOwner={updateOwnerState} />
+                    </div>
                 </div>
                 <div className="area-form-submit">
                     <ButtonGroup>
@@ -56,10 +76,11 @@ export default class AreaForm extends React.Component<{}, IAreaFormState> {
                                 Description: this.state.description,
                                 Version: 0,
                                 AreaId: Guid.create().toString(),
-                                OwnerId: "",
+                                OwnerId: this.state.ownerId ? this.state.ownerId : "",
+                                OwnerName: this.state.ownerName ? this.state.ownerName : ""
                             }
 
-                        stateContext.actions.createArea(toBeCreated)
+                            stateContext.actions.createArea(toBeCreated)
 
                         }} />
                     </ButtonGroup>
