@@ -1,5 +1,9 @@
 # OKR-Hub
 
+## To Contribute
+
+You must sign a Contribution License Agreement (CLA) before your PR will be merged. This a one-time requirement for Microsoft projects in GitHub. You can read more about Contribution License Agreements (CLA) on Wikipedia.
+
 ## Create a vsix to deploy on test environment
 1. npm i -g typescript tfx-cli webpack webpack-cli
 
