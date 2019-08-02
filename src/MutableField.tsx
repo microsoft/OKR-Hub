@@ -23,7 +23,8 @@ export class MutableField extends React.Component<IMutableFieldProps> {
 						className="textField"
 						onKeyDown={this.onKeyDown}
 						onChange={this.onChange}
-						onBlur={this.onBlur} autoFocus={true}
+						onClick={this.onBlur}
+						autoFocus={true}
 					/>
 				}
 
