@@ -42,6 +42,10 @@
 					margin-bottom: 0px;
 					align-items: baseline;
 
+					.title-header {
+						max-width: 80%; 
+					}
+
 					.area-name-title {
 						overflow: hidden;
 						white-space: nowrap;
@@ -58,10 +62,10 @@
 				}
 
 				.card-description{
-					height: 40px;
+					height: 60px;
 					overflow: hidden;
 					display: -webkit-box;
-					-webkit-line-clamp: 2; 
+					-webkit-line-clamp: 3; 
 					-webkit-box-orient: vertical; 
 				}
 
