@@ -69,7 +69,8 @@ export default class OKRForm extends React.Component<IOKRFormProps, IOKRFormStat
                         Id: Guid.create().toString(),
                         Content: "",
                         Status:  "NotStarted",
-                        Comment: ""
+                        Comment: "",
+                        Score: "0"
                     }]});
                 }}/>
                 </div>

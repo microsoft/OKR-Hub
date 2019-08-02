@@ -42,8 +42,9 @@ export const AreaCard: React.FunctionComponent<IAreaCardProps> = props => {
         }
         
         var element = e.target;
-        while(!element.classList.contains("area-grid")) {
-            if (element.classList.contains("area-context-menu")) {
+        while(element && !element.classList.contains("area-grid")) {
+            if (element.classList.contains("area-context-menu") 
+                || element.classList.contains("bolt-callout")) {
                 e.stopPropagation();
                 return;
             }
