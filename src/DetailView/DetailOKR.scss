@@ -4,6 +4,8 @@
 
     .objective-title {
         display: flex;
+        max-height: 60px;
+        overflow: hidden;
 
         .objective-name {
             flex-grow: 1;
@@ -20,11 +22,17 @@
 
         .kr {
             padding: 10px;
-
+            
             .kr-render {
                 display: flex;
                 flex-direction: row;
-                align-items: baseline;
+                align-items: center;
+
+                .kr-score {
+                    &:hover {
+                        background-color: rgba(0, 0, 0, .108); 
+                    }
+                }
 
                 .kr-status {
                     padding-right: 5px;
@@ -40,8 +48,41 @@
                 }
             }
 
+            .kr-table {
+                table-layout: fixed;
+                width: 100%;
+                white-space: nowrap;
+    
+                td {
+                    white-space: nowrap;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                }
+
+                .kr-status-column {
+                    width: 125px;
+
+                    .kr-status {
+                        width: 110px;
+                    }
+                }
+
+                .kr-score-column {
+                    width: 50px;
+
+                    .kr-score-select {
+                        width: 45px;
+                    }
+
+                    .kr-score {
+                        height: 22px;
+                        cursor: pointer;
+                    }
+                }
+            }
+
             .kr-comment {
-                padding-left: 15px;
+                padding-left: 125px;
                 padding-top: 10px;
                 font-style: italic;
                 span {

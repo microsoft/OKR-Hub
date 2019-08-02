@@ -16,8 +16,11 @@
 		}
 	}
 
-	.area-card {		
-		
+	.area-card {
+		width: 380px;
+		height: 350px;
+		cursor: pointer;
+
 		&:hover {
 			background: #F8F8F8;
 		}
