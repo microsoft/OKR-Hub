@@ -1,7 +1,6 @@
 import * as React from "react";
-import { Button } from "azure-devops-ui/Button";
-import { useStateValue, IOKRContext } from "../../../StateMangement/StateProvider";
 import { Area } from "../../../Area/Area";
+import { TextField } from "azure-devops-ui/TextField";
 
 export interface IAreaCardDetailsEditProps {
 	draftArea: Area,
@@ -16,10 +15,10 @@ export const AreaCardDetailsEdit: React.FunctionComponent<IAreaCardDetailsEditPr
 	return <>
 		<div className="card-header">
 			<h3>
-				<input value={draftArea.Name} onChange={(val) => { updateDraftName(val.target.value) }} />
+				<TextField value={draftArea.Name} onChange={(val) => { updateDraftName(val.target.value) }} placeholder={"Product Area Name"}/>
 			</h3>			
 			{buttons}
 		</div>
-		<input value={draftArea.Description} onChange={(val) => {updateDraftDescription(val.target.value) }} />
+		<TextField value={draftArea.Description} multiline={true} placeholder={"Description"} onChange={(val) => {updateDraftDescription(val.target.value) }}/>		
 	</>;
 };
