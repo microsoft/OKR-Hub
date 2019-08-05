@@ -6,6 +6,8 @@ export const toggleEditPanel = "toggleEditPanel";
 
 export const toggleAreaPanel = "toggleAreaPanel";
 
+export const toggleSettings = "toggleSettings";
+
 export const getAreas = "getAreas"; 
 export const getAreasSucceed = "getAreasSucceed"; 
 

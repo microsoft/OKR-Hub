@@ -11,6 +11,7 @@ export interface IOKRActions {
     createOKR: (data: any) => {};
     toggleAddPanel: (data: any) => {};
     toggleEditPanel: (data: any) => {};
+    toggleSettings: (data: any) => {}; 
     editKRStatus: (data: any) => {};
     editKRComment: (data: any) => {};
     editArea: (data: any) => {};
@@ -36,6 +37,7 @@ export const useActions = (state: OKRMainState, dispatch) => ({
     createOKR: data => dispatch({ type: Actions.createOKR, payload: { data: data, objectives: state.objectives }}),
     toggleAddPanel: data => dispatch({ type: Actions.toggleAddPanel, payload: data }),
     toggleEditPanel: data => dispatch({ type: Actions.toggleEditPanel, payload: data }),
+    toggleSettings: data => dispatch({type: Actions.toggleSettings, payload: data}),
     editArea: data => dispatch({ type: Actions.editArea, payload: data }),
     editAreaSucceeded: data => dispatch({ type: Actions.editAreaSucceed, payload: data }),
     editKRStatus: data => dispatch({ type: Actions.editKRStatus, payload: data }),

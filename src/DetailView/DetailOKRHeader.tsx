@@ -24,6 +24,16 @@ export const DetailOKRHeader: React.SFC<IDetailOKRHeaderProps> = (props: IDetail
             iconProps: {
                 iconName: "Add"
             }
+        },
+        {
+            important: true,
+            id: "settings",
+            onActivate: () => {
+                stateContext.actions.toggleSettings({ expanded: true });
+            },
+            iconProps: {
+                iconName: "Settings"
+            }
         }
     ];
 

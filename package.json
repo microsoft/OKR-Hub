@@ -28,7 +28,8 @@
     "react-dom": "^16.8.6",
     "react-router": "^5.0.1",
     "react-router-dom": "^5.0.1",
-    "react-scripts": "3.0.1"
+    "react-scripts": "3.0.1",
+    "react-sortable-hoc": "^1.9.1"
   },
   "devDependencies": {
     "@types/jquery": "^2.0.41",

@@ -15,7 +15,8 @@ export const initialState: OKRMainState = {
   editPanelExpandedKey: undefined,
   areaPanelExpanded: false,
   editCommentKey: undefined,
-  projectName: ""
+  projectName: "",
+  settingsExpanded: false,
 }
 
 export const reducer = (state: OKRMainState = initialState, action) => {
@@ -36,6 +37,9 @@ export const reducer = (state: OKRMainState = initialState, action) => {
         draft.error = action.error;
         break;
 
+      case Types.toggleSettings:
+        draft.settingsExpanded = action.expanded; 
+        break;
       // Error
       case Types.setError:
         draft.error = action.payload.error;
