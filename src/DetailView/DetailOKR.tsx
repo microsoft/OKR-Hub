@@ -13,6 +13,7 @@ import { KRComment } from "./KRComment";
 import { MenuButton, IMenuItem } from "azure-devops-ui/Menu";
 import { Dialog } from "azure-devops-ui/Dialog";
 import { MutableScore } from "./MutableScore";
+import { MutableField } from "../MutableField";
 
 export interface IDetailOKRProps {
     objective: Objective;
@@ -53,8 +54,12 @@ export class DetailOKR extends React.Component<IDetailOKRProps, IDetailOKRState>
         const stateContext = this.context as IOKRContext;
         return (
             <div className="objective-title">
-                <h3 className="objective-name">{this.props.objective.Name}</h3>
-                <div className="objective-contex-menu"><MenuButton hideDropdownIcon={true} contextualMenuProps={{ menuProps: { id: "edit-okr", items: this.getButtons() } }} iconProps={{ iconName: "More" }} /></div>
+                <h3 className="objective-name"><MutableField value={this.props.objective.Name} onChange={(newName: string)=> {
+                    stateContext.actions.editOKR(produce(this.props.objective, draft => {
+                        draft.Name = newName;
+                    }));
+                }}/></h3>
+                <div className="objective-context-menu"><MenuButton hideDropdownIcon={true} contextualMenuProps={{ menuProps: { id: "edit-okr", items: this.getButtons() } }} iconProps={{ iconName: "More" }} /></div>
                 {this.state.isDialogOpen &&
                     <Dialog
                         titleProps={{ text: "Delete Objective" }}
@@ -105,7 +110,14 @@ export class DetailOKR extends React.Component<IDetailOKRProps, IDetailOKRState>
                                 }));
                             }} />
                         </td>
-                        <td className="kr-content-column">{kr.Content}</td>
+                        <td className="kr-content-column">
+                            <MutableField value={kr.Content} onChange={(newContent: string)=> {
+                                stateContext.actions.editOKR(produce(this.props.objective, draft => {
+                                    var found = draft.KRs.filter((x) => x.Id === kr.Id)[0];
+                                    found.Content = newContent;
+                                }));
+                            }}/>
+                        </td>
                         <td className="kr-score-column">
                             <MutableScore value={kr.Score} onSelect={(newValue) => {
                                 stateContext.actions.editOKR(produce(this.props.objective, draft => {
@@ -137,7 +149,7 @@ export class DetailOKR extends React.Component<IDetailOKRProps, IDetailOKRState>
         return [
             {
                 id: "edit-button",
-                text: "Edit Content",
+                text: "Add or Detele KR",
                 iconProps: { iconName: "Edit" },
                 onActivate: () => {
                     stateContext.actions.toggleEditPanel({ expandedKey: this.props.objective.id });

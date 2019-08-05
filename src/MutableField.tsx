@@ -3,6 +3,7 @@ import { Observer } from "azure-devops-ui/Observer";
 import { ObservableValue } from "azure-devops-ui/Core/Observable";
 import { TextField } from "azure-devops-ui/TextField";
 import { KeyCode } from "azure-devops-ui/Util";
+import { Button } from "azure-devops-ui/Button";
 
 export interface IMutableFieldProps {
 	value: string,
@@ -15,19 +16,21 @@ export class MutableField extends React.Component<IMutableFieldProps> {
 	public render = (): JSX.Element => {
 		return <Observer currentValue={this.currentValue}>
 			{(props: { currentValue: string }) => {
-				let content = <span className="label" onClick={this.onLabelClick}>{this.props.value}</span>
-
 				if (props.currentValue) {
-					content = <TextField
-						value={props.currentValue}
-						className="textField"
-						onKeyDown={this.onKeyDown}
-						onChange={this.onChange}
-						onBlur={this.onBlur} autoFocus={true}
-					/>
+					return (<div className="mutableField">
+						<TextField
+							value={props.currentValue}
+							className="textField"
+							onKeyDown={this.onKeyDown}
+							onChange={this.onChange}
+							autoFocus={true} />
+						<Button iconProps={{ iconName: "Cancel" }} subtle={true} onClick={this.onCancel} />
+						<Button iconProps={{ iconName: "CheckMark" }} subtle={true} onClick={this.onSave} />
+					</div>)
 				}
-
-				return <span className="mutableField">{content}</span>;
+				else {
+					return <span className="mutableField label" onClick={this.onLabelClick}>{this.props.value}</span>;	
+				}
 			}}
 		</Observer>;
 	};
@@ -41,7 +44,7 @@ export class MutableField extends React.Component<IMutableFieldProps> {
 			this.currentValue.value = undefined;
 		}
 		else if (event.keyCode === KeyCode.enter) {
-			this.onBlur();
+			this.onSave();
 		}
 	};
 
@@ -49,11 +52,15 @@ export class MutableField extends React.Component<IMutableFieldProps> {
 		this.currentValue.value = newValue;
 	};
 
-	private onBlur = (): void => {
+	private onSave = (): void => {
 		if (this.currentValue.value) {
 			this.props.onChange(this.currentValue.value);
 
 			this.currentValue.value = undefined;
 		}
 	};
+
+	private onCancel = (): void => {
+		this.currentValue.value = undefined;
+	}
 }
