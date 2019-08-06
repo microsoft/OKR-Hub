@@ -4,8 +4,8 @@ import { Button } from "azure-devops-ui/Button";
 import { ButtonGroup } from "azure-devops-ui/ButtonGroup";
 import { TextField } from "azure-devops-ui/TextField";
 import { Guid } from "guid-typescript";
-import { AreaCardIdentity } from "../AreaView/AreaCard/AreaCardIdentity";
 import { IPeoplePickerProvider } from "azure-devops-ui/IdentityPicker";
+import { MutableIdentity } from "../MutableIdentity";
 
 export interface IAreaFormProps {
     identityProvider: IPeoplePickerProvider;
@@ -60,7 +60,7 @@ export default class AreaForm extends React.Component<IAreaFormProps, IAreaFormS
                         }}
                     />
                     <div className={"area-field"}>
-                        <AreaCardIdentity area={{} as any} identityProvider={identityProvider} editMode={true} updateDraftOwner={updateOwnerState} />
+                        <MutableIdentity className="area-identity" identity={{} as any} identityProvider={identityProvider} editMode={true} updateDraftOwner={updateOwnerState} />
                     </div>
                 </div>
                 <div className="area-form-submit">

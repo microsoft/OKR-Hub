@@ -54,6 +54,13 @@
                         white-space: nowrap;
                         overflow: hidden;
                         text-overflow: ellipsis;
+
+                        .label {
+                            white-space: nowrap;
+                            overflow: hidden;
+                            text-overflow: ellipsis;
+                            display: block;
+                        }
                     }
     
                     .kr-status-column {
@@ -61,6 +68,19 @@
     
                         .kr-status {
                             width: 110px;
+                        }
+                    }
+
+                    .kr-owner-column.edit {
+                        width: 300px;
+                    }
+
+                    .kr-owner-column.static {
+                        width: 170px;
+
+                        .kr-identity {
+                            float: right;
+                            margin-right: 10px;
                         }
                     }
     
