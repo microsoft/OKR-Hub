@@ -1,4 +1,5 @@
 import { OKRDocument } from "../Data/OKRDocument";
+import { TimeFrame } from "../TimeFrame/TimeFrame";
 
 export class Objective extends OKRDocument {
     public Name: string;
@@ -6,7 +7,7 @@ export class Objective extends OKRDocument {
     public AreaId: string;
     public KRs: KR[];
     public Comments: string[];
-    public TimeFrame: string;
+    public TimeFrame: TimeFrame;
     public Progress: number;
 }
 

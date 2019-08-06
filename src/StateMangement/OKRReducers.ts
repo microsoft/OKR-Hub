@@ -22,7 +22,7 @@ export const initialState: OKRMainState = {
 export const reducer = (state: OKRMainState = initialState, action) => {
   return produce(state, draft => {
     switch (action.type) {
-      // Navigation
+      // NAVIGATION
       case Types.navigatePage:
         draft.selectedArea = action.payload.selectedArea ? action.payload.selectedArea : draft.selectedArea;
         draft.pageLocation = action.payload.pageLocation;
@@ -30,6 +30,12 @@ export const reducer = (state: OKRMainState = initialState, action) => {
       case Types.updateSelectedArea:
         draft.selectedArea = action.payload.selectedArea;
         break;
+
+      case Types.toggleSettings:
+        draft.settingsExpanded = action.payload.expanded;
+        break;
+
+      // PROJECT NAME
       case Types.getProjectNameSucceed:
         draft.projectName = action.projectName;
         break;
@@ -37,9 +43,6 @@ export const reducer = (state: OKRMainState = initialState, action) => {
         draft.error = action.error;
         break;
 
-      case Types.toggleSettings:
-        draft.settingsExpanded = action.expanded; 
-        break;
       // Error
       case Types.setError:
         draft.error = action.payload.error;

@@ -16,6 +16,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "array-move": "^2.1.0",
     "azure-devops-ui": "^1.154.1",
     "conditional-expression": "^1.1.2",
     "es6-promise": "^4.2.4",

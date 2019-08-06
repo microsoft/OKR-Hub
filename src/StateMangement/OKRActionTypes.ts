@@ -45,3 +45,9 @@ export const removeAreaSucceed = "removeAreaSucceed";
 export const getProjectName = "getProjectName";
 export const getProjectNameSucceed = "getProjectNameSucceed";
 export const getProjectNameFailed = "getProjectNameFailed";
+
+export const getTimeFrames = "getTimeFrames"; 
+export const getTimeFramesSucceed = "getTimeFramesSucceed"; 
+
+export const addTimeFrame = "addTimeFrame"; 
+export const addTimeFrameSucceed = "addTimeFrameSucceed"; 

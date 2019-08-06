@@ -1,64 +1,51 @@
 import * as React from "react";
-import {render} from 'react-dom';
-import { Objective } from "../Objective/Objective";
+import { render } from 'react-dom';
 import "./DetailOKR.scss";
 import { StateContext, IOKRContext } from "../StateMangement/StateProvider";
-import { Dialog } from "azure-devops-ui/Dialog";
-import {SortableContainer, SortableElement} from 'react-sortable-hoc';
-import arrayMove from 'array-move';
+import { SortableContainer, SortableElement } from 'react-sortable-hoc';
+import { Panel } from "azure-devops-ui/Panel";
+import * as arrayMove from "array-move";
+import { Checkbox } from "azure-devops-ui/Checkbox";
 
 
-export interface IDetailOKRProps {
-    objective: Objective;
-}
+export class TimeFrameSettings extends React.Component<{}, {}> {
+  static contextType = StateContext;
 
-export interface IDetailOKRState {
-    isDialogOpen: boolean;
-}
+  public render(): JSX.Element {
+    const stateContext = this.context as IOKRContext;
 
-export class DetailOKR extends React.Component<IDetailOKRProps, IDetailOKRState> {
-    static contextType = StateContext;
-    constructor(props: IDetailOKRProps) {
-        super(props);
-        this.state = { isDialogOpen: false }
-    }
+    const dialog = stateContext.state.settingsExpanded ?
+      <Panel
+        titleProps={{ text: "Time Periods" }}
+        footerButtonProps={[
+          {
+            text: "Cancel",
+            onClick: () => {
+              stateContext.actions.toggleSettings({ expanded: false });
+            }
+          }
+        ]}
+        onDismiss={() => {
+          stateContext.actions.toggleSettings({ expanded: false });
+        }}>
+        <div>Drag time frames up and down to reorder.</div>
+        <SortableComponent />
+      </Panel> :
+      null;
 
-    public render(): JSX.Element {
-        const stateContext = this.context as IOKRContext;
-
-        const dialog = stateContext.state.settingsExpanded ?
-            <Dialog
-                titleProps={{ text: "Quarters" }}
-                
-                footerButtonProps={[
-                    {
-                        text: "Cancel",
-                        onClick: () => {
-                            this.setState({ isDialogOpen: false });
-                        }
-                    },
-                    {
-                        text: "OK", primary: true, onClick: () => {
-                            stateContext.actions.removeOKR({ id: this.props.objective.id });
-                            this.setState({ isDialogOpen: false });
-                        }
-                    }
-                ]}
-                onDismiss={() => {
-                    this.setState({ isDialogOpen: false });
-                }}>
-                    <SortableComponent />
-            </Dialog> :
-            null;
-
-        return dialog;
-    }
+    return dialog;
+  }
 }
 
 
-const SortableItem = SortableElement(({value}) => <li>{value}</li>);
+const SortableItem = SortableElement(({ value }) =>
+  <div>
+    <div className={"time-frame-box"}>{value}</div>
+    <Checkbox> </Checkbox>
+  </div>
+);
 
-const SortableList = SortableContainer(({items}) => {
+const SortableList = SortableContainer(({ items }) => {
   return (
     <ul>
       {items.map((value, index) => (
@@ -68,16 +55,19 @@ const SortableList = SortableContainer(({items}) => {
   );
 });
 
-class SortableComponent extends React.Component<{}, {items}> {
+class SortableComponent extends React.Component<{}, { items }> {
   state = {
     items: ['Item 1', 'Item 2', 'Item 3', 'Item 4', 'Item 5', 'Item 6'],
   };
-  onSortEnd = ({oldIndex, newIndex}) => {
-    this.setState(({items}) => ({
+
+  onSortEnd = ({ oldIndex, newIndex }) => {
+    this.setState(({ items }) => ({
       items: arrayMove(items, oldIndex, newIndex),
     }));
   };
+
   render() {
+
     return <SortableList items={this.state.items} onSortEnd={this.onSortEnd} />;
   }
 }

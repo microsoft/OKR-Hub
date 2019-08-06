@@ -3,9 +3,11 @@ import * as Actions from "./OKRActionTypes";
 import { ObjectiveService } from '../Objective/ObjectiveService';
 import { Objective } from '../Objective/Objective';
 import { AreaService } from '../Area/AreaService';
+import { TimeFrameService} from '../TimeFrame/TimeFrameService'; 
 import { Area } from '../Area/Area';
 import { OKRDocument } from '../Data/OKRDocument';
 import { OKRDataService } from '../Data/OKRDataService';
+import { TimeFrame } from '../TimeFrame/TimeFrame';
 
 export const applyMiddleware = dispatch => action =>
   dispatch(action) ||
@@ -60,6 +62,32 @@ export const applyMiddleware = dispatch => action =>
         }, (error)=> {
             dispatch({
                 type: Actions.areaOperationFailed,
+                error: error
+            });
+        });
+    })
+    .equals(Actions.getTimeFrames).then(() => {
+        TimeFrameService.instance.getAll().then((allTimeFrames: TimeFrame[]) => {
+            dispatch({
+                type: Actions.getTimeFramesSucceed,
+                payload: allTimeFrames
+            });
+        }, (error)=> {
+            dispatch({
+                type: "TODO",
+                error: error
+            });
+        });
+    })
+    .equals(Actions.addTimeFrame).then(() => {
+        ObjectiveService.instance.create(action.payload.data).then((created) => {
+            dispatch({
+                type: Actions.addTimeFrameSucceed,
+                payload: created
+            });
+        }, (error) => {
+            dispatch({
+                type: "TODO",
                 error: error
             });
         });
