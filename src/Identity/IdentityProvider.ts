@@ -18,4 +18,9 @@ export class IdentityProvider implements IPeoplePickerProvider {
 	public onRequestConnectionInformation = (entity: IIdentity, getDirectReports?: boolean): IPersonaConnections => {
 		return { directReports: [] };
 	};
+
+	public onEmptyInputFocus = () => {
+		// TODO: use mru service in the future.
+		return [];
+	}
 }

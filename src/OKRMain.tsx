@@ -25,11 +25,11 @@ const OKRPage: React.SFC<{}> = props => {
     const stateContext = useStateValue();
     // Make sure to initialize the objectives and areas
     React.useEffect(() => {
-        if (!stateContext.state.objectives) {
-            stateContext.actions.getObjectives({});
-        }
         if (!stateContext.state.areas) {
             stateContext.actions.getAreas({});
+        }
+        if (!stateContext.state.objectives) {
+            stateContext.actions.getObjectives({});
         }
         if (!stateContext.state.projectName) {
             stateContext.actions.getProjectName({});

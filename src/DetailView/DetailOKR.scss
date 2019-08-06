@@ -63,6 +63,19 @@
                             width: 110px;
                         }
                     }
+
+                    .kr-owner-column.edit {
+                        width: 300px;
+                    }
+
+                    .kr-owner-column.static {
+                        width: 170px;
+
+                        .kr-identity {
+                            float: right;
+                            margin-right: 10px;
+                        }
+                    }
     
                     .kr-content-column:hover {
                         cursor: pointer;

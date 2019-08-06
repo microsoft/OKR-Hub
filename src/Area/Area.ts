@@ -1,6 +1,6 @@
-import { OKRDocument } from "../Data/OKRDocument";
+import { OKRDocument, IOwnerIdentity } from "../Data/OKRDocument";
 
-export class Area extends OKRDocument {
+export class Area extends OKRDocument implements IOwnerIdentity{
     AreaId: string;
     Name: string;
     Version: number;

@@ -4,6 +4,8 @@ import { OKRMainState } from "../StateMangement/OKRState";
 import { NavigationConstants } from "../OKRConstants";
 import { Objective } from "../Objective/Objective";
 import { Area } from "../Area/Area";
+import { IdentityPicker } from "azure-devops-ui/IdentityPicker";
+import { IdentityProvider } from "../Identity/IdentityProvider";
 
 export const initialState: OKRMainState = {
   pageLocation: NavigationConstants.AreaView,
@@ -15,7 +17,8 @@ export const initialState: OKRMainState = {
   editPanelExpandedKey: undefined,
   areaPanelExpanded: false,
   editCommentKey: undefined,
-  projectName: ""
+  projectName: "",
+  identityProvider: undefined
 }
 
 export const reducer = (state: OKRMainState = initialState, action) => {
@@ -49,7 +52,7 @@ export const reducer = (state: OKRMainState = initialState, action) => {
         });
         // If an area isn't already selected, set the first areas as the selected area
         draft.selectedArea = draft.selectedArea ? draft.selectedArea : draft.areas[0];
-        draft.selectedArea = draft.selectedArea ? draft.selectedArea : draft.areas[0];
+        draft.identityProvider = new IdentityProvider();
         break;
       case Types.toggleAreaPanel:
         draft.areaPanelExpanded = action.payload.expanded

@@ -14,6 +14,7 @@ import { MenuButton, IMenuItem } from "azure-devops-ui/Menu";
 import { Dialog } from "azure-devops-ui/Dialog";
 import { MutableScore } from "./MutableScore";
 import { MutableField } from "../MutableField";
+import { MutableIdentity } from "../MutableIdentity";
 
 export interface IDetailOKRProps {
     objective: Objective;
@@ -21,13 +22,14 @@ export interface IDetailOKRProps {
 
 export interface IDetailOKRState {
     isDialogOpen: boolean;
+    editModeKR: string;
 }
 
 export class DetailOKR extends React.Component<IDetailOKRProps, IDetailOKRState> {
     static contextType = StateContext;
     constructor(props: IDetailOKRProps) {
         super(props);
-        this.state = { isDialogOpen: false }
+        this.state = { isDialogOpen: false, editModeKR: "" }
     }
 
     public render(): JSX.Element {
@@ -117,6 +119,19 @@ export class DetailOKR extends React.Component<IDetailOKRProps, IDetailOKRState>
                                     found.Content = newContent;
                                 }));
                             }}/>
+                        </td>
+                        <td className={this.state.editModeKR === kr.Id ? "kr-owner-column edit" : "kr-owner-column static"}>
+                            <MutableIdentity className={"kr-identity"} identity={kr} identityProvider={stateContext.state.identityProvider} editMode={this.state.editModeKR === kr.Id} 
+                            onBlur={() => {this.setState({editModeKR: ""})}}
+                            onClick={() => {this.setState({editModeKR: kr.Id})}}
+                            calloutWidth={270}
+                            updateDraftOwner={(udpatedOwnerId: string, updatedOwnerName: string) => {
+                                stateContext.actions.editOKR(produce(this.props.objective, draft => {
+                                    var found = draft.KRs.filter((x) => x.Id === kr.Id)[0];
+                                    found.OwnerId = udpatedOwnerId;
+                                    found.OwnerName = updatedOwnerName;
+                                }));
+                            }} />
                         </td>
                         <td className="kr-score-column">
                             <MutableScore value={kr.Score} onSelect={(newValue) => {
