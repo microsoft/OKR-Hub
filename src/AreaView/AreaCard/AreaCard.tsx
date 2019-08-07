@@ -3,7 +3,7 @@ import { Area } from "../../Area/Area";
 import { Card } from "azure-devops-ui/Card";
 import { IPeoplePickerProvider } from "azure-devops-ui/IdentityPicker";
 import "../AreaView.scss";
-import { AreaCardIdentity } from "./AreaCardIdentity";
+import { MutableIdentity } from "../../MutableIdentity";
 import { AreaCardDetails } from "./Details/AreaCardDetails";
 import { useStateValue } from "../../StateMangement/StateProvider";
 import produce from "immer";
@@ -97,7 +97,7 @@ export const AreaCard: React.FunctionComponent<IAreaCardProps> = props => {
         <Card className="area-card">
             <div className="area-card-interior">
                 <AreaCardDetails area={area} draftArea={draftArea} editMode={editMode} updateDraftName={updateName} updateDraftDescription={updateDescription} buttons={buttons} />
-                <AreaCardIdentity area={editMode ? draftArea : area} identityProvider={identityProvider} editMode={editMode} updateDraftOwner={updateOwner} />
+                <MutableIdentity className={"area-identity"} identity={editMode ? draftArea : area} identityProvider={identityProvider} editMode={editMode} updateDraftOwner={updateOwner} />
             </div>
         </Card>
     </div>);

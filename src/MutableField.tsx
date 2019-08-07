@@ -29,7 +29,7 @@ export class MutableField extends React.Component<IMutableFieldProps> {
 					</div>)
 				}
 				else {
-					return <span className="mutableField label" onClick={this.onLabelClick}>{this.props.value}</span>;	
+					return <div className="mutableField label" onClick={this.onLabelClick} title={this.props.value}>{this.props.value}</div>;	
 				}
 			}}
 		</Observer>;

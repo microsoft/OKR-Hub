@@ -1,6 +1,7 @@
 import { NavigationConstants } from "../OKRConstants";
 import { Objective } from "../Objective/Objective";
 import { Area } from "../Area/Area";
+import { IPeoplePickerProvider } from "azure-devops-ui/IdentityPicker";
 
 export interface OKRMainState {
     pageLocation: NavigationConstants;
@@ -14,4 +15,5 @@ export interface OKRMainState {
     settingsExpanded: boolean; 
     editCommentKey: string;
     projectName: string;
+    identityProvider: IPeoplePickerProvider;
 }

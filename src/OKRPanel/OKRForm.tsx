@@ -70,7 +70,9 @@ export default class OKRForm extends React.Component<IOKRFormProps, IOKRFormStat
                         Content: "",
                         Status:  "NotStarted",
                         Comment: "",
-                        Score: "0"
+                        Score: "0",
+                        OwnerId: "",
+                        OwnerName: ""
                     }]});
                 }}/>
                 </div>

@@ -1,102 +1,129 @@
-.okr-list-container {
-    padding: 10px;
-    align-items: baseline;
-
-    .objective-title {
-        display: flex;
-        max-height: 60px;
-        overflow: hidden;
-
-        &:hover {
-            cursor: pointer;
-        }
-
-        .objective-name {
-            flex-grow: 1;
-            margin-right: 20px;
-        }
-        .objective-context-menu {
-            margin: 6px 0 6px 20px;
-        }
-    }
-
-    
-    .mutableField {
-        &:hover {
-            cursor: pointer;
-        }
-        display: flex;
-
-        div:first-child {
-            flex-grow: 1;
-        }
-    }
-
-    .kr-list {
-        display: flex;
-        flex-direction: column;
+.okrhub {
+    .bolt-master-panel .bolt-list {
         width: 100%;
+    }
 
-        .kr {
-            padding: 10px;
-
-            .kr-table {
-                table-layout: fixed;
-                width: 100%;
-                white-space: nowrap;
+    .okr-list-container {
+        padding: 10px;
+        align-items: baseline;
     
-                td {
-                    white-space: nowrap;
-                    overflow: hidden;
-                    text-overflow: ellipsis;
-                }
-
-                .kr-status-column {
-                    width: 125px;
-
-                    .kr-status {
-                        width: 110px;
-                    }
-                }
-
-                .kr-content-column:hover {
-                    cursor: pointer;
-                }
-
-                .kr-score-column {
-                    width: 50px;
-
-                    .kr-score-select {
-                        width: 45px;
-                    }
-
-                    .kr-score {
-                        height: 22px;
-                        cursor: pointer;
-                    }
-
-                    .kr-comment-icon:hover {
-                        cursor: pointer;
-                    }
-                }
+        .objective-title {
+            display: flex;
+            max-height: 60px;
+            overflow: hidden;
+    
+            &:hover {
+                cursor: pointer;
             }
+    
+            .objective-name {
+                flex-grow: 1;
+                margin-right: 20px;
+            }
+            .objective-context-menu {
+                margin: 6px 0 6px 20px;
+            }
+        }
+    
+        
+        .mutableField {
+            &:hover {
+                cursor: pointer;
+            }
+            display: flex;
+    
+            div:first-child {
+                flex-grow: 1;
+            }
+        }
+    
+        .kr-list {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+    
+            .kr {
+                padding: 10px;
+    
+                .kr-table {
+                    table-layout: fixed;
+                    width: 100%;
+                    white-space: nowrap;
+        
+                    td {
+                        white-space: nowrap;
+                        overflow: hidden;
+                        text-overflow: ellipsis;
 
-            .kr-comment {
-                padding-left: 125px;
-                padding-top: 10px;
-                font-style: italic;
-                span {
-                    padding-right: 5px;
+                        .label {
+                            white-space: nowrap;
+                            overflow: hidden;
+                            text-overflow: ellipsis;
+                            display: block;
+                        }
+                    }
+    
+                    .kr-status-column {
+                        width: 125px;
+    
+                        .kr-status {
+                            width: 110px;
+                        }
+                    }
+
+                    .kr-owner-column.edit {
+                        width: 300px;
+                    }
+
+                    .kr-owner-column.static {
+                        width: 170px;
+
+                        .kr-identity {
+                            float: right;
+                            margin-right: 10px;
+                        }
+                    }
+    
+                    .kr-content-column:hover {
+                        cursor: pointer;
+                    }
+    
+                    .kr-score-column {
+                        width: 50px;
+    
+                        .kr-score-select {
+                            width: 45px;
+                        }
+    
+                        .kr-score {
+                            height: 22px;
+                            cursor: pointer;
+                        }
+    
+                        .kr-comment-icon:hover {
+                            cursor: pointer;
+                        }
+                    }
                 }
-                
-                .kr-button-group{
-                    display: flex;
-                    justify-content: flex-end;
+    
+                .kr-comment {
+                    padding-left: 125px;
+                    padding-top: 10px;
+                    font-style: italic;
+                    span {
+                        padding-right: 5px;
+                    }
+                    
+                    .kr-button-group{
+                        display: flex;
+                        justify-content: flex-end;
+                    }
                 }
             }
         }
     }
 }
+
 
 
 

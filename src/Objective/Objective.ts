@@ -1,5 +1,5 @@
-import { OKRDocument } from "../Data/OKRDocument";
 import { TimeFrame } from "../TimeFrame/TimeFrame";
+import { OKRDocument, IOwnerIdentity } from "../Data/OKRDocument";
 
 export class Objective extends OKRDocument {
     public Name: string;
@@ -11,12 +11,14 @@ export class Objective extends OKRDocument {
     public Progress: number;
 }
 
-export class KR {
+export class KR implements IOwnerIdentity {
     public Id: string;
     public Content: string;
     public Status: KRStatus;
     public Comment: string;
     public Score: string;
+    public OwnerId: string;
+    public OwnerName: string;
 }
 
 export declare type KRStatus = "NotStarted" | "OnTrack" | "AtRisk" | "Completed" | "Incomplete" | "Canceled";
