@@ -9,6 +9,7 @@ export class Objective extends OKRDocument {
     public Comments: string[];
     public TimeFrame: TimeFrame;
     public Progress: number;
+    public WorkItems: number[];
 }
 
 export class KR implements IOwnerIdentity {
