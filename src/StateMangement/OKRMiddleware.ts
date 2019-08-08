@@ -7,6 +7,8 @@ import { Area } from '../Area/Area';
 import { OKRDocument } from '../Data/OKRDocument';
 import { OKRDataService } from '../Data/OKRDataService';
 import { TimeFrame } from '../TimeFrame/TimeFrame';
+import { WorkItemService } from "../Data/WorkItemService";
+import { WorkItem } from "azure-devops-extension-api/WorkItemTracking";
 
 export const applyMiddleware = dispatch => action =>
     dispatch(action) || runMiddleware(dispatch, action);
@@ -190,6 +192,74 @@ const runMiddleware = (dispatch, action) => {
             }, (error) => {
                 dispatch({
                     type: Actions.areaOperationFailed,
+                    error: error
+                });
+            });
+            break;
+        case Actions.getWorkItems:
+            WorkItemService.getInstance().getWorkItems(action.payload).then((workItems: WorkItem[]) => {
+                dispatch({
+                    type: Actions.getWorkItemsSucceed,
+                    workItems: workItems
+                });
+            },
+                (error) => {
+                    dispatch({
+                        type: Actions.objectiveOperationFailed,
+                        error: error
+                    });
+                });
+            break;
+        case Actions.addWorkItems:
+            // TODO: validate the input ids.
+            WorkItemService.getInstance().getWorkItems(action.payload.data.ids).then((workItems: WorkItem[]) => {
+                var objective = action.payload.objectives.filter((objective: Objective) => {
+                    return objective.id === action.payload.data.objectiveId;
+                })[0];
+
+                workItems.forEach((workItem: WorkItem) => {
+                    if (objective.WorkItems === undefined) {
+                        objective.WorkItems = [];
+                    }
+                    if (objective.WorkItems.indexOf(workItem.id) === -1) {
+                        objective.WorkItems.push(workItem.id);
+                    }
+                });
+
+                ObjectiveService.instance.save(objective).then((updated) => {
+                    dispatch({
+                        type: Actions.addWorkItemsSucceed,
+                        workItems: workItems,
+                        objective: updated
+                    });
+                }, (error) => {
+                    dispatch({
+                        type: Actions.objectiveOperationFailed,
+                        error: error
+                    });
+                });
+            }, (error) => {
+                dispatch({
+                    type: Actions.objectiveOperationFailed,
+                    error: error
+                });
+            });
+            break;
+        case Actions.deleteWorkItems:
+            var objective = action.payload.objectives.filter((objective: Objective) => {
+                return objective.id === action.payload.data.objectiveId;
+            })[0];
+            objective.WorkItems = objective.WorkItems.filter((id: number) => {
+                return id !== action.payload.data.id;
+            });
+            ObjectiveService.instance.save(objective).then((updated) => {
+                dispatch({
+                    type: Actions.deleteWorkItemsSucceed,
+                    payload: updated
+                });
+            }, (error) => {
+                dispatch({
+                    type: Actions.objectiveOperationFailed,
                     error: error
                 });
             });

@@ -3,6 +3,7 @@ import { Objective } from "../Objective/Objective";
 import { Area } from "../Area/Area";
 import { IPeoplePickerProvider } from "azure-devops-ui/IdentityPicker";
 import { TimeFrame } from "../TimeFrame/TimeFrame";
+import { WorkItem } from "azure-devops-extension-api/WorkItemTracking";
 
 export interface OKRMainState {
     pageLocation: NavigationConstants;
@@ -12,10 +13,12 @@ export interface OKRMainState {
     error: Error;
     addPanelExpanded: boolean;
     editPanelExpandedKey: string;
+    linkWorkItemExpandedKey: string;
     areaPanelExpanded: boolean; 
     settingsExpanded: boolean; 
     editCommentKey: string;
     projectName: string;
     identityProvider: IPeoplePickerProvider;
     timeFrames: TimeFrame[];
+    workItemsMap: {[key: number]: WorkItem};
 }
