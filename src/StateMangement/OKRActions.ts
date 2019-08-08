@@ -25,6 +25,11 @@ export interface IOKRActions {
     removeOKR: (data: any) => {};
     removeArea: (data: any) => {};
     getProjectName: (data: any) => {};
+    getTimeFrames: (data: any) => {}; 
+    addTimeFrames: (data: any) => {}; 
+    editTimeFrame: (data: any) => {};
+    editTimeFrameSucceed: (data: any) => {}; 
+    
 }
 
 export const useActions = (state: OKRMainState, dispatch) => ({
@@ -52,5 +57,9 @@ export const useActions = (state: OKRMainState, dispatch) => ({
     objectivesOperationFailed: data => dispatch({ type: Actions.objectiveOperationFailed, payload: data }),    
     removeOKR: data => dispatch({ type: Actions.removeOKR, payload: data }),
     removeArea: data => dispatch({ type: Actions.removeArea, payload: data }),
-    getProjectName: data => dispatch({ type: Actions.getProjectName, payload: data })
+    getProjectName: data => dispatch({ type: Actions.getProjectName, payload: data }),
+    getTimeFrames: data => dispatch({type: Actions.getTimeFrames, payload: data}),
+    addTimeFrames: data => dispatch({type: Actions.addTimeFrame, payload: data}),
+    editTimeFrame: data => dispatch({type: Actions.editTimeFrame, payload: data}),
+    editTimeFrameSucceed: data => dispatch({type: Actions.editTimeFrameSucceed, payload: data}),
 } as IOKRActions); 

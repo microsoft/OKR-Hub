@@ -53,7 +53,7 @@ const runMiddleware = (dispatch, action) => {
             });
             break;
         case Actions.addTimeFrame:
-            TimeFrameService.instance.create(action.payload.data).then((created) => {
+            TimeFrameService.instance.create(action.payload).then((created) => {
                 dispatch({
                     type: Actions.addTimeFrameSucceed,
                     payload: created
@@ -65,6 +65,20 @@ const runMiddleware = (dispatch, action) => {
                 });
             });
             break;
+        case Actions.editTimeFrame:
+            TimeFrameService.instance.save(action.payload).then((updated) => {
+                dispatch({
+                    type: Actions.editTimeFrameSucceed,
+                    payload: updated
+                });
+            }, (error) => {
+                dispatch({
+                    type: "Todo",
+                    error: error
+                });
+            });
+            break;
+
         case Actions.getProjectName:
             OKRDataService.getProjectName().then((projectName: string) => {
                 dispatch({

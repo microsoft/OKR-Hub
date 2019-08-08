@@ -12,6 +12,7 @@ export const initialState: OKRMainState = {
   selectedArea: undefined,
   objectives: undefined,
   areas: undefined,
+  timeFrames: undefined,
   error: undefined,
   addPanelExpanded: false,
   editPanelExpandedKey: undefined,
@@ -34,8 +35,20 @@ export const reducer = (state: OKRMainState = initialState, action) => {
         draft.selectedArea = action.payload.selectedArea;
         break;
 
+      // TIME FRAMES
       case Types.toggleSettings:
         draft.settingsExpanded = action.payload.expanded;
+        break;
+      case Types.getTimeFramesSucceed:
+        draft.timeFrames = action.payload;
+        break;
+      case Types.editTimeFrameSucceed:
+        draft.timeFrames = draft.timeFrames.map(tf => {
+          return tf.id === action.payload.id ? action.payload : tf;
+        });
+        break;
+      case Types.addTimeFrameSucceed:
+        draft.timeFrames.push(action.payload);
         break;
 
       // PROJECT NAME
@@ -46,12 +59,12 @@ export const reducer = (state: OKRMainState = initialState, action) => {
         draft.error = action.error;
         break;
 
-      // Error
+      // ERRORS
       case Types.setError:
         draft.error = action.payload.error;
         break;
 
-      // Areas
+      // AREAS
       case Types.getAreasSucceed:
         draft.areas = action.payload;
         draft.areas.sort((a, b) => {
@@ -80,7 +93,7 @@ export const reducer = (state: OKRMainState = initialState, action) => {
         })
         break;
 
-      // Area failures
+      // AREA FAILURES
       case Types.createAreaFailed:
         draft.error = action.error;
         draft.areaPanelExpanded = false;
@@ -89,7 +102,7 @@ export const reducer = (state: OKRMainState = initialState, action) => {
         draft.error = action.error;
         break;
 
-      // Objectives
+      // OBJECTIVES
       case Types.getObjectivesSucceed:
         draft.objectives = action.payload;
         draft.objectives.sort((a, b) => {
@@ -126,7 +139,7 @@ export const reducer = (state: OKRMainState = initialState, action) => {
         })
         break;
 
-      //Objective failures
+      //OBJECTIVE FAILURES
       case Types.objectiveOperationFailed:
         draft.error = action.error;
         draft.editPanelExpandedKey = undefined;

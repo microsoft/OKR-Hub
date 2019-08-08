@@ -34,6 +34,9 @@ const OKRPage: React.SFC<{}> = props => {
         if (!stateContext.state.projectName) {
             stateContext.actions.getProjectName({});
         }
+        if (!stateContext.state.timeFrames) {
+            stateContext.actions.getTimeFrames({}); 
+        }
     });
     
 

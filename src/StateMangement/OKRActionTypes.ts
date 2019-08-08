@@ -51,3 +51,6 @@ export const getTimeFramesSucceed = "getTimeFramesSucceed";
 
 export const addTimeFrame = "addTimeFrame"; 
 export const addTimeFrameSucceed = "addTimeFrameSucceed"; 
+
+export const editTimeFrame = "editTimeFrame";
+export const editTimeFrameSucceed = "editTimeFrameSucceed"; 
