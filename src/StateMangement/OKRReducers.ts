@@ -4,7 +4,6 @@ import { OKRMainState } from "../StateMangement/OKRState";
 import { NavigationConstants } from "../OKRConstants";
 import { Objective } from "../Objective/Objective";
 import { Area } from "../Area/Area";
-import { IdentityPicker } from "azure-devops-ui/IdentityPicker";
 import { IdentityProvider } from "../Identity/IdentityProvider";
 
 export const initialState: OKRMainState = {
@@ -20,7 +19,8 @@ export const initialState: OKRMainState = {
   editCommentKey: undefined,
   projectName: "",
   settingsExpanded: false,
-  identityProvider: undefined
+  identityProvider: undefined,
+  displayedTimeFrame: undefined, 
 }
 
 export const reducer = (state: OKRMainState = initialState, action) => {
@@ -36,11 +36,13 @@ export const reducer = (state: OKRMainState = initialState, action) => {
         break;
 
       // TIME FRAMES
-      case Types.toggleSettings:
-        draft.settingsExpanded = action.payload.expanded;
-        break;
       case Types.getTimeFramesSucceed:
-        draft.timeFrames = action.payload;
+          draft.timeFrames = action.payload;
+          // On first load, set the displayed time frame as the current time frame
+          draft.displayedTimeFrame = draft.timeFrames.find((tf)=> {return tf.isCurrent}); 
+          break;
+      case Types.toggleTimeFrameSettings:
+        draft.settingsExpanded = action.payload.expanded;
         break;
       case Types.editTimeFrameSucceed:
         draft.timeFrames = draft.timeFrames.map(tf => {

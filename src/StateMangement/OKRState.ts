@@ -12,10 +12,14 @@ export interface OKRMainState {
     error: Error;
     addPanelExpanded: boolean;
     editPanelExpandedKey: string;
-    areaPanelExpanded: boolean; 
-    settingsExpanded: boolean; 
+    areaPanelExpanded: boolean;
+    settingsExpanded: boolean;
     editCommentKey: string;
     projectName: string;
     identityProvider: IPeoplePickerProvider;
     timeFrames: TimeFrame[];
+
+    /** On first load this is our current time frame. 
+     * If the user navigates to another time frame this is whatever is currently being displayed */
+    displayedTimeFrame: TimeFrame;
 }

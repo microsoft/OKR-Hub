@@ -3,7 +3,7 @@ import * as SDK from "azure-devops-extension-sdk";
 import { CommonServiceIds, IExtensionDataService, IExtensionDataManager, IProjectPageService } from "azure-devops-extension-api";
 
 export abstract class OKRDataService<T extends OKRDocument> {
-    protected abstract getDataCollectionKey(): string;
+    protected abstract getDataCollectionKey(additionalKey?: string): string;
     private dataManager: IExtensionDataManager;
 
     private async getDataManager(): Promise<IExtensionDataManager> {
@@ -17,8 +17,8 @@ export abstract class OKRDataService<T extends OKRDocument> {
         return this.dataManager;
     }
 
-    private async getProjectKey(): Promise<string> {
-        const projectKey = await OKRDataService.getProjectKey(this.getDataCollectionKey());
+    private async getProjectKey(additionalKey?: string): Promise<string> {
+        const projectKey = await OKRDataService.getProjectKey(this.getDataCollectionKey(additionalKey));
         return projectKey;
     }
 
@@ -35,11 +35,11 @@ export abstract class OKRDataService<T extends OKRDocument> {
         return project.name;
     }
 
-    public async getAll(): Promise<T[]> {
+    public async getAll(additionalKey?: string): Promise<T[]> {
         const dataManager: IExtensionDataManager = await this.getDataManager();
         let documents = [];
         try {
-            const projectKey = await this.getProjectKey();
+            const projectKey = await this.getProjectKey(additionalKey);
             documents = await dataManager.getDocuments(projectKey) as T[];
         } catch (error) {
             // Document collection doesn't exist will throw on first run experience. 
@@ -55,35 +55,26 @@ export abstract class OKRDataService<T extends OKRDocument> {
         return documents;
     }
 
-    public async create(object: T): Promise<T> {
+    public async create(object: T, additionalKey?: string): Promise<T> {
         const dataManager: IExtensionDataManager = await this.getDataManager();
 
-        const projectKey = await this.getProjectKey();
+        const projectKey = await this.getProjectKey(additionalKey);
         return await dataManager.createDocument(projectKey, object);
     }
 
-    public async save(object: T): Promise<T> {
+    public async save(object: T, additionalKey?: string): Promise<T> {
         const dataManager: IExtensionDataManager = await this.getDataManager();
 
-        const projectKey = await this.getProjectKey();
+        const projectKey = await this.getProjectKey(additionalKey);
         return await dataManager.updateDocument(projectKey, object);
     }
 
-    public async delete(filter: (document: T) => boolean): Promise<void> {
+    public async delete(filter: (document: T) => boolean, additionalKey?: string): Promise<void> {
         const dataManager: IExtensionDataManager = await this.getDataManager();
         const documents: T[] = await this.getAll();
         const filteredDocuments: T[] = documents.filter(filter);
         filteredDocuments.forEach(async document => {
-            const projectKey = await this.getProjectKey();
-            dataManager.deleteDocument(projectKey, document.id);
-        });
-    }
-
-    public async deleteAll(): Promise<void> {
-        const dataManager: IExtensionDataManager = await this.getDataManager();
-        const documents = await this.getAll();
-        documents.forEach(async document => {
-            const projectKey = await this.getProjectKey();
+            const projectKey = await this.getProjectKey(additionalKey);
             dataManager.deleteDocument(projectKey, document.id);
         });
     }

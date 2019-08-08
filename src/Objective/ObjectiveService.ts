@@ -11,8 +11,8 @@ export class ObjectiveService extends OKRDataService<Objective> {
         return this.singleton;
     }
 
-    public getDataCollectionKey(): string {
-        return "objectives";
+    public getDataCollectionKey(timeFrameId: string): string {
+        return "objectives" + timeFrameId;
     }
 
     public async getObjectivesByArea(area: string): Promise<Objective[]> {

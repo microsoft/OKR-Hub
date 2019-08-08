@@ -18,7 +18,7 @@ export const DetailOKRHeader: React.SFC<IDetailOKRHeaderProps> = (props: IDetail
         {
             important: true,
             id: "create-okr",
-            text: "New OKR", // TODO: Resource file for localization
+            text: "New OKR", 
             onActivate: () => {
                 stateContext.actions.toggleAddPanel({ expanded: true });
             },
