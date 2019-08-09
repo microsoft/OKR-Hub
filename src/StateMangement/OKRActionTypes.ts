@@ -11,6 +11,8 @@ export const toggleEditPanel = "toggleEditPanel";
 export const toggleAreaPanel = "toggleAreaPanel";
 
 export const toggleTimeFrameSettings = "toggleSettings";
+export const toggleSettings = "toggleSettings";
+export const toggleLinkPanel = "toggleLinkPanel";
 
 export const getObjectives = "getObjectives"; 
 export const getObjectivesSucceed = "getObjectivesSucceed";
@@ -54,3 +56,13 @@ export const addTimeFrameSucceed = "addTimeFrameSucceed";
 
 export const editTimeFrame = "editTimeFrame";
 export const editTimeFrameSucceed = "editTimeFrameSucceed"; 
+export const getWorkItems = "getWorkItems";
+export const getWorkItemsSucceed = "getWorkItemsSucceed";
+
+export const addWorkItems = "addWorkItems";
+export const addWorkItemsSucceed = "addWorkItemsSucceed";
+
+export const deleteWorkItems = "deleteWorkItems";
+export const deleteWorkItemsSucceed = "deleteWorkItemsSucceed";
+
+export const openWorkItem = "openWorkItem";

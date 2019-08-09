@@ -22,7 +22,7 @@ export class TimeFrameSettings extends React.Component<ITimeFrameSettingsProps, 
         titleProps={{ text: "Time Periods" }}
         footerButtonProps={[
           {
-            text: "Done",
+            text: "Close",
             onClick: () => {
               stateContext.actions.toggleSettings({ expanded: false });
             }

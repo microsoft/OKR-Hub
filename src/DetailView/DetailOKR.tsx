@@ -15,6 +15,7 @@ import { Dialog } from "azure-devops-ui/Dialog";
 import { MutableScore } from "./MutableScore";
 import { MutableField } from "../MutableField";
 import { MutableIdentity } from "../MutableIdentity";
+import { LinkWorkItemPanel } from "../OKRPanel/LinkWorkItemPanel";
 
 export interface IDetailOKRProps {
     objective: Objective;
@@ -48,12 +49,14 @@ export class DetailOKR extends React.Component<IDetailOKRProps, IDetailOKRState>
                     />
                 </Card>
                 {stateContext.state.editPanelExpandedKey === this.props.objective.id && <AddOrEditOKRPanel title={"Edit OKR"} objective={this.props.objective} />}
+                {stateContext.state.linkWorkItemExpandedKey === this.props.objective.id && <LinkWorkItemPanel title={"Link Work Items"} objective={this.props.objective} />}
             </div>
         );
     }
 
     private _renderObjective = () => {
         const stateContext = this.context as IOKRContext;
+        const {objective} = this.props;
         return (
             <div className="objective-title">
                 <h3 className="objective-name"><MutableField value={this.props.objective.Name} onChange={(newName: string)=> {
@@ -61,6 +64,7 @@ export class DetailOKR extends React.Component<IDetailOKRProps, IDetailOKRState>
                         draft.Name = newName;
                     }));
                 }}/></h3>
+                <div className="objective-link-counts" onClick={()=>{stateContext.actions.toggleLinkWorkItemPanel(objective.id)}}>{objective.WorkItems ? objective.WorkItems.length : 0} WorkItems Linked</div>
                 <div className="objective-context-menu"><MenuButton hideDropdownIcon={true} contextualMenuProps={{ menuProps: { id: "edit-okr", items: this.getButtons() } }} iconProps={{ iconName: "More" }} /></div>
                 {this.state.isDialogOpen &&
                     <Dialog
@@ -168,6 +172,14 @@ export class DetailOKR extends React.Component<IDetailOKRProps, IDetailOKRState>
                 iconProps: { iconName: "Edit" },
                 onActivate: () => {
                     stateContext.actions.toggleEditPanel({ expandedKey: this.props.objective.id });
+                }
+            },
+            {
+                id: "link-button",
+                text: "Link work items",
+                iconProps: { iconName: "Link" },
+                onActivate: () => {
+                    stateContext.actions.toggleLinkWorkItemPanel(this.props.objective.id);
                 }
             },
             {
