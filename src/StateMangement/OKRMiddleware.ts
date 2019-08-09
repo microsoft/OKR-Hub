@@ -8,6 +8,7 @@ import { OKRDocument } from '../Data/OKRDocument';
 import { OKRDataService } from '../Data/OKRDataService';
 import { TimeFrame } from '../TimeFrame/TimeFrame';
 import { OKRMainState } from "./OKRState";
+import { Guid } from "guid-typescript";
 
 export const applyMiddleware = (dispatch, state) => action =>
     dispatch(action) || runMiddleware(dispatch, action, state);
@@ -15,17 +16,45 @@ export const applyMiddleware = (dispatch, state) => action =>
 const runMiddleware = (dispatch, action, state: OKRMainState) => {
     switch (action.type) {
         case Actions.initialize:
-            TimeFrameService.instance.getAll().then((allTimeFrames: TimeFrame[]) => {
-                dispatch({
-                    type: Actions.getTimeFramesSucceed,
-                    payload: allTimeFrames
-                });                
-            }, (error) => {
-                dispatch({
-                    type: "TODO",
-                    error: error
-                });
-            });
+            try {
+                const timeFrames = TimeFrameService.instance.getAll();
+                const areas = AreaService.instance.getAll();
+
+                Promise.all([timeFrames, areas]).then((value) => {
+                    // Dispatch successful initialization
+                    dispatch({
+                        type: Actions.initializeSucceed,
+                        payload: value
+                    });
+                },
+                    (error) => {
+                        // This error means we haven't initalized anything yet
+                        if (error && error.serverError && error.serverError.typeKey === "DocumentCollectionDoesNotExistException") {
+                            const emptyPayload = [[], []];
+                            dispatch({
+                                type: Actions.initializeWithZeroData,
+                                payload: emptyPayload
+                            })
+                        }
+                        else {
+                            // Dispatch error
+                            dispatch({
+                                type: Actions.areaOperationFailed,
+                                payload: error
+                            })
+                        }
+                    })
+            }
+            catch (error) {
+                if (error && error.serverError && error.serverError.typeKey === "DocumentCollectionDoesNotExistException") {
+                    const emptyPayload = [{}, []];
+                    dispatch({
+                        type: Actions.initializeSucceed,
+                        payload: emptyPayload
+                    })
+                }
+            }
+
             break;
 
         case Actions.getObjectives:
@@ -41,23 +70,11 @@ const runMiddleware = (dispatch, action, state: OKRMainState) => {
                 });
             });
             break;
-        case Actions.getAreas:
-            AreaService.instance.getAll().then((allAreas: Area[]) => {
-                dispatch({
-                    type: Actions.getAreasSucceed,
-                    payload: allAreas
-                });
-            }, (error) => {
-                dispatch({
-                    type: Actions.areaOperationFailed,
-                    error: error
-                });
-            });
-            break;
+        
         case Actions.getTimeFrames:
             TimeFrameService.instance.getAll().then((allTimeFrames: TimeFrame[]) => {
                 dispatch({
-                    type: Actions.getTimeFramesSucceed,
+                    type: Actions.initializeSucceed,
                     payload: allTimeFrames
                 });
             }, (error) => {
@@ -149,8 +166,20 @@ const runMiddleware = (dispatch, action, state: OKRMainState) => {
             });
             break;
         case Actions.createArea:
-            const areasOrders = action.payload.areas.map((value: Area) => value.order);
-            action.payload.data.order = Math.max(...areasOrders, 0) + 10;
+            // If we don't have any time frames, create one so the objective page works  
+            if (state.areas.length === 0 && state.displayedTimeFrame === undefined) {
+                const newTimeFrame: TimeFrame = {
+                    name: "Current",
+                    isCurrent: true,
+                    id: Guid.create().toString(),
+                    order: 0
+                };
+                dispatch({
+                    type: Actions.addTimeFrame,
+                    payload: newTimeFrame
+                });
+            }
+
             AreaService.instance.create(action.payload.data).then((created) => {
                 dispatch({
                     type: Actions.createAreaSucceed,
@@ -162,6 +191,7 @@ const runMiddleware = (dispatch, action, state: OKRMainState) => {
                     error: error
                 });
             });
+
             break;
         case Actions.editArea:
             AreaService.instance.save(action.payload).then((updated) => {

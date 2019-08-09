@@ -20,7 +20,7 @@ export const initialState: OKRMainState = {
   projectName: "",
   settingsExpanded: false,
   identityProvider: undefined,
-  displayedTimeFrame: undefined, 
+  displayedTimeFrame: undefined,
 }
 
 export const reducer = (state: OKRMainState = initialState, action) => {
@@ -36,11 +36,28 @@ export const reducer = (state: OKRMainState = initialState, action) => {
         break;
 
       // TIME FRAMES
-      case Types.getTimeFramesSucceed:
-          draft.timeFrames = action.payload;
-          // On first load, set the displayed time frame as the current time frame
-          draft.displayedTimeFrame = draft.timeFrames.find((tf)=> {return tf.isCurrent}); 
-          break;
+      case Types.initializeSucceed:
+        draft.timeFrames = action.payload[0];
+        // On first load, set the displayed time frame as the current time frame
+        draft.displayedTimeFrame = draft.timeFrames && draft.timeFrames.length > 0 ? draft.timeFrames.find((tf) => { return tf.isCurrent }) : undefined;
+
+        draft.areas = action.payload[1];
+        draft.areas.sort((a, b) => {
+          return a.Name.localeCompare(b.Name);
+        });
+        // If an area isn't already selected, set the first areas as the selected area
+        draft.selectedArea = draft.selectedArea ? draft.selectedArea : draft.areas[0];
+        draft.identityProvider = new IdentityProvider();
+        break;
+      case Types.initializeWithZeroData:
+        draft.timeFrames = action.payload[0];
+        // On first load, set the displayed time frame as the current time frame
+        draft.displayedTimeFrame = draft.timeFrames && draft.timeFrames.length > 0 ? draft.timeFrames.find((tf) => { return tf.isCurrent }) : undefined;
+
+        draft.areas = action.payload[1] ? action.payload[1] : [];
+        draft.selectedArea = draft.areas[0];
+        draft.identityProvider = new IdentityProvider();
+        break;
       case Types.toggleTimeFrameSettings:
         draft.settingsExpanded = action.payload.expanded;
         break;
@@ -67,15 +84,6 @@ export const reducer = (state: OKRMainState = initialState, action) => {
         break;
 
       // AREAS
-      case Types.getAreasSucceed:
-        draft.areas = action.payload;
-        draft.areas.sort((a, b) => {
-          return a.order - b.order;
-        });
-        // If an area isn't already selected, set the first areas as the selected area
-        draft.selectedArea = draft.selectedArea ? draft.selectedArea : draft.areas[0];
-        draft.identityProvider = new IdentityProvider();
-        break;
       case Types.toggleAreaPanel:
         draft.areaPanelExpanded = action.payload.expanded
         break;

@@ -19,7 +19,7 @@ export const AreaCardDetails: React.FunctionComponent<IAreaCardDetailsProps> = p
 	const stateContext = useStateValue();
 
 	const { area, draftArea, editMode, updateDraftDescription, updateDraftName, buttons } = props;
-	const objectives = getObjectivesForArea(stateContext.state, area); 
+	const objectives = getObjectivesForArea(stateContext.state, area);
 
 	return (
 		<div className="area-card-details">

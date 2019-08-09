@@ -32,7 +32,7 @@ export const AreaView: React.FunctionComponent<{}> = props => {
     let content = <div>Loading...</div>;
 
     // Don't show anything until we have fetched the areas and objectives    
-    if (stateContext.state.areas && stateContext.state.objectives) {
+    if (stateContext.state.areas) {
         let cbItems = [...commandBarItems]
         // TODO: wait for ZeroData CTA working to enable this hide
         // ZeroData - hide New Product Area button

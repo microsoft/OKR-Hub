@@ -28,9 +28,6 @@ const OKRPage: React.SFC<{}> = props => {
         if (!stateContext.state.timeFrames && !stateContext.state.displayedTimeFrame) {
             stateContext.actions.initialize(); 
         }
-        if (!stateContext.state.areas) {
-            stateContext.actions.getAreas({});
-        }
         if (stateContext.state.displayedTimeFrame && !stateContext.state.objectives) {
             stateContext.actions.getObjectives({});
         }

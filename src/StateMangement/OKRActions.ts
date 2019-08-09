@@ -4,9 +4,9 @@ import { OKRMainState } from "./OKRState";
 export interface IOKRActions {
     // TODO: type the data.
     initialize: () => {}; 
+    initializeWithZeroData: (data: any) => {}; 
     navigatePage: (data: any) => {};
     getObjectives: (data: any) => {};
-    getAreas: (data: any) => {};
     cancelCreationOrEdit: (data: any) => {};
     editOKR: (data: any) => {};
     createOKR: (data: any) => {};
@@ -35,9 +35,9 @@ export interface IOKRActions {
 
 export const useActions = (state: OKRMainState, dispatch) => ({
     initialize: () => dispatch({type:Actions.initialize }),
+    initializeWithZeroData: data => dispatch({type: Actions.initializeWithZeroData}),
     navigatePage: data => dispatch({ type: Actions.navigatePage, payload: data }),
     getObjectives: data => dispatch({ type: Actions.getObjectives, payload: data }),
-    getAreas: data => dispatch({ type: Actions.getAreas, payload: data }),
     updateSelectedArea: data => dispatch({ type: Actions.updateSelectedArea, payload: data }),
     cancelCreationOrEdit: data => dispatch({ type: Actions.cancelCreationOrEdit, payload: data }),
     editOKR: data => dispatch({ type: Actions.editOKR, payload: data }),

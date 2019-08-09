@@ -2,6 +2,8 @@ export const navigatePage = "navigatePage";
 export const updateSelectedArea = "updateArea"; 
 
 export const initialize = "initializeData"; 
+export const initializeWithZeroData = "initializeWithZeroData";
+export const initializeSucceed = "getTimeFramesSucceed"; 
 
 export const toggleAddPanel = "toggleAddPanel";
 export const toggleEditPanel = "toggleEditPanel";
@@ -9,9 +11,6 @@ export const toggleEditPanel = "toggleEditPanel";
 export const toggleAreaPanel = "toggleAreaPanel";
 
 export const toggleTimeFrameSettings = "toggleSettings";
-
-export const getAreas = "getAreas"; 
-export const getAreasSucceed = "getAreasSucceed"; 
 
 export const getObjectives = "getObjectives"; 
 export const getObjectivesSucceed = "getObjectivesSucceed";
@@ -49,7 +48,6 @@ export const getProjectNameSucceed = "getProjectNameSucceed";
 export const getProjectNameFailed = "getProjectNameFailed";
 
 export const getTimeFrames = "getTimeFrames"; 
-export const getTimeFramesSucceed = "getTimeFramesSucceed"; 
 
 export const addTimeFrame = "addTimeFrame"; 
 export const addTimeFrameSucceed = "addTimeFrameSucceed"; 
