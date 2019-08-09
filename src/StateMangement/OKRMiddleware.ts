@@ -7,16 +7,31 @@ import { Area } from '../Area/Area';
 import { OKRDocument } from '../Data/OKRDocument';
 import { OKRDataService } from '../Data/OKRDataService';
 import { TimeFrame } from '../TimeFrame/TimeFrame';
+import { OKRMainState } from "./OKRState";
 import { WorkItemService } from "../Data/WorkItemService";
 import { WorkItem } from "azure-devops-extension-api/WorkItemTracking";
 
-export const applyMiddleware = dispatch => action =>
-    dispatch(action) || runMiddleware(dispatch, action);
+export const applyMiddleware = (dispatch, state) => action =>
+    dispatch(action) || runMiddleware(dispatch, action, state);
 
-const runMiddleware = (dispatch, action) => {
+const runMiddleware = (dispatch, action, state: OKRMainState) => {
     switch (action.type) {
+        case Actions.initialize:
+            TimeFrameService.instance.getAll().then((allTimeFrames: TimeFrame[]) => {
+                dispatch({
+                    type: Actions.getTimeFramesSucceed,
+                    payload: allTimeFrames
+                });                
+            }, (error) => {
+                dispatch({
+                    type: "TODO",
+                    error: error
+                });
+            });
+            break;
+
         case Actions.getObjectives:
-            ObjectiveService.instance.getAll().then((allObjectives: Objective[]) => {
+            ObjectiveService.instance.getAll(state.displayedTimeFrame.id).then((allObjectives: Objective[]) => {
                 dispatch({
                     type: Actions.getObjectivesSucceed,
                     payload: allObjectives
@@ -95,7 +110,7 @@ const runMiddleware = (dispatch, action) => {
             });
             break;
         case Actions.editOKR:
-            ObjectiveService.instance.save(action.payload).then((updated) => {
+            ObjectiveService.instance.save(action.payload, state.displayedTimeFrame.id).then((updated) => {
                 dispatch({
                     type: Actions.editOKRSucceed,
                     payload: updated
@@ -108,7 +123,7 @@ const runMiddleware = (dispatch, action) => {
             });
             break;
         case Actions.editKRStatus:
-            ObjectiveService.instance.save(action.payload).then((updated) => {
+            ObjectiveService.instance.save(action.payload, state.displayedTimeFrame.id).then((updated) => {
                 dispatch({
                     type: Actions.editOKRSucceed,
                     payload: updated
@@ -123,7 +138,7 @@ const runMiddleware = (dispatch, action) => {
         case Actions.createOKR:
             const objectiveOrders = action.payload.objectives.map((value: Objective) => value.order);
             action.payload.data.order = Math.max(...objectiveOrders, 0) + 10;
-            ObjectiveService.instance.create(action.payload.data).then((created) => {
+            ObjectiveService.instance.create(action.payload.data, state.displayedTimeFrame.id).then((created) => {
                 dispatch({
                     type: Actions.createOKRSucceed,
                     payload: created
@@ -166,7 +181,7 @@ const runMiddleware = (dispatch, action) => {
         case Actions.removeOKR:
             ObjectiveService.instance.delete((docuemnt: OKRDocument) => {
                 return docuemnt.id === action.payload.id;
-            }).then(() => {
+            }, state.displayedTimeFrame.id).then(() => {
                 dispatch({
                     type: Actions.removeOKRSucceed,
                     id: action.payload.id

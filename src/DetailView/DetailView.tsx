@@ -28,7 +28,8 @@ export class DetailView extends React.Component<IDetailViewProps, {}> {
         const { selectedArea } = this.props;
         const stateContext = this.context as IOKRContext;
 
-        var area = selectedArea || (stateContext.state.areas && stateContext.state.areas[0]);
+        const area = selectedArea || (stateContext.state.areas && stateContext.state.areas[0]);
+        const timeFrameName = stateContext.state.displayedTimeFrame ? stateContext.state.displayedTimeFrame.name : "Current"; 
         return (
             <div className="detail-view-container">
                 <DetailOKRHeader selectedArea={area} />
@@ -38,7 +39,7 @@ export class DetailView extends React.Component<IDetailViewProps, {}> {
                     selectedTabId={this.selectedTabId}
                     tabSize={TabSize.Tall}
                 >
-                    <Tab name="Current Quarter" id="current" />
+                    <Tab name={timeFrameName} id="current" />
                 </TabBar>
                 <Observer selectedTabId={this.selectedTabId}>
                     {(props: { selectedTabId: string }) => {

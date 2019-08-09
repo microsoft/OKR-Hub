@@ -22,6 +22,7 @@ export const initialState: OKRMainState = {
   projectName: "",
   settingsExpanded: false,
   identityProvider: undefined,
+  displayedTimeFrame: undefined, 
   linkWorkItemExpandedKey: undefined,
   workItemsMap: undefined
 }
@@ -39,11 +40,13 @@ export const reducer = (state: OKRMainState = initialState, action) => {
         break;
 
       // TIME FRAMES
-      case Types.toggleSettings:
-        draft.settingsExpanded = action.payload.expanded;
-        break;
       case Types.getTimeFramesSucceed:
-        draft.timeFrames = action.payload;
+          draft.timeFrames = action.payload;
+          // On first load, set the displayed time frame as the current time frame
+          draft.displayedTimeFrame = draft.timeFrames.find((tf)=> {return tf.isCurrent}); 
+          break;
+      case Types.toggleTimeFrameSettings:
+        draft.settingsExpanded = action.payload.expanded;
         break;
       case Types.editTimeFrameSucceed:
         draft.timeFrames = draft.timeFrames.map(tf => {

@@ -3,6 +3,7 @@ import { OKRMainState } from "./OKRState";
 
 export interface IOKRActions {
     // TODO: type the data.
+    initialize: () => {}; 
     navigatePage: (data: any) => {};
     getObjectives: (data: any) => {};
     getAreas: (data: any) => {};
@@ -37,6 +38,7 @@ export interface IOKRActions {
 }
 
 export const useActions = (state: OKRMainState, dispatch) => ({
+    initialize: () => dispatch({type:Actions.initialize }),
     navigatePage: data => dispatch({ type: Actions.navigatePage, payload: data }),
     getObjectives: data => dispatch({ type: Actions.getObjectives, payload: data }),
     getAreas: data => dispatch({ type: Actions.getAreas, payload: data }),
@@ -46,7 +48,7 @@ export const useActions = (state: OKRMainState, dispatch) => ({
     createOKR: data => dispatch({ type: Actions.createOKR, payload: { data: data, objectives: state.objectives }}),
     toggleAddPanel: data => dispatch({ type: Actions.toggleAddPanel, payload: data }),
     toggleEditPanel: data => dispatch({ type: Actions.toggleEditPanel, payload: data }),
-    toggleSettings: data => dispatch({type: Actions.toggleSettings, payload: data}),
+    toggleSettings: data => dispatch({type: Actions.toggleTimeFrameSettings, payload: data}),
     editArea: data => dispatch({ type: Actions.editArea, payload: data }),
     editAreaSucceeded: data => dispatch({ type: Actions.editAreaSucceed, payload: data }),
     editKRStatus: data => dispatch({ type: Actions.editKRStatus, payload: data }),

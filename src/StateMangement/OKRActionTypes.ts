@@ -1,11 +1,14 @@
 export const navigatePage = "navigatePage"; 
 export const updateSelectedArea = "updateArea"; 
 
+export const initialize = "initializeData"; 
+
 export const toggleAddPanel = "toggleAddPanel";
 export const toggleEditPanel = "toggleEditPanel";
 
 export const toggleAreaPanel = "toggleAreaPanel";
 
+export const toggleTimeFrameSettings = "toggleSettings";
 export const toggleSettings = "toggleSettings";
 export const toggleLinkPanel = "toggleLinkPanel";
 

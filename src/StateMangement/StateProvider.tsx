@@ -15,7 +15,7 @@ export const StateContext = createContext({state: initialState, actions: undefin
 export const StateProvider = ({children}) => {
   const [state, dispatch] = useReducer(reducer, initialState);
   // Attach middleware to capture every dispatch
-  const enhancedDispatch = applyMiddleware(dispatch);
+  const enhancedDispatch = applyMiddleware(dispatch, state);
   const actions = useActions(state, enhancedDispatch);
 
   return (
