@@ -63,3 +63,5 @@ export const addWorkItemsSucceed = "addWorkItemsSucceed";
 
 export const deleteWorkItems = "deleteWorkItems";
 export const deleteWorkItemsSucceed = "deleteWorkItemsSucceed";
+
+export const openWorkItem = "openWorkItem";

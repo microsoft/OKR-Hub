@@ -264,5 +264,8 @@ const runMiddleware = (dispatch, action) => {
                 });
             });
             break;
+        case Actions.openWorkItem:
+            WorkItemService.getInstance().openWorkItem(action.payload)
+            break;
     }
 }
