@@ -56,6 +56,9 @@ export class LinkWorkItemPanel extends React.Component<ILinkWorkItemPanelProps, 
                             objectiveId: objective.id
                         });
                     }}
+                    onActivate={(id: number) => {
+                        stateContext.actions.openWorkItem(id);
+                    }}
                 />
             </Panel>
             <AddWorkItemDialog isDialogOpen={this.state.isAddDialogOpen} onAdd={(ids: string[])=> {
