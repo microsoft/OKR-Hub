@@ -15,6 +15,7 @@ export interface ILinkWorkItemFormProps {
     isZeroDay: boolean;
     onAdd: () => void;
     onDelete: (id: number) => void;
+    onActivate: (id: number) => void;
 }
 
 export const sizableColumns = [
@@ -59,6 +60,7 @@ export const LinkWorkItemForm: React.FunctionComponent<ILinkWorkItemFormProps> =
                     columns={sizableColumns}
                     itemProvider={props.tableItems}
                     selection={currentSelection}
+                    onActivate={(e, tableRow: ITableRow<IWorkItemTableItem>) => props.onActivate(tableRow.data.id)}
                 />
             </div>
         </Card>
