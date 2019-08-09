@@ -5,6 +5,8 @@ import { NavigationConstants } from "../OKRConstants";
 import { Objective } from "../Objective/Objective";
 import { Area } from "../Area/Area";
 import { IdentityProvider } from "../Identity/IdentityProvider";
+import { WorkItem } from "azure-devops-extension-api/WorkItemTracking";
+import { object } from "prop-types";
 
 export const initialState: OKRMainState = {
   pageLocation: NavigationConstants.AreaView,
@@ -21,6 +23,8 @@ export const initialState: OKRMainState = {
   settingsExpanded: false,
   identityProvider: undefined,
   displayedTimeFrame: undefined, 
+  linkWorkItemExpandedKey: undefined,
+  workItemsMap: undefined
 }
 
 export const reducer = (state: OKRMainState = initialState, action) => {
@@ -121,16 +125,22 @@ export const reducer = (state: OKRMainState = initialState, action) => {
       case Types.toggleEditPanel:
         draft.editPanelExpandedKey = action.payload.expandedKey;
         break;
+      case Types.toggleLinkPanel:
+        draft.linkWorkItemExpandedKey = action.payload;
+        break;
       case Types.editOKRSucceed:
         draft.objectives = draft.objectives.map(o => {
           return o.id === action.payload.id ? action.payload : o;
         });
         draft.editPanelExpandedKey = undefined;
         draft.editCommentKey = undefined;
+        draft.linkWorkItemExpandedKey = undefined;
         break;
       case Types.cancelCreationOrEdit:
         draft.editPanelExpandedKey = undefined;
         draft.addPanelExpanded = false;
+        draft.linkWorkItemExpandedKey = undefined;
+        draft.workItemsMap = undefined;
         break;
       case Types.editKRComment:
         draft.editCommentKey = action.payload.id;
@@ -145,13 +155,39 @@ export const reducer = (state: OKRMainState = initialState, action) => {
       case Types.objectiveOperationFailed:
         draft.error = action.error;
         draft.editPanelExpandedKey = undefined;
+        draft.linkWorkItemExpandedKey = undefined;
         draft.addPanelExpanded = false;
         break;
       case Types.getObjectivesFailed:
         draft.objectives = [];
         draft.error = action.error;
         break;
-
+      
+      // WorkItems
+      case Types.getWorkItemsSucceed:
+        if (!draft.workItemsMap) {
+          draft.workItemsMap = {};
+        }
+        action.workItems.forEach((workItem: WorkItem) => {
+          draft.workItemsMap[workItem.id] = workItem;
+        });
+        break;
+      case Types.addWorkItemsSucceed:
+        if (!draft.workItemsMap) {
+          draft.workItemsMap = {};
+        }
+        action.workItems.forEach((workItem: WorkItem) => {
+          draft.workItemsMap[workItem.id] = workItem;
+        });
+        draft.objectives = draft.objectives.map(o => {
+          return o.id === action.objective.id ? action.objective : o;
+        });
+        break;
+      case Types.deleteWorkItemsSucceed:
+        draft.objectives = draft.objectives.map(o => {
+          return o.id === action.payload.id ? action.payload : o;
+        });
+        break;
       default:
         return state;
     }
