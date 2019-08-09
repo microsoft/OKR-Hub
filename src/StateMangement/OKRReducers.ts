@@ -137,6 +137,7 @@ export const reducer = (state: OKRMainState = initialState, action) => {
         draft.editPanelExpandedKey = undefined;
         draft.addPanelExpanded = false;
         draft.linkWorkItemExpandedKey = undefined;
+        draft.workItemsMap = undefined;
         break;
       case Types.editKRComment:
         draft.editCommentKey = action.payload.id;
