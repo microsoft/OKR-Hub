@@ -33,6 +33,7 @@ export interface IOKRActions {
     getWorkItems: (data: number[]) => {};
     addWorkItems: (data: {ids: string[]; objectiveId: string}) => {};
     deleteWorkItems: (data: {id: number; objectiveId: string}) => {};
+    openWorkItem: (data: number) => {};
 }
 
 export const useActions = (state: OKRMainState, dispatch) => ({
@@ -68,5 +69,6 @@ export const useActions = (state: OKRMainState, dispatch) => ({
     toggleLinkWorkItemPanel: data => dispatch({ type: Actions.toggleLinkPanel, payload: data }),
     getWorkItems: data => dispatch({type: Actions.getWorkItems, payload: data}),
     addWorkItems: data => dispatch({type: Actions.addWorkItems, payload: {data: data, objectives: state.objectives}}),
-    deleteWorkItems: data => dispatch({type: Actions.deleteWorkItems, payload: {data: data, objectives: state.objectives}})
+    deleteWorkItems: data => dispatch({type: Actions.deleteWorkItems, payload: {data: data, objectives: state.objectives}}),
+    openWorkItem: data => dispatch({type: Actions.openWorkItem, payload: data})
 } as IOKRActions); 
