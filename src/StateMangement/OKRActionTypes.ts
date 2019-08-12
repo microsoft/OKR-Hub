@@ -1,7 +1,6 @@
 export const navigatePage = "navigatePage"; 
 export const updateSelectedArea = "updateArea"; 
 
-export const initialize = "initializeData"; 
 export const initializeWithZeroData = "initializeWithZeroData";
 export const initializeSucceed = "getTimeFramesSucceed"; 
 
@@ -36,6 +35,9 @@ export const setError = "setError";
 export const editOKR = "editOKR";
 export const editOKRSucceed = "editOKRSucceed";
 
+export const getAreas = "getAreas"; 	
+export const getAreasSucceed = "getAreasSucceed"; 
+
 export const editArea = "editArea";
 export const editAreaSucceed = "editAreaSucceed";
 
@@ -53,6 +55,7 @@ export const getProjectNameSucceed = "getProjectNameSucceed";
 export const getProjectNameFailed = "getProjectNameFailed";
 
 export const getTimeFrames = "getTimeFrames"; 
+export const getTimeFramesSucceed = "getTimeFramesSucceed"; 
 
 export const addTimeFrame = "addTimeFrame"; 
 export const addTimeFrameSucceed = "addTimeFrameSucceed"; 

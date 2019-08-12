@@ -15,50 +15,26 @@ import { WorkItem } from "azure-devops-extension-api/WorkItemTracking";
 export const applyMiddleware = (dispatch, state) => action =>
     dispatch(action) || runMiddleware(dispatch, action, state);
 
+const handleGetAllError = (error, dispatch, zeroDataAction: string, errorAction: string) => {
+    // This error means we haven't initialized anything yet
+    if (error && error.serverError && error.serverError.typeKey === "DocumentCollectionDoesNotExistException") {
+        const emptyPayload = [];
+        dispatch({
+            type: zeroDataAction,
+            payload: emptyPayload
+        })
+    }
+    else {
+        // Dispatch error
+        dispatch({
+            type: errorAction,
+            payload: error
+        })
+    }
+}
+
 const runMiddleware = (dispatch, action, state: OKRMainState) => {
-    switch (action.type) {
-        case Actions.initialize:
-            try {
-                const timeFrames = TimeFrameService.instance.getAll();
-                const areas = AreaService.instance.getAll();
-
-                Promise.all([timeFrames, areas]).then((value) => {
-                    // Dispatch successful initialization
-                    dispatch({
-                        type: Actions.initializeSucceed,
-                        payload: value
-                    });
-                },
-                    (error) => {
-                        // This error means we haven't initalized anything yet
-                        if (error && error.serverError && error.serverError.typeKey === "DocumentCollectionDoesNotExistException") {
-                            const emptyPayload = [[], []];
-                            dispatch({
-                                type: Actions.initializeWithZeroData,
-                                payload: emptyPayload
-                            })
-                        }
-                        else {
-                            // Dispatch error
-                            dispatch({
-                                type: Actions.areaOperationFailed,
-                                payload: error
-                            })
-                        }
-                    })
-            }
-            catch (error) {
-                if (error && error.serverError && error.serverError.typeKey === "DocumentCollectionDoesNotExistException") {
-                    const emptyPayload = [{}, []];
-                    dispatch({
-                        type: Actions.initializeSucceed,
-                        payload: emptyPayload
-                    })
-                }
-            }
-
-            break;
-
+    switch (action.type) {        
         case Actions.getObjectives:
             ObjectiveService.instance.getAll(state.displayedTimeFrame.id).then((allObjectives: Objective[]) => {
                 dispatch({
@@ -66,10 +42,18 @@ const runMiddleware = (dispatch, action, state: OKRMainState) => {
                     payload: allObjectives
                 })
             }, (error) => {
+                handleGetAllError(error, dispatch, Actions.getObjectivesSucceed, Actions.getObjectivesFailed)
+            });
+            break;
+
+        case Actions.getAreas:
+            AreaService.instance.getAll().then((allAreas: Area[]) => {
                 dispatch({
-                    type: Actions.getObjectivesFailed,
-                    error: error
+                    type: Actions.getAreasSucceed,
+                    payload: allAreas
                 });
+            }, (error) => {
+                handleGetAllError(error, dispatch, Actions.getAreasSucceed, Actions.areaOperationFailed);
             });
             break;
 
@@ -80,12 +64,10 @@ const runMiddleware = (dispatch, action, state: OKRMainState) => {
                     payload: allTimeFrames
                 });
             }, (error) => {
-                dispatch({
-                    type: "TODO",
-                    error: error
-                });
+                handleGetAllError(error, dispatch, Actions.getTimeFramesSucceed, ""); 
             });
             break;
+
         case Actions.addTimeFrame:
             TimeFrameService.instance.create(action.payload).then((created) => {
                 dispatch({
@@ -168,7 +150,7 @@ const runMiddleware = (dispatch, action, state: OKRMainState) => {
             });
             break;
         case Actions.createFirstArea:
-            // If we don't have any time frames, create one so the objective page works
+            // If we don't have any time frames, create one so the objective page works on first run
             const newTimeFrame: TimeFrame = {
                 name: "Current",
                 isCurrent: true,
@@ -176,13 +158,13 @@ const runMiddleware = (dispatch, action, state: OKRMainState) => {
                 order: 0
             };
 
-            const timeFramePromise = TimeFrameService.instance.create(newTimeFrame); 
-            const areaPromise = AreaService.instance.create(action.payload.data);
+            const timeFramePromise = TimeFrameService.instance.create(newTimeFrame);
+            const areaPromise = AreaService.instance.create(action.payload);
 
             Promise.all([timeFramePromise, areaPromise]).then(([timeFrame, area]) => {
                 dispatch({
                     type: Actions.createFirstAreaSuccess,
-                    payload: {timeFrame: timeFrame, area: area}
+                    payload: { timeFrame: timeFrame, area: area }
                 })
             }, (error) => {
                 dispatch({
@@ -190,8 +172,8 @@ const runMiddleware = (dispatch, action, state: OKRMainState) => {
                     error: error
                 })
             })
-
             break;
+
         case Actions.createArea:
             AreaService.instance.create(action.payload.data).then((created) => {
                 dispatch({
@@ -252,6 +234,8 @@ const runMiddleware = (dispatch, action, state: OKRMainState) => {
                 });
             });
             break;
+
+        // WORK ITEMS
         case Actions.getWorkItems:
             WorkItemService.getInstance().getWorkItems(action.payload).then((workItems: WorkItem[]) => {
                 dispatch({
