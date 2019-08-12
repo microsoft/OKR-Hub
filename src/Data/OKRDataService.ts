@@ -38,19 +38,10 @@ export abstract class OKRDataService<T extends OKRDocument> {
     public async getAll(additionalKey?: string): Promise<T[]> {
         const dataManager: IExtensionDataManager = await this.getDataManager();
         let documents = [];
-        try {
-            const projectKey = await this.getProjectKey(additionalKey);
-            documents = await dataManager.getDocuments(projectKey) as T[];
-        } catch (error) {
-            // Document collection doesn't exist will throw on first run experience. 
-            // Users don't want to see this error. Swallow error and return empty documents. 
-            if (error && error.serverError && error.serverError.typeKey === "DocumentCollectionDoesNotExistException") {
-                // no-op
-            }
-            else {
-                throw (error);
-            }
-        }
+
+        const projectKey = await this.getProjectKey(additionalKey);
+        documents = await dataManager.getDocuments(projectKey) as T[];
+
 
         return documents;
     }

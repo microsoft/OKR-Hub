@@ -8,28 +8,33 @@ import { OKRDocument } from '../Data/OKRDocument';
 import { OKRDataService } from '../Data/OKRDataService';
 import { TimeFrame } from '../TimeFrame/TimeFrame';
 import { OKRMainState } from "./OKRState";
+import { Guid } from "guid-typescript";
 import { WorkItemService } from "../Data/WorkItemService";
 import { WorkItem } from "azure-devops-extension-api/WorkItemTracking";
 
 export const applyMiddleware = (dispatch, state) => action =>
     dispatch(action) || runMiddleware(dispatch, action, state);
 
-const runMiddleware = (dispatch, action, state: OKRMainState) => {
-    switch (action.type) {
-        case Actions.initialize:
-            TimeFrameService.instance.getAll().then((allTimeFrames: TimeFrame[]) => {
-                dispatch({
-                    type: Actions.getTimeFramesSucceed,
-                    payload: allTimeFrames
-                });                
-            }, (error) => {
-                dispatch({
-                    type: "TODO",
-                    error: error
-                });
-            });
-            break;
+const handleGetAllError = (error, dispatch, zeroDataAction: string, errorAction: string) => {
+    // This error means we haven't initialized anything yet
+    if (error && error.serverError && error.serverError.typeKey === "DocumentCollectionDoesNotExistException") {
+        const emptyPayload = [];
+        dispatch({
+            type: zeroDataAction,
+            payload: emptyPayload
+        })
+    }
+    else {
+        // Dispatch error
+        dispatch({
+            type: errorAction,
+            payload: error
+        })
+    }
+}
 
+const runMiddleware = (dispatch, action, state: OKRMainState) => {
+    switch (action.type) {        
         case Actions.getObjectives:
             ObjectiveService.instance.getAll(state.displayedTimeFrame.id).then((allObjectives: Objective[]) => {
                 dispatch({
@@ -37,12 +42,10 @@ const runMiddleware = (dispatch, action, state: OKRMainState) => {
                     payload: allObjectives
                 })
             }, (error) => {
-                dispatch({
-                    type: Actions.getObjectivesFailed,
-                    error: error
-                });
+                handleGetAllError(error, dispatch, Actions.getObjectivesSucceed, Actions.getObjectivesFailed)
             });
             break;
+
         case Actions.getAreas:
             AreaService.instance.getAll().then((allAreas: Area[]) => {
                 dispatch({
@@ -50,12 +53,10 @@ const runMiddleware = (dispatch, action, state: OKRMainState) => {
                     payload: allAreas
                 });
             }, (error) => {
-                dispatch({
-                    type: Actions.areaOperationFailed,
-                    error: error
-                });
+                handleGetAllError(error, dispatch, Actions.getAreasSucceed, Actions.areaOperationFailed);
             });
             break;
+
         case Actions.getTimeFrames:
             TimeFrameService.instance.getAll().then((allTimeFrames: TimeFrame[]) => {
                 dispatch({
@@ -63,12 +64,10 @@ const runMiddleware = (dispatch, action, state: OKRMainState) => {
                     payload: allTimeFrames
                 });
             }, (error) => {
-                dispatch({
-                    type: "TODO",
-                    error: error
-                });
+                handleGetAllError(error, dispatch, Actions.getTimeFramesSucceed, ""); 
             });
             break;
+
         case Actions.addTimeFrame:
             TimeFrameService.instance.create(action.payload).then((created) => {
                 dispatch({
@@ -150,9 +149,32 @@ const runMiddleware = (dispatch, action, state: OKRMainState) => {
                 });
             });
             break;
+        case Actions.createFirstArea:
+            // If we don't have any time frames, create one so the objective page works on first run
+            const newTimeFrame: TimeFrame = {
+                name: "Current",
+                isCurrent: true,
+                id: Guid.create().toString(),
+                order: 0
+            };
+
+            const timeFramePromise = TimeFrameService.instance.create(newTimeFrame);
+            const areaPromise = AreaService.instance.create(action.payload);
+
+            Promise.all([timeFramePromise, areaPromise]).then(([timeFrame, area]) => {
+                dispatch({
+                    type: Actions.createFirstAreaSuccess,
+                    payload: { timeFrame: timeFrame, area: area }
+                })
+            }, (error) => {
+                dispatch({
+                    type: Actions.createAreaFailed,
+                    error: error
+                })
+            })
+            break;
+
         case Actions.createArea:
-            const areasOrders = action.payload.areas.map((value: Area) => value.order);
-            action.payload.data.order = Math.max(...areasOrders, 0) + 10;
             AreaService.instance.create(action.payload.data).then((created) => {
                 dispatch({
                     type: Actions.createAreaSucceed,
@@ -164,6 +186,7 @@ const runMiddleware = (dispatch, action, state: OKRMainState) => {
                     error: error
                 });
             });
+
             break;
         case Actions.editArea:
             AreaService.instance.save(action.payload).then((updated) => {
@@ -211,6 +234,8 @@ const runMiddleware = (dispatch, action, state: OKRMainState) => {
                 });
             });
             break;
+
+        // WORK ITEMS
         case Actions.getWorkItems:
             WorkItemService.getInstance().getWorkItems(action.payload).then((workItems: WorkItem[]) => {
                 dispatch({

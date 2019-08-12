@@ -80,7 +80,12 @@ export default class AreaForm extends React.Component<IAreaFormProps, IAreaFormS
                                 OwnerName: this.state.ownerName ? this.state.ownerName : ""
                             }
 
-                            stateContext.actions.createArea(toBeCreated)
+                            if (stateContext.state.displayedTimeFrame === undefined && stateContext.state.areas.length === 0) {
+                                stateContext.actions.createFirstArea(toBeCreated);
+                            }
+                            else {
+                                stateContext.actions.createArea(toBeCreated);
+                            }
 
                         }} />
                     </ButtonGroup>

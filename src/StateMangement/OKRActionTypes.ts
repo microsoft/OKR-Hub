@@ -1,8 +1,6 @@
 export const navigatePage = "navigatePage"; 
 export const updateSelectedArea = "updateArea"; 
 
-export const initialize = "initializeData"; 
-
 export const toggleAddPanel = "toggleAddPanel";
 export const toggleEditPanel = "toggleEditPanel";
 
@@ -11,9 +9,6 @@ export const toggleAreaPanel = "toggleAreaPanel";
 export const toggleTimeFrameSettings = "toggleSettings";
 export const toggleSettings = "toggleSettings";
 export const toggleLinkPanel = "toggleLinkPanel";
-
-export const getAreas = "getAreas"; 
-export const getAreasSucceed = "getAreasSucceed"; 
 
 export const getObjectives = "getObjectives"; 
 export const getObjectivesSucceed = "getObjectivesSucceed";
@@ -27,12 +22,18 @@ export const createArea = "createArea";
 export const createAreaSucceed = "createAreaSucceed";
 export const createAreaFailed = "createAreaFailed"; 
 
+export const createFirstArea = "ceateFirstArea"; 
+export const createFirstAreaSuccess = "ceateFirstAreaSuccess"; 
+
 export const areaOperationFailed = "areaOperationFailed";
 export const objectiveOperationFailed = "objectiveOperationFailed";
 export const setError = "setError"; 
 
 export const editOKR = "editOKR";
 export const editOKRSucceed = "editOKRSucceed";
+
+export const getAreas = "getAreas"; 	
+export const getAreasSucceed = "getAreasSucceed"; 
 
 export const editArea = "editArea";
 export const editAreaSucceed = "editAreaSucceed";
