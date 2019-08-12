@@ -42,6 +42,9 @@ export const reducer = (state: OKRMainState = initialState, action) => {
       // TIME FRAMES
       case Types.getTimeFramesSucceed:
         draft.timeFrames = action.payload;
+        draft.timeFrames.sort((a, b) => {
+          return a.order - b.order;
+        }); 
         draft.displayedTimeFrame = draft.timeFrames.find((tf) => { return tf.isCurrent });
         break;
       case Types.toggleTimeFrameSettings:
