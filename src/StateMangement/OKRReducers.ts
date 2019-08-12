@@ -22,7 +22,7 @@ export const initialState: OKRMainState = {
   projectName: "",
   settingsExpanded: false,
   identityProvider: undefined,
-  displayedTimeFrame: undefined, 
+  displayedTimeFrame: undefined,
   linkWorkItemExpandedKey: undefined,
   workItemsMap: undefined
 }
@@ -88,6 +88,11 @@ export const reducer = (state: OKRMainState = initialState, action) => {
         break;
 
       // AREAS
+      case Types.createFirstAreaSuccess:
+        draft.areas.push(action.payload.area);
+        draft.timeFrames.push(action.payload.timeFame);
+        draft.displayedTimeFrame = action.payload.timeFrame;
+        break;
       case Types.toggleAreaPanel:
         draft.areaPanelExpanded = action.payload.expanded
         break;
@@ -170,7 +175,7 @@ export const reducer = (state: OKRMainState = initialState, action) => {
         draft.objectives = [];
         draft.error = action.error;
         break;
-      
+
       // WorkItems
       case Types.getWorkItemsSucceed:
         if (!draft.workItemsMap) {

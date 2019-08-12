@@ -72,7 +72,7 @@ const runMiddleware = (dispatch, action, state: OKRMainState) => {
                 });
             });
             break;
-        
+
         case Actions.getTimeFrames:
             TimeFrameService.instance.getAll().then((allTimeFrames: TimeFrame[]) => {
                 dispatch({
@@ -167,21 +167,32 @@ const runMiddleware = (dispatch, action, state: OKRMainState) => {
                 });
             });
             break;
-        case Actions.createArea:
-            // If we don't have any time frames, create one so the objective page works  
-            if (state.areas.length === 0 && state.displayedTimeFrame === undefined) {
-                const newTimeFrame: TimeFrame = {
-                    name: "Current",
-                    isCurrent: true,
-                    id: Guid.create().toString(),
-                    order: 0
-                };
-                dispatch({
-                    type: Actions.addTimeFrame,
-                    payload: newTimeFrame
-                });
-            }
+        case Actions.createFirstArea:
+            // If we don't have any time frames, create one so the objective page works
+            const newTimeFrame: TimeFrame = {
+                name: "Current",
+                isCurrent: true,
+                id: Guid.create().toString(),
+                order: 0
+            };
 
+            const timeFramePromise = TimeFrameService.instance.create(newTimeFrame); 
+            const areaPromise = AreaService.instance.create(action.payload.data);
+
+            Promise.all([timeFramePromise, areaPromise]).then(([timeFrame, area]) => {
+                dispatch({
+                    type: Actions.createFirstAreaSuccess,
+                    payload: {timeFrame: timeFrame, area: area}
+                })
+            }, (error) => {
+                dispatch({
+                    type: Actions.createAreaFailed,
+                    error: error
+                })
+            })
+
+            break;
+        case Actions.createArea:
             AreaService.instance.create(action.payload.data).then((created) => {
                 dispatch({
                     type: Actions.createAreaSucceed,

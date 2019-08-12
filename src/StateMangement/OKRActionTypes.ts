@@ -26,6 +26,9 @@ export const createArea = "createArea";
 export const createAreaSucceed = "createAreaSucceed";
 export const createAreaFailed = "createAreaFailed"; 
 
+export const createFirstArea = "ceateFirstArea"; 
+export const createFirstAreaSuccess = "ceateFirstAreaSuccess"; 
+
 export const areaOperationFailed = "areaOperationFailed";
 export const objectiveOperationFailed = "objectiveOperationFailed";
 export const setError = "setError"; 
