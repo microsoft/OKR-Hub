@@ -1,5 +1,7 @@
 import * as Actions from "./OKRActionTypes";
 import { OKRMainState } from "./OKRState";
+import { TimeFrame } from "../TimeFrame/TimeFrame";
+import { Area } from "../Area/Area";
 
 export interface IOKRActions {
     // TODO: type the data.        
@@ -36,6 +38,7 @@ export interface IOKRActions {
     addWorkItems: (data: { ids: string[]; objectiveId: string }) => {};
     deleteWorkItems: (data: { id: number; objectiveId: string }) => {};
     openWorkItem: (data: number) => {};
+    createFirstAreaSuccess: (data: {timeFrame: TimeFrame, area: Area}) => {};
 }
 
 export const useActions = (state: OKRMainState, dispatch) => ({

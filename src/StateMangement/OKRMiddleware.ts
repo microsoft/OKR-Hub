@@ -226,7 +226,7 @@ const runMiddleware = (dispatch, action, state: OKRMainState) => {
                 });
                 ObjectiveService.instance.delete((okr: Objective) => {
                     return okr.AreaId === action.payload.areaId;
-                });
+                }, state.displayedTimeFrame.id);
             }, (error) => {
                 dispatch({
                     type: Actions.areaOperationFailed,
@@ -266,7 +266,7 @@ const runMiddleware = (dispatch, action, state: OKRMainState) => {
                     }
                 });
 
-                ObjectiveService.instance.save(objective).then((updated) => {
+                ObjectiveService.instance.save(objective, state.displayedTimeFrame.id).then((updated) => {
                     dispatch({
                         type: Actions.addWorkItemsSucceed,
                         workItems: workItems,
@@ -292,7 +292,7 @@ const runMiddleware = (dispatch, action, state: OKRMainState) => {
             objective.WorkItems = objective.WorkItems.filter((id: number) => {
                 return id !== action.payload.data.id;
             });
-            ObjectiveService.instance.save(objective).then((updated) => {
+            ObjectiveService.instance.save(objective, state.displayedTimeFrame.id).then((updated) => {
                 dispatch({
                     type: Actions.deleteWorkItemsSucceed,
                     payload: updated
