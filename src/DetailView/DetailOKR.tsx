@@ -59,11 +59,14 @@ export class DetailOKR extends React.Component<IDetailOKRProps, IDetailOKRState>
         const {objective} = this.props;
         return (
             <div className="objective-title">
-                <h3 className="objective-name"><MutableField value={this.props.objective.Name} onChange={(newName: string)=> {
+                <h3 className="objective-name">
+                {/* <MutableField value={this.props.objective.Name} onChange={(newName: string)=> {
                     stateContext.actions.editOKR(produce(this.props.objective, draft => {
                         draft.Name = newName;
                     }));
-                }}/></h3>
+                }}/> */}
+                {this.props.objective.Name}
+                </h3>
                 <div className="objective-link-counts" onClick={()=>{stateContext.actions.toggleLinkWorkItemPanel(objective.id)}}>{objective.WorkItems ? objective.WorkItems.length : 0} WorkItems Linked</div>
                 <div className="objective-context-menu"><MenuButton hideDropdownIcon={true} contextualMenuProps={{ menuProps: { id: "edit-okr", items: this.getButtons() } }} iconProps={{ iconName: "More" }} /></div>
                 {this.state.isDialogOpen &&
@@ -117,12 +120,13 @@ export class DetailOKR extends React.Component<IDetailOKRProps, IDetailOKRState>
                             }} />
                         </td>
                         <td className="kr-content-column">
-                            <MutableField value={kr.Content} onChange={(newContent: string)=> {
+                            {/* <MutableField value={kr.Content} onChange={(newContent: string)=> {
                                 stateContext.actions.editOKR(produce(this.props.objective, draft => {
                                     var found = draft.KRs.filter((x) => x.Id === kr.Id)[0];
                                     found.Content = newContent;
                                 }));
-                            }}/>
+                            }}/> */}
+                            {kr.Content}
                         </td>
                         <td className={this.state.editModeKR === kr.Id ? "kr-owner-column edit" : "kr-owner-column static"}>
                             <MutableIdentity className={"kr-identity"} identity={kr} identityProvider={stateContext.state.identityProvider} editMode={this.state.editModeKR === kr.Id} 
