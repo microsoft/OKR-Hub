@@ -5,6 +5,7 @@ import { IHeaderCommandBarItem } from "azure-devops-ui/HeaderCommandBar";
 import { AddAreaPanel } from '../AreaPanel/AddAreaPanel';
 import { useStateValue } from "../StateMangement/StateProvider";
 import { ErrorMessage } from "../ErrorMessage";
+import { TimeFrameSettings } from "../TimeFrameSettings/TimeFrameSettings";
 
 export const AreaView: React.FunctionComponent<{}> = props => {
     const stateContext = useStateValue();
@@ -17,7 +18,7 @@ export const AreaView: React.FunctionComponent<{}> = props => {
         {
             important: true,
             id: "create-area",
-            text: "New Product Area", // TODO: Resource file for localization
+            text: "New Product Area",
             onActivate: () => {
                 stateContext.actions.toggleAreaPanel({
                     expanded: true
@@ -25,6 +26,16 @@ export const AreaView: React.FunctionComponent<{}> = props => {
             },
             iconProps: {
                 iconName: "Add"
+            }
+        }, 
+        {
+            important: true,
+            id: "settings",
+            onActivate: () => {
+                stateContext.actions.toggleSettings({ expanded: true });
+            },
+            iconProps: {
+                iconName: "Settings"
             }
         }
     ];
@@ -48,6 +59,7 @@ export const AreaView: React.FunctionComponent<{}> = props => {
                 />
                 <ErrorMessage onDismiss={dismissError} error={stateContext.state.error} />
                 <AddAreaPanel />
+                {stateContext.state.settingsExpanded && <TimeFrameSettings timeFrames={stateContext.state.timeFrames} />}
                 <AreaGrid areas={stateContext.state.areas} />
             </div>
     }

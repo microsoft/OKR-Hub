@@ -40,10 +40,13 @@ export const reducer = (state: OKRMainState = initialState, action) => {
         break;
 
       // TIME FRAMES
-      case Types.getTimeFramesSucceed: 
-        draft.timeFrames = action.payload; 
-        draft.displayedTimeFrame = draft.timeFrames.find((tf) => {return tf.isCurrent}); 
-        break; 
+      case Types.getTimeFramesSucceed:
+        draft.timeFrames = action.payload;
+        draft.timeFrames.sort((a, b) => {
+          return a.order - b.order;
+        }); 
+        draft.displayedTimeFrame = draft.timeFrames.find((tf) => { return tf.isCurrent });
+        break;
       case Types.toggleTimeFrameSettings:
         draft.settingsExpanded = action.payload.expanded;
         break;
@@ -53,7 +56,7 @@ export const reducer = (state: OKRMainState = initialState, action) => {
         });
         break;
       case Types.addTimeFrameSucceed:
-        draft.timeFrames.push(action.payload);
+        draft.timeFrames.push(action.payload);        
         break;
 
       // PROJECT NAME
@@ -82,13 +85,13 @@ export const reducer = (state: OKRMainState = initialState, action) => {
 
       case Types.createFirstAreaSuccess:
         draft.areas.push(action.payload.area);
-        draft.selectedArea = areas[0]; 
+        draft.selectedArea = draft.areas[0];
         draft.areaPanelExpanded = false;
 
-        draft.timeFrames.push(action.payload.timeFame);
+        draft.timeFrames.push(action.payload.timeFrame);
         draft.displayedTimeFrame = action.payload.timeFrame;
         break;
-        
+
       case Types.toggleAreaPanel:
         draft.areaPanelExpanded = action.payload.expanded
         break;
