@@ -2,8 +2,7 @@ import * as Actions from "./OKRActionTypes";
 import { OKRMainState } from "./OKRState";
 
 export interface IOKRActions {
-    // TODO: type the data.    
-    initializeWithZeroData: (data: any) => {};
+    // TODO: type the data.        
     navigatePage: (data: any) => {};
     getObjectives: (data: any) => {};
     getAreas: () => {};
@@ -40,7 +39,6 @@ export interface IOKRActions {
 }
 
 export const useActions = (state: OKRMainState, dispatch) => ({
-    initializeWithZeroData: data => dispatch({ type: Actions.initializeWithZeroData }),
     navigatePage: data => dispatch({ type: Actions.navigatePage, payload: data }),
     getObjectives: data => dispatch({ type: Actions.getObjectives, payload: data }),
     getAreas: () => dispatch({ type: Actions.getAreas }),

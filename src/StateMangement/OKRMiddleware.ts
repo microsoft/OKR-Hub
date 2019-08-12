@@ -60,7 +60,7 @@ const runMiddleware = (dispatch, action, state: OKRMainState) => {
         case Actions.getTimeFrames:
             TimeFrameService.instance.getAll().then((allTimeFrames: TimeFrame[]) => {
                 dispatch({
-                    type: Actions.initializeSucceed,
+                    type: Actions.getTimeFramesSucceed,
                     payload: allTimeFrames
                 });
             }, (error) => {

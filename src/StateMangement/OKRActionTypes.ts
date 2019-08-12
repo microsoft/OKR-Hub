@@ -1,9 +1,6 @@
 export const navigatePage = "navigatePage"; 
 export const updateSelectedArea = "updateArea"; 
 
-export const initializeWithZeroData = "initializeWithZeroData";
-export const initializeSucceed = "getTimeFramesSucceed"; 
-
 export const toggleAddPanel = "toggleAddPanel";
 export const toggleEditPanel = "toggleEditPanel";
 
