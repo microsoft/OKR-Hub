@@ -82,14 +82,21 @@ export const reducer = (state: OKRMainState = initialState, action) => {
 
       case Types.createFirstAreaSuccess:
         draft.areas.push(action.payload.area);
+        draft.selectedArea = areas[0]; 
+        draft.areaPanelExpanded = false;
+
         draft.timeFrames.push(action.payload.timeFame);
         draft.displayedTimeFrame = action.payload.timeFrame;
         break;
+        
       case Types.toggleAreaPanel:
         draft.areaPanelExpanded = action.payload.expanded
         break;
       case Types.createAreaSucceed:
         draft.areas.push(action.payload);
+        draft.areas.sort((a, b) => {
+          return a.Name.localeCompare(b.Name);
+        });
         draft.areaPanelExpanded = false;
         break;
       case Types.editAreaSucceed:
