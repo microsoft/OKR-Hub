@@ -1,6 +1,6 @@
 import * as React from "react";
 import { Panel } from "azure-devops-ui/Panel";
-import { StateContext, IOKRContext } from '../StateMangement/StateProvider';
+import { StateContext, IOKRContext } from '../StateManagement/StateProvider';
 import OKRForm from "./OKRForm";
 import "./AddOrEditOKRPanel.scss";
 import { Objective } from "../Objective/Objective";

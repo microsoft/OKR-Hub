@@ -6,11 +6,11 @@ import { TimeFrameService } from '../TimeFrame/TimeFrameService';
 import { Area } from '../Area/Area';
 import { OKRDocument } from '../Data/OKRDocument';
 import { OKRDataService } from '../Data/OKRDataService';
-import { TimeFrame, TimeFrameSet } from '../TimeFrame/TimeFrame';
 import { OKRMainState } from "./OKRState";
 import { Guid } from "guid-typescript";
 import { WorkItemService } from "../Data/WorkItemService";
 import { WorkItem } from "azure-devops-extension-api/WorkItemTracking";
+import { TimeFrameSet } from "../TimeFrame/TimeFrame";
 
 export const applyMiddleware = (dispatch, state) => action =>
     dispatch(action) || runMiddleware(dispatch, action, state);
@@ -214,8 +214,8 @@ const runMiddleware = (dispatch, action, state: OKRMainState) => {
             });
             break;
         case Actions.removeOKR:
-            ObjectiveService.instance.delete((docuemnt: OKRDocument) => {
-                return docuemnt.id === action.payload.id;
+            ObjectiveService.instance.delete((document: OKRDocument) => {
+                return document.id === action.payload.id;
             }, state.displayedTimeFrame.id).then(() => {
                 dispatch({
                     type: Actions.removeOKRSucceed,

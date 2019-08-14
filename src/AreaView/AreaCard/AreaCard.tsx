@@ -5,7 +5,7 @@ import { IPeoplePickerProvider } from "azure-devops-ui/IdentityPicker";
 import "../AreaView.scss";
 import { MutableIdentity } from "../../MutableIdentity";
 import { AreaCardDetails } from "./Details/AreaCardDetails";
-import { useStateValue } from "../../StateMangement/StateProvider";
+import { useStateValue } from "../../StateManagement/StateProvider";
 import produce from "immer";
 import { AreaCardButtons } from "./AreaCardButtons";
 import { NavigationConstants } from "../../OKRConstants";

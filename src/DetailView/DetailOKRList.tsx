@@ -1,10 +1,10 @@
 import React = require("react");
 import { DetailOKR } from "./DetailOKR";
-import { StateContext } from "../StateMangement/StateProvider";
+import { StateContext } from "../StateManagement/StateProvider";
 import { Area } from "../Area/Area";
 import { ObjectiveZeroData } from "./ObjectiveZeroData";
-import { OKRMainState } from "../StateMangement/OKRState";
-import { getObjectivesForArea } from "../StateMangement/OKRSelector";
+import { OKRMainState } from "../StateManagement/OKRState";
+import { getObjectivesForArea } from "../StateManagement/OKRSelector";
 
 export interface IDetailOKRListProps {
     area: Area;

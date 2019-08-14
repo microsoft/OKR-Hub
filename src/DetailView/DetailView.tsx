@@ -5,7 +5,7 @@ import { Observer } from "azure-devops-ui/Observer";
 import { Tab, TabBar, TabSize } from "azure-devops-ui/Tabs";
 import AddOrEditOKRPanel from "../OKRPanel/AddOrEditOKRPanel";
 import { DetailOKRHeader } from "./DetailOKRHeader";
-import { StateContext, IOKRContext } from '../StateMangement/StateProvider';
+import { StateContext, IOKRContext } from '../StateManagement/StateProvider';
 import { Area } from "../Area/Area";
 
 import "./DetailView.scss";

@@ -4,7 +4,7 @@ import { SplitterElementPosition, Splitter } from "azure-devops-ui/Splitter";
 import { Objective, KR } from "../Objective/Objective";
 
 import "./DetailOKR.scss";
-import { StateContext, IOKRContext } from "../StateMangement/StateProvider";
+import { StateContext, IOKRContext } from "../StateManagement/StateProvider";
 import AddOrEditOKRPanel from "../OKRPanel/AddOrEditOKRPanel";
 import { MutableStatusDropDown } from "../MutableStatusDropDown";
 import { Icon } from "azure-devops-ui/Icon";
@@ -13,7 +13,6 @@ import { KRComment } from "./KRComment";
 import { MenuButton, IMenuItem } from "azure-devops-ui/Menu";
 import { Dialog } from "azure-devops-ui/Dialog";
 import { MutableScore } from "./MutableScore";
-import { MutableField } from "../MutableField";
 import { MutableIdentity } from "../MutableIdentity";
 import { LinkWorkItemPanel } from "../OKRPanel/LinkWorkItemPanel";
 
@@ -168,11 +167,11 @@ export class DetailOKR extends React.Component<IDetailOKRProps, IDetailOKRState>
     }
 
     private getButtons(): IMenuItem[] {
-        const stateContext = this.context as IOKRContext;
+        const stateContext = this.context as IOKRContext;        
         return [
             {
                 id: "edit-button",
-                text: "Add or Detele KR",
+                text: "Add or Delete KR",
                 iconProps: { iconName: "Edit" },
                 onActivate: () => {
                     stateContext.actions.toggleEditPanel({ expandedKey: this.props.objective.id });

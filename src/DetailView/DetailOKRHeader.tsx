@@ -1,7 +1,7 @@
 import * as React from "react";
 import { Header, TitleSize } from "azure-devops-ui/Header";
 import { IHeaderCommandBarItem } from "azure-devops-ui/HeaderCommandBar";
-import { useStateValue } from '../StateMangement/StateProvider';
+import { useStateValue } from '../StateManagement/StateProvider';
 import { Area } from "../Area/Area";
 import { TimeFrameSet, TimeFrame } from "../TimeFrame/TimeFrame";
 import { IMenuItem } from "azure-devops-ui/Menu";

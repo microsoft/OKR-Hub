@@ -3,8 +3,8 @@ import { AreaCardProgress } from "../AreaCardProgress";
 import { AreaCardDetailsStatic } from "./AreaCardDetailsStatic";
 import { AreaCardDetailsEdit } from "./AreaCardDetailsEdit";
 import { Area } from "../../../Area/Area";
-import { useStateValue } from '../../../StateMangement/StateProvider';
-import { getObjectivesForArea } from "../../../StateMangement/OKRSelector";
+import { useStateValue } from '../../../StateManagement/StateProvider';
+import { getObjectivesForArea } from "../../../StateManagement/OKRSelector";
 
 export interface IAreaCardDetailsProps {
 	area: Area;

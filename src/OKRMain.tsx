@@ -2,7 +2,7 @@ import * as React from "react";
 import { DetailViewMenu } from "./DetailView/DetailViewMenu";
 import { AreaView } from "./AreaView/AreaView";
 import * as SDK from "azure-devops-extension-sdk";
-import { StateProvider, useStateValue } from './StateMangement/StateProvider';
+import { StateProvider, useStateValue } from './StateManagement/StateProvider';
 import { NavigationConstants } from "./OKRConstants";
 
 export class OKRMain extends React.Component<{}, {}> {

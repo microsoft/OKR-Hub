@@ -1,5 +1,5 @@
 import * as React from "react";
-import { StateContext, IOKRContext } from "../StateMangement/StateProvider";
+import { StateContext, IOKRContext } from "../StateManagement/StateProvider";
 import { Button } from "azure-devops-ui/Button";
 import { ButtonGroup } from "azure-devops-ui/ButtonGroup";
 import { TextField } from "azure-devops-ui/TextField";

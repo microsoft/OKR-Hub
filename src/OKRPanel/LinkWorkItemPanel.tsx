@@ -1,6 +1,6 @@
 import * as React from "react";
 import { Panel } from "azure-devops-ui/Panel";
-import { StateContext, IOKRContext } from '../StateMangement/StateProvider';
+import { StateContext, IOKRContext } from '../StateManagement/StateProvider';
 import { Objective } from "../Objective/Objective";
 import { LinkWorkItemForm } from "./LinkWorkItemForm";
 import { ArrayItemProvider } from "azure-devops-ui/Utilities/Provider";
