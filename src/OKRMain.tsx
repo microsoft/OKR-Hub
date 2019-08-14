@@ -34,7 +34,7 @@ const OKRPage: React.SFC<{}> = props => {
         }
 
         if (stateContext.state.displayedTimeFrame && !stateContext.state.objectives) {
-            stateContext.actions.getObjectives({});
+            stateContext.actions.getObjectives({timeFrameId: stateContext.state.displayedTimeFrame.id});
         }
         if (!stateContext.state.projectName) {
             stateContext.actions.getProjectName({});

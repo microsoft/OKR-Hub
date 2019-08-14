@@ -60,6 +60,9 @@ export const reducer = (state: OKRMainState = initialState, action) => {
       case Types.timeFrameOperationFail:
         draft.error = action.error;
         break;
+      case Types.updateDisplayedTimeFrame:
+        draft.displayedTimeFrame = action.payload;
+        break;
 
       // PROJECT NAME
       case Types.getProjectNameSucceed:
