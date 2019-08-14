@@ -6,7 +6,7 @@ import { TimeFrameService } from '../TimeFrame/TimeFrameService';
 import { Area } from '../Area/Area';
 import { OKRDocument } from '../Data/OKRDocument';
 import { OKRDataService } from '../Data/OKRDataService';
-import { TimeFrame } from '../TimeFrame/TimeFrame';
+import { TimeFrame, TimeFrameSet } from '../TimeFrame/TimeFrame';
 import { OKRMainState } from "./OKRState";
 import { Guid } from "guid-typescript";
 import { WorkItemService } from "../Data/WorkItemService";
@@ -34,7 +34,7 @@ const handleGetAllError = (error, dispatch, zeroDataAction: string, errorAction:
 }
 
 const runMiddleware = (dispatch, action, state: OKRMainState) => {
-    switch (action.type) {        
+    switch (action.type) {
         case Actions.getObjectives:
             ObjectiveService.instance.getAll(state.displayedTimeFrame.id).then((allObjectives: Objective[]) => {
                 dispatch({
@@ -58,29 +58,16 @@ const runMiddleware = (dispatch, action, state: OKRMainState) => {
             break;
 
         case Actions.getTimeFrames:
-            TimeFrameService.instance.getAll().then((allTimeFrames: TimeFrame[]) => {
+            TimeFrameService.instance.getAll().then((allTimeFrames: TimeFrameSet[]) => {
                 dispatch({
                     type: Actions.getTimeFramesSucceed,
-                    payload: allTimeFrames
+                    payload: allTimeFrames[0]
                 });
             }, (error) => {
-                handleGetAllError(error, dispatch, Actions.getTimeFramesSucceed, ""); 
+                handleGetAllError(error, dispatch, Actions.getTimeFramesSucceed, "");
             });
             break;
 
-        case Actions.addTimeFrame:
-            TimeFrameService.instance.create(action.payload).then((created) => {
-                dispatch({
-                    type: Actions.addTimeFrameSucceed,
-                    payload: created
-                });
-            }, (error) => {
-                dispatch({
-                    type: "TODO",
-                    error: error
-                });
-            });
-            break;
         case Actions.editTimeFrame:
             TimeFrameService.instance.save(action.payload).then((updated) => {
                 dispatch({
@@ -149,22 +136,28 @@ const runMiddleware = (dispatch, action, state: OKRMainState) => {
                 });
             });
             break;
+
         case Actions.createFirstArea:
             // If we don't have any time frames, create one so the objective page works on first run
-            const newTimeFrame: TimeFrame = {
-                name: "Current",
-                isCurrent: true,
-                id: Guid.create().toString(),
-                order: 0
+            const id = Guid.create().toString();
+            const newTimeFrameSet: TimeFrameSet = {
+                timeFrames: [
+                    {
+                        name: "Current",                        
+                        id: id,
+                        order: 0
+                    }
+                ],
+                currentTimeFrameId: id, 
             };
 
-            const timeFramePromise = TimeFrameService.instance.create(newTimeFrame);
+            const timeFramePromise = TimeFrameService.instance.create(newTimeFrameSet);
             const areaPromise = AreaService.instance.create(action.payload);
 
-            Promise.all([timeFramePromise, areaPromise]).then(([timeFrame, area]) => {
+            Promise.all([timeFramePromise, areaPromise]).then(([timeFrameSet, area]) => {
                 dispatch({
                     type: Actions.createFirstAreaSuccess,
-                    payload: { timeFrame: timeFrame, area: area }
+                    payload: { timeFrameSet: timeFrameSet, area: area }
                 })
             }, (error) => {
                 dispatch({

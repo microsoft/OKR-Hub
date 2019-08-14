@@ -2,47 +2,48 @@ import * as React from "react";
 import "./TimeFrameSettings.scss";
 import { TimeFrame } from "../TimeFrame/TimeFrame";
 import { Guid } from "guid-typescript";
-import { EditTimeFrame } from "./EditTimeFrame";
+import { TextField } from "azure-devops-ui/TextField";
+import { Button } from "azure-devops-ui/Button";
 
 interface INewTimeFrameProps {
     order: number;
     addTimeFrame: (tf: TimeFrame) => void;
-    isEditingStateCallback: (value: boolean) => void;
-    updateAddTimeFrameState: (value: boolean) => void;
+    cancel: () => void; 
 }
 
 interface INewTimeFrameState {
-    newTimeFrame: TimeFrame;
+    name: string;
 }
 
 export class NewTimeFrame extends React.Component<INewTimeFrameProps, INewTimeFrameState> {
 
-    constructor(props) {
-        super(props)
+    constructor(props: INewTimeFrameProps) {
+        super(props);
 
         this.state = {
-            newTimeFrame: {
-                name: "",
-                isCurrent: false,
-                id: Guid.create().toString(),
-                order: props.order
-            }
-        }
+            name: ""
+        };
     }
 
     render() {
+        return <div><TextField className={"new-time-frame"} value={this.state.name} onChange={this.onChange} />
+            <Button iconProps={{ iconName: "Cancel" }} subtle={true} onClick={this.props.cancel} />
+            <Button iconProps={{ iconName: "CheckMark" }} subtle={true} onClick={this.onSave} />
+        </div>; 
+    }
 
-        const {
-            addTimeFrame,
-            isEditingStateCallback,
-            updateAddTimeFrameState
-        } = this.props;
+    private onChange = (event, newValue) => {
+        this.setState({name: newValue})
+    }
 
-        const onSave = (tf) => {
-            addTimeFrame(tf);
-            updateAddTimeFrameState(false);
+
+    private onSave = () => {
+        const newTimeFrame = {
+            name: this.state.name,
+            id: Guid.create().toString(),
+            order: this.props.order
         }
 
-        return <EditTimeFrame item={this.state.newTimeFrame} saveTimeFrame={onSave} canBeEdited={true} editingCallback={isEditingStateCallback} isEditing={true} />;
+        this.props.addTimeFrame(newTimeFrame);
     }
 }

@@ -5,7 +5,7 @@ import { IHeaderCommandBarItem } from "azure-devops-ui/HeaderCommandBar";
 import { AddAreaPanel } from '../AreaPanel/AddAreaPanel';
 import { useStateValue } from "../StateMangement/StateProvider";
 import { ErrorMessage } from "../ErrorMessage";
-import { TimeFrameSettings } from "../TimeFrameSettings/TimeFrameSettings";
+import { EditTimeFramesForm } from "../TimeFrameSettings/EditTimeFrameForm";
 
 export const AreaView: React.FunctionComponent<{}> = props => {
     const stateContext = useStateValue();
@@ -59,7 +59,7 @@ export const AreaView: React.FunctionComponent<{}> = props => {
                 />
                 <ErrorMessage onDismiss={dismissError} error={stateContext.state.error} />
                 <AddAreaPanel />
-                {stateContext.state.settingsExpanded && <TimeFrameSettings timeFrames={stateContext.state.timeFrames} />}
+                {stateContext.state.settingsExpanded && <EditTimeFramesForm timeFrameSet={stateContext.state.timeFrameInfo} />}
                 <AreaGrid areas={stateContext.state.areas} />
             </div>
     }

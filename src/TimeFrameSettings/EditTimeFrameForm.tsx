@@ -1,19 +1,22 @@
 import * as React from "react";
 import "./TimeFrameSettings.scss";
-import { TimeFrame } from "../TimeFrame/TimeFrame";
+import { TimeFrame, TimeFrameSet } from "../TimeFrame/TimeFrame";
 import { EditTimeFrame } from "./EditTimeFrame";
 import { Button } from "azure-devops-ui/Button";
 import { NewTimeFrame } from "./NewTimeFrame";
 import { StateContext, IOKRContext } from "../StateMangement/StateProvider";
+import { RadioButton, RadioButtonGroup } from "azure-devops-ui/RadioButton";
+import produce from "immer";
+import { Panel } from "azure-devops-ui/Panel";
+import { ContentSize } from "azure-devops-ui/Callout";
 
 export interface IEditTimeFramesProps {
-    items: TimeFrame[];
-    updateTimeFrame: (tf: TimeFrame) => void;
+    timeFrameSet: TimeFrameSet;
 }
 
 interface IEditTimeFramesFormState {
-    isSomeoneBeingEdited: boolean;
-    addBoxOpen: boolean; 
+    addBoxOpen: boolean;
+    draftTimeFrameSet: TimeFrameSet;
 }
 
 export class EditTimeFramesForm extends React.Component<IEditTimeFramesProps, IEditTimeFramesFormState> {
@@ -23,8 +26,8 @@ export class EditTimeFramesForm extends React.Component<IEditTimeFramesProps, IE
         super(props);
 
         this.state = {
-            isSomeoneBeingEdited: false,
             addBoxOpen: false,
+            draftTimeFrameSet: props.timeFrameSet
         }
     }
 
@@ -32,30 +35,83 @@ export class EditTimeFramesForm extends React.Component<IEditTimeFramesProps, IE
         const stateContext = this.context as IOKRContext;
 
         const {
-            items,
-            updateTimeFrame
-        } = this.props;
+            draftTimeFrameSet,
+            addBoxOpen
+        } = this.state;
 
-        // If any cell is in edit mode, lock other cells from editing. 
-        // This is to prevent us from setting more than on timeframe as current        
-        const updateIfAnyCellIsInEditMode = (value) => {
-            this.setState({ isSomeoneBeingEdited: value })
-        }
+        const addTimeFrameBox = <NewTimeFrame order={draftTimeFrameSet.timeFrames.length} addTimeFrame={this.addTimeFrame} cancel={this.closeAddBox} />;
 
-        const updateAddTimeFrameState = (value) => {
-            this.setState({addBoxOpen: value})
-        }
+        return (<Panel
+                size={ContentSize.Large}
+                titleProps={{ text: "Time Periods" }}
+                footerButtonProps={[
+                    {
+                        text: "Close",
+                        onClick: () => {
+                            stateContext.actions.toggleSettings({ expanded: false });
+                        }
+                    },
+                    {
+                        text: "Save",
+                        onClick: () => {
+                            stateContext.actions.editTimeFrame(this.state.draftTimeFrameSet)
+                            stateContext.actions.toggleSettings({ expanded: false });
+                        },
+                        disabled: addBoxOpen 
+                    }
+                ]}
+                onDismiss={() => {
+                    stateContext.actions.toggleSettings({ expanded: false });
+                }}>
+                <div className={"time-frame-settings"}>
+                    <div className={"time-frame-settings-header"}>{"Add new time frames below and select which will be the current time frame."}</div>
+                    <div>
+                        <RadioButtonGroup onSelect={this.changeCurrentTimeFrame} selectedButtonId={draftTimeFrameSet.currentTimeFrameId}>
+                            {this.state.draftTimeFrameSet.timeFrames.map((value, index) => (
+                                <RadioButton className={"time-frame-box"} id={value.id}>
+                                    <EditTimeFrame item={value} saveTimeFrame={this.updateName} />
+                                </RadioButton>
+                            ))}
+                        </RadioButtonGroup>
+                        {addBoxOpen && addTimeFrameBox}
+                        <Button subtle={true} text={"Add new time frame"} iconProps={{ iconName: "Add" }} onClick={() => this.setState({ addBoxOpen: true })} disabled={addBoxOpen} />
+                    </div>
+                </div>
+            </Panel>
 
-        const addTimeFrame = <NewTimeFrame updateAddTimeFrameState={updateAddTimeFrameState} order={items.length} addTimeFrame={(tf) => stateContext.actions.addTimeFrames(tf)} isEditingStateCallback={updateIfAnyCellIsInEditMode}/>
-
-        return (
-            <div>
-                {items.map((value, index) => (
-                    <EditTimeFrame item={value} saveTimeFrame={updateTimeFrame} canBeEdited={!this.state.isSomeoneBeingEdited} editingCallback={updateIfAnyCellIsInEditMode} isEditing={false} />
-                ))}
-                {this.state.addBoxOpen && addTimeFrame}
-                <Button subtle={true} text={"Add new time frame"} iconProps={{ iconName: "Add" }} onClick={() => this.setState({ addBoxOpen: true })} disabled={this.state.addBoxOpen} />
-            </div>
         )
     }
+
+    private closeAddBox = () => {
+        this.setState({ addBoxOpen: false });
+    }
+
+    private addTimeFrame = (tf) => {
+        const newSet = produce(this.state.draftTimeFrameSet, draft => {
+            draft.timeFrames.push(tf);
+        });
+        this.setState({ draftTimeFrameSet: newSet, addBoxOpen: false });
+    }
+
+    private updateName = (item: TimeFrame, newName: string) => {
+        const newTimeFrames = produce(this.state.draftTimeFrameSet.timeFrames, draft => {
+            let editedItem = draft.find((tf) => { return tf.id === item.id });
+            editedItem.name = newName; 
+        });
+
+        const newState = {
+            currentTimeFrameId: this.state.draftTimeFrameSet.currentTimeFrameId,
+            id: this.state.draftTimeFrameSet.id,
+            timeFrames: newTimeFrames
+        }
+        this.setState({ draftTimeFrameSet: newState });
+    };
+
+    private changeCurrentTimeFrame = (newId: string) => {
+        const newTimeFrameSet = produce(this.state.draftTimeFrameSet, draft => {
+            draft.currentTimeFrameId = newId;
+        });
+
+        this.setState({ draftTimeFrameSet: newTimeFrameSet });
+    };
 }
