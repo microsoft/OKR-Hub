@@ -41,7 +41,8 @@ export class EditTimeFramesForm extends React.Component<IEditTimeFramesProps, IE
 
         const addTimeFrameBox = <NewTimeFrame order={draftTimeFrameSet.timeFrames.length} addTimeFrame={this.addTimeFrame} cancel={this.closeAddBox} />;
 
-        return (<Panel
+        return (
+            <Panel
                 size={ContentSize.Large}
                 titleProps={{ text: "Time Periods" }}
                 footerButtonProps={[
@@ -57,7 +58,7 @@ export class EditTimeFramesForm extends React.Component<IEditTimeFramesProps, IE
                             stateContext.actions.editTimeFrame(this.state.draftTimeFrameSet)
                             stateContext.actions.toggleSettings({ expanded: false });
                         },
-                        disabled: addBoxOpen 
+                        disabled: addBoxOpen
                     }
                 ]}
                 onDismiss={() => {
@@ -68,9 +69,11 @@ export class EditTimeFramesForm extends React.Component<IEditTimeFramesProps, IE
                     <div>
                         <RadioButtonGroup onSelect={this.changeCurrentTimeFrame} selectedButtonId={draftTimeFrameSet.currentTimeFrameId}>
                             {this.state.draftTimeFrameSet.timeFrames.map((value, index) => (
-                                <RadioButton className={"time-frame-box"} id={value.id}>
+                                <div className={"time-frame-box"} key={value.id}>
+                                    <RadioButton id={value.id} />
                                     <EditTimeFrame item={value} saveTimeFrame={this.updateName} />
-                                </RadioButton>
+                                </div>
+
                             ))}
                         </RadioButtonGroup>
                         {addBoxOpen && addTimeFrameBox}
@@ -78,7 +81,6 @@ export class EditTimeFramesForm extends React.Component<IEditTimeFramesProps, IE
                     </div>
                 </div>
             </Panel>
-
         )
     }
 
@@ -94,17 +96,12 @@ export class EditTimeFramesForm extends React.Component<IEditTimeFramesProps, IE
     }
 
     private updateName = (item: TimeFrame, newName: string) => {
-        const newTimeFrames = produce(this.state.draftTimeFrameSet.timeFrames, draft => {
-            let editedItem = draft.find((tf) => { return tf.id === item.id });
-            editedItem.name = newName; 
+        const newTimeFrameSet = produce(this.state.draftTimeFrameSet, draft => {
+            let editedItem = draft.timeFrames.find((tf) => { return tf.id === item.id });
+            editedItem.name = newName;
         });
 
-        const newState = {
-            currentTimeFrameId: this.state.draftTimeFrameSet.currentTimeFrameId,
-            id: this.state.draftTimeFrameSet.id,
-            timeFrames: newTimeFrames
-        }
-        this.setState({ draftTimeFrameSet: newState });
+        this.setState({ draftTimeFrameSet: newTimeFrameSet });
     };
 
     private changeCurrentTimeFrame = (newId: string) => {
