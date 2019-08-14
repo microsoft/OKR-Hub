@@ -1,8 +1,8 @@
 
 import { OKRDataService } from "../Data/OKRDataService";
-import { TimeFrame } from "./TimeFrame";
+import { TimeFrameSet } from "./TimeFrame";
 
-export class TimeFrameService extends OKRDataService<TimeFrame> {
+export class TimeFrameService extends OKRDataService<TimeFrameSet> {
     private static singleton: TimeFrameService;
     public static get instance(): TimeFrameService {
         if (this.singleton === undefined) {

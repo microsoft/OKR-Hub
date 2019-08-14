@@ -2,7 +2,7 @@ import { NavigationConstants } from "../OKRConstants";
 import { Objective } from "../Objective/Objective";
 import { Area } from "../Area/Area";
 import { IPeoplePickerProvider } from "azure-devops-ui/IdentityPicker";
-import { TimeFrame } from "../TimeFrame/TimeFrame";
+import { TimeFrame, TimeFrameSet } from "../TimeFrame/TimeFrame";
 import { WorkItem } from "azure-devops-extension-api/WorkItemTracking";
 
 export interface OKRMainState {
@@ -19,7 +19,7 @@ export interface OKRMainState {
     editCommentKey: string;
     projectName: string;
     identityProvider: IPeoplePickerProvider;
-    timeFrames: TimeFrame[];
+    timeFrameInfo: TimeFrameSet;
     /** On first load this is our current time frame. 
      * If the user navigates to another time frame this is whatever is currently being displayed */
     displayedTimeFrame: TimeFrame;

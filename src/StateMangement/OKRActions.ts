@@ -1,6 +1,6 @@
 import * as Actions from "./OKRActionTypes";
 import { OKRMainState } from "./OKRState";
-import { TimeFrame } from "../TimeFrame/TimeFrame";
+import { TimeFrame, TimeFrameSet } from "../TimeFrame/TimeFrame";
 import { Area } from "../Area/Area";
 
 export interface IOKRActions {
@@ -20,8 +20,9 @@ export interface IOKRActions {
     toggleAreaPanel: (data: any) => {};
     updateSelectedArea: (data: any) => {};
     createArea: (data: any) => {};
-    createFirstArea: (data: any) => {};
+    createFirstArea: (data: Area) => {};
     createAreaFailed: (data: any) => {};
+    createTimeFrame: (data: TimeFrameSet) => {}; 
     setError: (data: any) => {};
     areaOperationFailed: (data: any) => {};
     objectivesOperationFailed: (data: any) => {};
@@ -29,10 +30,9 @@ export interface IOKRActions {
     removeArea: (data: any) => {};
     getProjectName: (data: any) => {};
     getTimeFrames: () => {};
-    addTimeFrames: (data: any) => {};
-    editTimeFrame: (data: any) => {};
-    editTimeFrameSucceed: (data: any) => {};
     getTimeFramesSucceed: (data: any) => {};
+    editTimeFrame: (data: TimeFrameSet) => {};
+    editTimeFrameSucceed: (data: any) => {};
     toggleLinkWorkItemPanel: (data: string) => {};
     getWorkItems: (data: number[]) => {};
     addWorkItems: (data: { ids: string[]; objectiveId: string }) => {};
@@ -49,6 +49,7 @@ export const useActions = (state: OKRMainState, dispatch) => ({
     cancelCreationOrEdit: data => dispatch({ type: Actions.cancelCreationOrEdit, payload: data }),
     editOKR: data => dispatch({ type: Actions.editOKR, payload: data }),
     createOKR: data => dispatch({ type: Actions.createOKR, payload: { data: data, objectives: state.objectives } }),
+    createTimeFrame: data => dispatch({type: Actions.createTimeFrame, payload: data}),
     toggleAddPanel: data => dispatch({ type: Actions.toggleAddPanel, payload: data }),
     toggleEditPanel: data => dispatch({ type: Actions.toggleEditPanel, payload: data }),
     toggleSettings: data => dispatch({ type: Actions.toggleTimeFrameSettings, payload: data }),
@@ -71,7 +72,6 @@ export const useActions = (state: OKRMainState, dispatch) => ({
     removeArea: data => dispatch({ type: Actions.removeArea, payload: data }),
     getProjectName: data => dispatch({ type: Actions.getProjectName, payload: data }),
     getTimeFrames: () => dispatch({ type: Actions.getTimeFrames}),
-    addTimeFrames: data => dispatch({ type: Actions.addTimeFrame, payload: data }),
     editTimeFrame: data => dispatch({ type: Actions.editTimeFrame, payload: data }),
     editTimeFrameSucceed: data => dispatch({ type: Actions.editTimeFrameSucceed, payload: data }),
     getTimeFramesSucceed: data => dispatch({ type: Actions.getTimeFramesSucceed, payload: data }),

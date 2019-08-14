@@ -6,14 +6,13 @@ import { Objective } from "../Objective/Objective";
 import { Area } from "../Area/Area";
 import { IdentityProvider } from "../Identity/IdentityProvider";
 import { WorkItem } from "azure-devops-extension-api/WorkItemTracking";
-import { object } from "prop-types";
 
 export const initialState: OKRMainState = {
   pageLocation: NavigationConstants.AreaView,
   selectedArea: undefined,
   objectives: undefined,
   areas: undefined,
-  timeFrames: undefined,
+  timeFrameInfo: undefined,
   error: undefined,
   addPanelExpanded: false,
   editPanelExpandedKey: undefined,
@@ -40,23 +39,26 @@ export const reducer = (state: OKRMainState = initialState, action) => {
         break;
 
       // TIME FRAMES
+      case Types.createTimeFrameSucceed:
+        draft.timeFrameInfo = action.payload;
+        break;
       case Types.getTimeFramesSucceed:
-        draft.timeFrames = action.payload;
-        draft.timeFrames.sort((a, b) => {
+        // If there aren't time frames, setup empty data
+        draft.timeFrameInfo = action.payload.timeFrames ? action.payload : { timeFrames: [], currentTimeFrameId: "" };
+        draft.timeFrameInfo.timeFrames.sort((a, b) => {
           return a.order - b.order;
-        }); 
-        draft.displayedTimeFrame = draft.timeFrames.find((tf) => { return tf.isCurrent });
+        });
+        draft.displayedTimeFrame = draft.timeFrameInfo.timeFrames.find((tf) => { return tf.id === draft.timeFrameInfo.currentTimeFrameId });
         break;
       case Types.toggleTimeFrameSettings:
         draft.settingsExpanded = action.payload.expanded;
         break;
       case Types.editTimeFrameSucceed:
-        draft.timeFrames = draft.timeFrames.map(tf => {
-          return tf.id === action.payload.id ? action.payload : tf;
-        });
+        draft.timeFrameInfo = action.payload;
+        draft.displayedTimeFrame = draft.timeFrameInfo.timeFrames.find((tf) => { return tf.id === draft.timeFrameInfo.currentTimeFrameId });
         break;
-      case Types.addTimeFrameSucceed:
-        draft.timeFrames.push(action.payload);        
+      case Types.timeFrameOperationFail:
+        draft.error = action.error;
         break;
 
       // PROJECT NAME
@@ -88,8 +90,8 @@ export const reducer = (state: OKRMainState = initialState, action) => {
         draft.selectedArea = draft.areas[0];
         draft.areaPanelExpanded = false;
 
-        draft.timeFrames.push(action.payload.timeFrame);
-        draft.displayedTimeFrame = action.payload.timeFrame;
+        draft.timeFrameInfo = action.payload.timeFrameSet;
+        draft.displayedTimeFrame = draft.timeFrameInfo.timeFrames.find((tf) => { return tf.id === draft.timeFrameInfo.currentTimeFrameId });
         break;
 
       case Types.toggleAreaPanel:

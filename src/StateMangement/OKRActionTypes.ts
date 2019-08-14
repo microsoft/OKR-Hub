@@ -54,8 +54,10 @@ export const getProjectNameFailed = "getProjectNameFailed";
 export const getTimeFrames = "getTimeFrames"; 
 export const getTimeFramesSucceed = "getTimeFramesSucceed"; 
 
-export const addTimeFrame = "addTimeFrame"; 
-export const addTimeFrameSucceed = "addTimeFrameSucceed"; 
+export const timeFrameOperationFail = "timeFrameOperationFail"; 
+
+export const createTimeFrame = "createTimeFrame"; 
+export const createTimeFrameSucceed = "createTimeFrameSucceed"; 
 
 export const editTimeFrame = "editTimeFrame";
 export const editTimeFrameSucceed = "editTimeFrameSucceed"; 

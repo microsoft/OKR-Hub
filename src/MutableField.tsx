@@ -7,17 +7,20 @@ import { Button } from "azure-devops-ui/Button";
 
 export interface IMutableFieldProps {
 	value: string,
-	onChange: (newValue: string) => void
+	onChange: (newValue: string) => void,
+	className?: string
 }
 
 export class MutableField extends React.Component<IMutableFieldProps> {
 	private currentValue = new ObservableValue<string>("");
 
 	public render = (): JSX.Element => {
+		const additionalClassName = this.props.className ? " " + this.props.className : ""; 
+
 		return <Observer currentValue={this.currentValue}>
 			{(props: { currentValue: string }) => {
 				if (props.currentValue) {
-					return (<div className="mutableField">
+					return (<div className={"mutableField" + additionalClassName}>
 						<TextField
 							value={props.currentValue}
 							className="textField"
@@ -29,7 +32,7 @@ export class MutableField extends React.Component<IMutableFieldProps> {
 					</div>)
 				}
 				else {
-					return <div className="mutableField label" onClick={this.onLabelClick} title={this.props.value}>{this.props.value}</div>;	
+					return <div className={"mutableField label" + additionalClassName} onClick={this.onLabelClick} title={this.props.value}>{this.props.value}</div>;	
 				}
 			}}
 		</Observer>;

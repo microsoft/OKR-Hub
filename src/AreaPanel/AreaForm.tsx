@@ -78,7 +78,7 @@ export default class AreaForm extends React.Component<IAreaFormProps, IAreaFormS
                                 AreaId: Guid.create().toString(),
                                 OwnerId: this.state.ownerId ? this.state.ownerId : "",
                                 OwnerName: this.state.ownerName ? this.state.ownerName : ""
-                            }
+                            };
 
                             if (stateContext.state.displayedTimeFrame === undefined && stateContext.state.areas.length === 0) {
                                 stateContext.actions.createFirstArea(toBeCreated);
