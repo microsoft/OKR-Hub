@@ -6,7 +6,7 @@ import { Area } from "../Area/Area";
 export interface IOKRActions {
     // TODO: type the data.        
     navigatePage: (data: any) => {};
-    getObjectives: (data: any) => {};
+    getObjectives: (data: {timeFrameId: string}) => {};
     getAreas: () => {};
     cancelCreationOrEdit: (data: any) => {};
     editOKR: (data: any) => {};
@@ -39,11 +39,12 @@ export interface IOKRActions {
     deleteWorkItems: (data: { id: number; objectiveId: string }) => {};
     openWorkItem: (data: number) => {};
     createFirstAreaSuccess: (data: {timeFrame: TimeFrame, area: Area}) => {};
+    updateDisplayedTimeFrame: (data: TimeFrame) => {}; 
 }
 
 export const useActions = (state: OKRMainState, dispatch) => ({
     navigatePage: data => dispatch({ type: Actions.navigatePage, payload: data }),
-    getObjectives: data => dispatch({ type: Actions.getObjectives, payload: data }),
+    getObjectives: (data) => dispatch({ type: Actions.getObjectives,payload: data }),
     getAreas: () => dispatch({ type: Actions.getAreas }),
     updateSelectedArea: data => dispatch({ type: Actions.updateSelectedArea, payload: data }),
     cancelCreationOrEdit: data => dispatch({ type: Actions.cancelCreationOrEdit, payload: data }),
@@ -62,6 +63,7 @@ export const useActions = (state: OKRMainState, dispatch) => ({
     createAreaSucceed: data => dispatch({ type: Actions.createAreaSucceed, payload: data }),
     createAreaFailed: data => dispatch({ type: Actions.createAreaFailed, payload: data }),
 
+    updateDisplayedTimeFrame: data => dispatch({type: Actions.updateDisplayedTimeFrame, payload: data}),
     createFirstArea: data => dispatch({ type: Actions.createFirstArea, payload: data }),
     createFirstAreaSuccess: data => dispatch({ type: Actions.createFirstAreaSuccess, payload: data }),
     toggleAreaPanel: data => dispatch({ type: Actions.toggleAreaPanel, payload: data }),

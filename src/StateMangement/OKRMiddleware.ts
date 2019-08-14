@@ -36,7 +36,7 @@ const handleGetAllError = (error, dispatch, zeroDataAction: string, errorAction:
 const runMiddleware = (dispatch, action, state: OKRMainState) => {
     switch (action.type) {
         case Actions.getObjectives:
-            ObjectiveService.instance.getAll(state.displayedTimeFrame.id).then((allObjectives: Objective[]) => {
+            ObjectiveService.instance.getAll(action.payload.timeFrameId).then((allObjectives: Objective[]) => {
                 dispatch({
                     type: Actions.getObjectivesSucceed,
                     payload: allObjectives
@@ -185,7 +185,7 @@ const runMiddleware = (dispatch, action, state: OKRMainState) => {
             }
             )
         break;
-
+        
         case Actions.createArea:
             AreaService.instance.create(action.payload.data).then((created) => {
                 dispatch({
