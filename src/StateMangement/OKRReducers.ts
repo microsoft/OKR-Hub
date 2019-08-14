@@ -6,7 +6,6 @@ import { Objective } from "../Objective/Objective";
 import { Area } from "../Area/Area";
 import { IdentityProvider } from "../Identity/IdentityProvider";
 import { WorkItem } from "azure-devops-extension-api/WorkItemTracking";
-import { object } from "prop-types";
 
 export const initialState: OKRMainState = {
   pageLocation: NavigationConstants.AreaView,
@@ -40,6 +39,9 @@ export const reducer = (state: OKRMainState = initialState, action) => {
         break;
 
       // TIME FRAMES
+      case Types.createTimeFrameSucceed:
+        draft.timeFrameInfo = action.payload;
+        break;
       case Types.getTimeFramesSucceed:
         // If there aren't time frames, setup empty data
         draft.timeFrameInfo = action.payload.timeFrames ? action.payload : { timeFrames: [], currentTimeFrameId: "" };
@@ -53,7 +55,10 @@ export const reducer = (state: OKRMainState = initialState, action) => {
         break;
       case Types.editTimeFrameSucceed:
         draft.timeFrameInfo = action.payload;
-        draft.displayedTimeFrame = draft.timeFrameInfo.timeFrames.find((tf) => {return tf.id === draft.timeFrameInfo.currentTimeFrameId}); 
+        draft.displayedTimeFrame = draft.timeFrameInfo.timeFrames.find((tf) => { return tf.id === draft.timeFrameInfo.currentTimeFrameId });
+        break;
+      case Types.timeFrameOperationFail:
+        draft.error = action.error;
         break;
 
       // PROJECT NAME
@@ -86,7 +91,7 @@ export const reducer = (state: OKRMainState = initialState, action) => {
         draft.areaPanelExpanded = false;
 
         draft.timeFrameInfo = action.payload.timeFrameSet;
-        draft.displayedTimeFrame = draft.timeFrameInfo.timeFrames.find((tf) => {return tf.id === draft.timeFrameInfo.currentTimeFrameId});
+        draft.displayedTimeFrame = draft.timeFrameInfo.timeFrames.find((tf) => { return tf.id === draft.timeFrameInfo.currentTimeFrameId });
         break;
 
       case Types.toggleAreaPanel:

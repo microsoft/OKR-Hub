@@ -22,6 +22,7 @@ export interface IOKRActions {
     createArea: (data: any) => {};
     createFirstArea: (data: Area) => {};
     createAreaFailed: (data: any) => {};
+    createTimeFrame: (data: TimeFrameSet) => {}; 
     setError: (data: any) => {};
     areaOperationFailed: (data: any) => {};
     objectivesOperationFailed: (data: any) => {};
@@ -48,6 +49,7 @@ export const useActions = (state: OKRMainState, dispatch) => ({
     cancelCreationOrEdit: data => dispatch({ type: Actions.cancelCreationOrEdit, payload: data }),
     editOKR: data => dispatch({ type: Actions.editOKR, payload: data }),
     createOKR: data => dispatch({ type: Actions.createOKR, payload: { data: data, objectives: state.objectives } }),
+    createTimeFrame: data => dispatch({type: Actions.createTimeFrame, payload: data}),
     toggleAddPanel: data => dispatch({ type: Actions.toggleAddPanel, payload: data }),
     toggleEditPanel: data => dispatch({ type: Actions.toggleEditPanel, payload: data }),
     toggleSettings: data => dispatch({ type: Actions.toggleTimeFrameSettings, payload: data }),

@@ -8,7 +8,7 @@ import { Button } from "azure-devops-ui/Button";
 interface INewTimeFrameProps {
     order: number;
     addTimeFrame: (tf: TimeFrame) => void;
-    cancel: () => void; 
+    cancel: () => void;
 }
 
 interface INewTimeFrameState {
@@ -26,14 +26,15 @@ export class NewTimeFrame extends React.Component<INewTimeFrameProps, INewTimeFr
     }
 
     render() {
-        return <div><TextField className={"new-time-frame"} value={this.state.name} onChange={this.onChange} />
+        return <div>
+            <TextField className={"new-time-frame"} value={this.state.name} onChange={this.onChange} />
             <Button iconProps={{ iconName: "Cancel" }} subtle={true} onClick={this.props.cancel} />
             <Button iconProps={{ iconName: "CheckMark" }} subtle={true} onClick={this.onSave} />
-        </div>; 
+        </div>;
     }
 
     private onChange = (event, newValue) => {
-        this.setState({name: newValue})
+        this.setState({ name: newValue })
     }
 
 

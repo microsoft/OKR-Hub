@@ -54,10 +54,7 @@ export class EditTimeFramesForm extends React.Component<IEditTimeFramesProps, IE
                     },
                     {
                         text: "Save",
-                        onClick: () => {
-                            stateContext.actions.editTimeFrame(this.state.draftTimeFrameSet)
-                            stateContext.actions.toggleSettings({ expanded: false });
-                        },
+                        onClick: this.onSaveClick,
                         disabled: addBoxOpen
                     }
                 ]}
@@ -82,6 +79,23 @@ export class EditTimeFramesForm extends React.Component<IEditTimeFramesProps, IE
                 </div>
             </Panel>
         )
+    }
+
+    private onSaveClick = () => {
+        const stateContext = this.context as IOKRContext;
+
+        // If this is first create, we have to set up a new collection
+        if (this.props.timeFrameSet.timeFrames.length === 0) {
+            const newSet = produce(this.state.draftTimeFrameSet, draft => {
+                draft.currentTimeFrameId = draft.currentTimeFrameId ? draft.currentTimeFrameId : draft.timeFrames[0].id; 
+            });
+            stateContext.actions.createTimeFrame(newSet);
+        }
+        else {
+            stateContext.actions.editTimeFrame(this.state.draftTimeFrameSet);
+        }
+
+        stateContext.actions.toggleSettings({ expanded: false });
     }
 
     private closeAddBox = () => {

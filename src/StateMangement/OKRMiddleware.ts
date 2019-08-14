@@ -64,7 +64,7 @@ const runMiddleware = (dispatch, action, state: OKRMainState) => {
                     payload: allTimeFrames[0]
                 });
             }, (error) => {
-                handleGetAllError(error, dispatch, Actions.getTimeFramesSucceed, "");
+                handleGetAllError(error, dispatch, Actions.getTimeFramesSucceed, Actions.timeFrameOperationFail);
             });
             break;
 
@@ -76,7 +76,7 @@ const runMiddleware = (dispatch, action, state: OKRMainState) => {
                 });
             }, (error) => {
                 dispatch({
-                    type: "Todo",
+                    type: Actions.timeFrameOperationFail,
                     error: error
                 });
             });
@@ -143,12 +143,12 @@ const runMiddleware = (dispatch, action, state: OKRMainState) => {
             const newTimeFrameSet: TimeFrameSet = {
                 timeFrames: [
                     {
-                        name: "Current",                        
+                        name: "Current",
                         id: id,
                         order: 0
                     }
                 ],
-                currentTimeFrameId: id, 
+                currentTimeFrameId: id,
             };
 
             const timeFramePromise = TimeFrameService.instance.create(newTimeFrameSet);
@@ -166,6 +166,25 @@ const runMiddleware = (dispatch, action, state: OKRMainState) => {
                 })
             })
             break;
+
+        /**
+         * This should only be used on FIRST create. Time frames are stored as a collection. Adding a 
+         * time frame later is an edit to the collection, not a create. 
+         */
+        case Actions.createTimeFrame:
+            TimeFrameService.instance.create(action.payload).then((created) => {
+                dispatch({
+                    type: Actions.createTimeFrameSucceed,
+                    payload: created
+                })
+            }, (error) => {
+                dispatch({
+                    type: Actions.timeFrameOperationFail,
+                    error: error
+                })
+            }
+            )
+        break;
 
         case Actions.createArea:
             AreaService.instance.create(action.payload.data).then((created) => {
