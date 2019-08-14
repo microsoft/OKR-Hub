@@ -2,7 +2,7 @@ import * as React from "react";
 import { Area } from "../Area/Area";
 import { AreaCard } from "./AreaCard/AreaCard";
 import { AreaZeroData } from "./AreaZeroData";
-import { StateContext, IOKRContext } from "../StateMangement/StateProvider";
+import { StateContext, IOKRContext } from "../StateManagement/StateProvider";
 
 export interface IAreaGridProps {
     areas: Area[];    

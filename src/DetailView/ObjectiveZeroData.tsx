@@ -1,6 +1,6 @@
 import * as React from "react";
 import { ZeroData, ZeroDataActionType } from "azure-devops-ui/ZeroData";
-import { StateContext, IOKRContext } from "../StateMangement/StateProvider";
+import { StateContext, IOKRContext } from "../StateManagement/StateProvider";
 
 export class ObjectivesZeroDataProps{
     areaName: string; 

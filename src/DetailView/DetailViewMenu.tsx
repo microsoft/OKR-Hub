@@ -12,12 +12,12 @@ import { ArrayItemProvider } from "azure-devops-ui/Utilities/Provider";
 import * as React from 'react';
 import "./DetailViewMenu.scss";
 import { DetailView } from "./DetailView";
-import { useStateValue } from '../StateMangement/StateProvider';
+import { useStateValue } from '../StateManagement/StateProvider';
 import { Area } from "../Area/Area";
 import { NavigationConstants } from "../OKRConstants";
 import { Objective } from "../Objective/Objective";
 import { AreaCardProgress } from "../AreaView/AreaCard/AreaCardProgress";
-import { getObjectivesForArea } from "../StateMangement/OKRSelector";
+import { getObjectivesForArea } from "../StateManagement/OKRSelector";
 
 interface AreaWithObjectives {
     area: Area; 

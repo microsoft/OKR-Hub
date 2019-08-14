@@ -3,7 +3,7 @@ import { AreaGrid } from "./AreaGrid";
 import { Header } from "azure-devops-ui/Header";
 import { IHeaderCommandBarItem } from "azure-devops-ui/HeaderCommandBar";
 import { AddAreaPanel } from '../AreaPanel/AddAreaPanel';
-import { useStateValue } from "../StateMangement/StateProvider";
+import { useStateValue } from "../StateManagement/StateProvider";
 import { ErrorMessage } from "../ErrorMessage";
 import { EditTimeFramesForm } from "../TimeFrameSettings/EditTimeFrameForm";
 

@@ -1,6 +1,6 @@
 import produce from "immer";
 import * as Types from "./OKRActionTypes";
-import { OKRMainState } from "../StateMangement/OKRState";
+import { OKRMainState } from "./OKRState";
 import { NavigationConstants } from "../OKRConstants";
 import { Objective } from "../Objective/Objective";
 import { Area } from "../Area/Area";

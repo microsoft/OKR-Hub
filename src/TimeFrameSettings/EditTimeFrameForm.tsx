@@ -4,7 +4,7 @@ import { TimeFrame, TimeFrameSet } from "../TimeFrame/TimeFrame";
 import { EditTimeFrame } from "./EditTimeFrame";
 import { Button } from "azure-devops-ui/Button";
 import { NewTimeFrame } from "./NewTimeFrame";
-import { StateContext, IOKRContext } from "../StateMangement/StateProvider";
+import { StateContext, IOKRContext } from "../StateManagement/StateProvider";
 import { RadioButton, RadioButtonGroup } from "azure-devops-ui/RadioButton";
 import produce from "immer";
 import { Panel } from "azure-devops-ui/Panel";
