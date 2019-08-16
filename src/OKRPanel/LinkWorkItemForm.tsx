@@ -64,18 +64,20 @@ export const LinkWorkItemForm: React.FunctionComponent<ILinkWorkItemFormProps> =
                 />
             </div>
         </Card>
-        : (<div className="link-zero-day">No work item has been linked to this Objective, start adding one!</div>)}
+        : (<div className="link-zero-day">Click Add, to link a Work Item to this Objective.</div>)}
         <div className="link-form-submit">
             <ButtonGroup>
+                {!props.isZeroDay
+                    ? (<Button text="Delete" onClick={() => {
+                            if (currentSelection.value) {
+                                const selected = currentSelection.value[0].beginIndex;
+                                const workItem = props.tableItems.value[selected];
+                                props.onDelete(workItem.id);
+                            }
+                        }} />)
+                    : (null) }
                 <Button text="Add" primary={true} onClick={() => {
                     props.onAdd();
-                }} />
-                <Button text="Delete" onClick={() => {
-                    if (currentSelection.value) {
-                        const selected = currentSelection.value[0].beginIndex;
-                        const workItem = props.tableItems.value[selected];
-                        props.onDelete(workItem.id);
-                    }
                 }} />
             </ButtonGroup>
         </div>

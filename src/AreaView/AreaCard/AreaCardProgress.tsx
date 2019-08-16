@@ -14,11 +14,11 @@ export const AreaCardProgress: React.FunctionComponent<IAreaCardProgressProps> =
 			<Circle
 				progress={areaProgress * 100}
 				showPercentage={false}
-				size={"35"}
-				lineWidth={"50"}
+				size={"80"}
+				lineWidth={"40"}
 				progressColor={"rgb(0, 200, 100)"}
-				animate={false}
-				bgColor={"rgb(201, 201, 201)"}	
+				animate={true}
+				bgColor={"rgb(201, 201, 201)"}
 			/>
 		</span>
 	</div>;
