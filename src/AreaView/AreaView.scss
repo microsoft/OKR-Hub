@@ -20,58 +20,69 @@
 		margin: 8px;
 		width: 380px;
 		height: 350px;
+		padding-top: 10px;
 		cursor: pointer;		
 
 		&:hover {
 			background: #F8F8F8;
 		}
-
-		.area-card-interior {			
-			display:flex;
-			flex-direction: column;
-			width: 100%;
-			justify-content: space-between; 
-
-			.area-card-details{
-				display: flex;
+		.bolt-default-horizontal-spacing {
+			padding-left: 14px;
+			padding-right: 14px;
+		
+			.area-card-interior {			
+				display:flex;
 				flex-direction: column;
+				width: 100%;
+				justify-content: space-between; 
 
-				.card-header{
-					display: flex; 
-					justify-content: space-between; 
-					margin-bottom: 0px;
-					align-items: baseline;
-
-					.title-header {
-						max-width: 80%; 
-					}
-
-					.area-name-title {
-						overflow: hidden;
-						white-space: nowrap;
-						text-overflow: ellipsis;
-					}
-
-					.area-name-title:hover{
-						cursor: pointer;
-					}
-
-					.flex-column {
-						flex: 1;
-					}
-				}
-
-				.card-description{
-					height: 60px;
-					overflow: hidden;
-					display: -webkit-box;
-					-webkit-line-clamp: 3; 
-					-webkit-box-orient: vertical; 
-				}
-
-				.bolt-expandable-button, .bolt-button {
-					align-items: center; 
+				.area-card-details{
+					display: flex;
 					flex-direction: column;
+
+					.card-header{
+						display: flex; 
+						justify-content: space-between; 
+						margin-bottom: 0px;
+						align-items: baseline;
+
+						.title-header {
+							max-width: 80%; 
+						}
+
+						.area-name-title {
+							overflow: hidden;
+							white-space: nowrap;
+							text-overflow: ellipsis;
+						}
+
+						.area-name-title:hover{
+							cursor: pointer;
+						}
+
+						.flex-column {
+							flex: 1;
+						}
+					}
+
+					.area-card-progress{
+						display: flex;
+						flex-direction: row;
+						align-items: center;
+					}
+
+					.card-description{
+						height: 60px;
+						overflow: hidden;
+						display: -webkit-box;
+						-webkit-line-clamp: 3; 
+						-webkit-box-orient: vertical; 
+					}
+
+					.bolt-expandable-button, .bolt-button {
+						align-items: center; 
+						flex-direction: column;
+					}
 				}
 			}
 		}
