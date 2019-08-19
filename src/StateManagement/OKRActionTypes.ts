@@ -56,6 +56,7 @@ export const getTimeFramesSucceed = "getTimeFramesSucceed";
 
 export const timeFrameOperationFail = "timeFrameOperationFail"; 
 export const updateDisplayedTimeFrame = "updateDisplayedTimeFrame"; 
+export const updateCurrentTimeFrameSucceed = "updateCurrentTimeFrameSucceed";
 
 export const createTimeFrame = "createTimeFrame"; 
 export const createTimeFrameSucceed = "createTimeFrameSucceed"; 

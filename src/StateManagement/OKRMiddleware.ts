@@ -70,10 +70,34 @@ const runMiddleware = (dispatch, action, state: OKRMainState) => {
 
         case Actions.editTimeFrame:
             TimeFrameService.instance.save(action.payload).then((updated) => {
-                dispatch({
-                    type: Actions.editTimeFrameSucceed,
-                    payload: updated
-                });
+                if (action.payload.currentTimeFrameId !== state.displayedTimeFrame.id) {
+                    ObjectiveService.instance.getAll(action.payload.currentTimeFrameId).then((allObjectives: Objective[]) => {
+                        dispatch({
+                            type: Actions.updateCurrentTimeFrameSucceed,
+                            objectives: allObjectives,
+                            timeFrames: updated
+                        });
+                    }, (error) => {
+                        if (error && error.serverError && error.serverError.typeKey === "DocumentCollectionDoesNotExistException") {
+                            dispatch({
+                                type: Actions.updateCurrentTimeFrameSucceed,
+                                objectives: [],
+                                timeFrames: updated
+                            });
+                        }
+                        else {
+                            dispatch({
+                                type: Actions.timeFrameOperationFail,
+                                error: error
+                            });
+                        }
+                    });
+                } else {
+                    dispatch({
+                        type: Actions.editTimeFrameSucceed,
+                        payload: updated
+                    });
+                }
             }, (error) => {
                 dispatch({
                     type: Actions.timeFrameOperationFail,
