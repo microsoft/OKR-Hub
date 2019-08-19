@@ -4,6 +4,8 @@ import { Objective } from "../../Objective/Objective";
 
 export interface IAreaCardProgressProps {
 	objectives: Objective[];
+	size:string;
+	lineWidth:string;
 }
 
 export const AreaCardProgress: React.FunctionComponent<IAreaCardProgressProps> = props => {
@@ -14,8 +16,8 @@ export const AreaCardProgress: React.FunctionComponent<IAreaCardProgressProps> =
 			<Circle
 				progress={areaProgress * 100}
 				showPercentage={false}
-				size={"80"}
-				lineWidth={"40"}
+				size={props.size}
+				lineWidth={props.lineWidth}
 				progressColor={"rgb(0, 200, 100)"}
 				animate={true}
 				bgColor={"rgb(201, 201, 201)"}
