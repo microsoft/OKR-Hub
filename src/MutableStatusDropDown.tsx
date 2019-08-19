@@ -89,20 +89,20 @@ export class MutableStatusDropDown extends React.Component<IMutableStatusDropDow
 
     private green: IColor = {
         red: 0,
-        green: 128,
-        blue: 0
+        green: 200,
+        blue: 100
     };
 
     private red: IColor = {
-        red: 128,
-        green: 0,
-        blue: 0
+        red: 255,
+        green: 99,
+        blue: 71
     };
 
     private yellow: IColor = {
-        red: 228,
-        green: 228,
-        blue: 0
+        red: 255,
+        green: 255,
+        blue: 224
     };
 
     private statusMap = {

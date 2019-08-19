@@ -171,7 +171,7 @@ export class DetailOKR extends React.Component<IDetailOKRProps, IDetailOKRState>
         return [
             {
                 id: "edit-button",
-                text: "Add or Delete KR",
+                text: "Edit OKR",
                 iconProps: { iconName: "Edit" },
                 onActivate: () => {
                     stateContext.actions.toggleEditPanel({ expandedKey: this.props.objective.id });
@@ -179,7 +179,7 @@ export class DetailOKR extends React.Component<IDetailOKRProps, IDetailOKRState>
             },
             {
                 id: "link-button",
-                text: "Link work items",
+                text: "Link Work Items",
                 iconProps: { iconName: "Link" },
                 onActivate: () => {
                     stateContext.actions.toggleLinkWorkItemPanel(this.props.objective.id);

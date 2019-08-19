@@ -24,8 +24,10 @@ export const AreaCardDetails: React.FunctionComponent<IAreaCardDetailsProps> = p
 	return (
 		<div className="area-card-details">
 			{editMode ? <AreaCardDetailsEdit draftArea={draftArea} updateDraftName={updateDraftName} updateDraftDescription={updateDraftDescription} buttons={buttons} /> : <AreaCardDetailsStatic area={area} buttons={buttons}/>}
-			<h4>{`${objectives.length} objectives`}</h4>
-			<AreaCardProgress objectives={objectives} />
+			<div className="area-card-progress" title= "Key Results completed">
+				<AreaCardProgress objectives={objectives} />
+				<h4>{`${objectives.length} Objectives`}</h4>
+			</div>
 		</div>
 	);
 }

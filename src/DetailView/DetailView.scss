@@ -1,8 +1,8 @@
 .detail-view-container {
     display: flex; 
     flex-direction: column;
+    flex: 1;
     padding-left: 10px;
-    min-width: 1040px;
     min-height: 800px;
 
     .detail-okr-header {
