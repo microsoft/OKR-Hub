@@ -62,7 +62,7 @@ export abstract class OKRDataService<T extends OKRDocument> {
 
     public async delete(filter: (document: T) => boolean, additionalKey?: string): Promise<void> {
         const dataManager: IExtensionDataManager = await this.getDataManager();
-        const documents: T[] = await this.getAll();
+        const documents: T[] = await this.getAll(additionalKey);
         const filteredDocuments: T[] = documents.filter(filter);
         filteredDocuments.forEach(async document => {
             const projectKey = await this.getProjectKey(additionalKey);
