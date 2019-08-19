@@ -63,7 +63,11 @@ export const reducer = (state: OKRMainState = initialState, action) => {
       case Types.updateDisplayedTimeFrame:
         draft.displayedTimeFrame = action.payload;
         break;
-
+      case Types.updateCurrentTimeFrameSucceed: 
+        draft.timeFrameInfo = action.timeFrames;
+        draft.displayedTimeFrame = draft.timeFrameInfo.timeFrames.find((tf) => { return tf.id === draft.timeFrameInfo.currentTimeFrameId });
+        draft.objectives = action.objectives;
+        break;
       // PROJECT NAME
       case Types.getProjectNameSucceed:
         draft.projectName = action.projectName;
