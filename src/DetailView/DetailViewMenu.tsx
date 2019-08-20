@@ -42,7 +42,7 @@ const renderInitialRow = (
                     <div className="area-name title">{item.area.Name}</div>
                     <div className="area-objectives-count">{currentObjectives.length.toString() + " objectives"}</div>
                 </div>
-                <AreaCardProgress objectives={currentObjectives}/>
+                <AreaCardProgress objectives={currentObjectives} size="50" lineWidth="40" />
             </div>
         </ListItem>
     );
