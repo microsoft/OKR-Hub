@@ -27,7 +27,7 @@ export class KRComment extends React.Component<IKRCommentProps, IKRCommentState>
             {isEditMode ? (<div>
                 <TextField
                     value={this.state.value}
-                    placeholder="Add note to describe current status of OKR"
+                    placeholder="Update Key Result status"
                     multiline={true}
                     autoFocus={true}
                     onChange={(e, newValue) => {
