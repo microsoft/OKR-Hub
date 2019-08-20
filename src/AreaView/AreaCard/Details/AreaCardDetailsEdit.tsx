@@ -15,10 +15,12 @@ export const AreaCardDetailsEdit: React.FunctionComponent<IAreaCardDetailsEditPr
 	return <>
 		<div className="card-header">
 			<h3>
-				<TextField value={draftArea.Name} onChange={(val) => { updateDraftName(val.target.value) }} placeholder={"Product Area Name"}/>
+				<TextField className="card-product-area-form" value={draftArea.Name} onChange={(val) => { updateDraftName(val.target.value) }} placeholder={"Product Area Name"}/>
 			</h3>			
 			{buttons}
 		</div>
-		<TextField value={draftArea.Description} multiline={true} placeholder={"Description"} onChange={(val) => {updateDraftDescription(val.target.value) }}/>		
+		<div className="card-desc-form">
+			<TextField value={draftArea.Description} multiline={true} placeholder={"Description"} onChange={(val) => {updateDraftDescription(val.target.value) }}/>		
+		</div>
 	</>;
 };

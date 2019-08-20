@@ -20,7 +20,7 @@ export class MutableScore extends React.Component<IMutableScoreProps, IMutableSc
         const { selection } = this.state;
         if (selection) {
             return (<div><select className="kr-score-select" value={selection} onChange={this.onChange} onKeyDown={this.onKeyDown} onBlur={this.onBlur} tabIndex={0} autoFocus={true}>
-                {Array.from(Array(11).keys()).map((value) => <option value={(value/10).toFixed(1)}>{(value/10).toFixed(1)}</option> )}
+                {Array.from(Array(11).keys()).map((value) => <option value={(value/10).toFixed(1)} key={(value/10).toFixed(1)} >{(value/10).toFixed(1)}</option> )}
             </select></div>);
         }
         else {

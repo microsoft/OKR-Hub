@@ -16,10 +16,14 @@
 		}
 	}
 
+	.bolt-callout {
+		width: 150px;
+	}
+
 	.area-card {
 		margin: 8px;
 		width: 380px;
-		height: 350px;
+		height: 320px;
 		padding-top: 10px;
 		cursor: pointer;		
 
@@ -63,6 +67,14 @@
 						.flex-column {
 							flex: 1;
 						}
+
+						.card-product-area-form{
+							width: 280px;
+						}
+					}
+
+					.card-desc-form{
+						padding-bottom: 20px;
 					}
 
 					.area-card-progress{
@@ -96,8 +108,10 @@
 		}
 
 		.area-identity {
+			display: flex;
+			flex-direction: row-reverse;	
 			padding-top: 20px;
-			border-top: 1px solid lightgray; 			
+			border-top: 1px solid lightgray; 
 		}
 	}
 }

@@ -57,7 +57,7 @@ export const MutableIdentity: React.FunctionComponent<IMutableIdentityProps> = p
 };
 
 function renderStatic(identity: IOwnerIdentity): JSX.Element {
-    return <div>{identity.OwnerName || "Needs Assignee"}</div>;
+    return <div>{identity.OwnerName || "Unassigned"}</div>;
 };
 
 function renderPicker(updateOwnerCallback: Function, identityProvider: IPeoplePickerProvider, selected: IIdentity, onBlur: () => void, calloutWidth: number): JSX.Element {
