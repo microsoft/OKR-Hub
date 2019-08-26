@@ -37,14 +37,17 @@ export class NewTimeFrame extends React.Component<INewTimeFrameProps, INewTimeFr
         this.setState({ name: newValue })
     }
 
-
     private onSave = () => {
-        const newTimeFrame = {
-            name: this.state.name,
-            id: Guid.create().toString(),
-            order: this.props.order
-        }
+        if(this.state.name.trim() == ""){
+            this.props.cancel();
+        }else{
+            const newTimeFrame = {
+                name: this.state.name,
+                id: Guid.create().toString(),
+                order: this.props.order
+            }
 
-        this.props.addTimeFrame(newTimeFrame);
+            this.props.addTimeFrame(newTimeFrame);
+        }
     }
 }
